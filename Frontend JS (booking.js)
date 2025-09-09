@@ -7,6 +7,7 @@ const authButton = document.getElementById('authButton');
 const submitButton = document.getElementById('submitButton');
 const bookingForm = document.getElementById('bookingForm');
 
+// Generate times (8:00 - 17:00 in 30min steps)
 const times = [];
 for(let h=8; h<=16; h++){
   times.push(`${h.toString().padStart(2,'0')}:00`);
@@ -20,19 +21,25 @@ function populateTimes(availableTimes){
     const option = document.createElement('option');
     option.value = t;
     option.textContent = t;
-    if(availableTimes && !availableTimes.includes(t)){
+    if(availableTimes && availableTimes.includes(t)){
       option.disabled = true;
     }
     timeSelect.appendChild(option);
   });
 }
 
+// Fetch availability when date changes
 dateInput.addEventListener('change', async ()=>{
-  const res = await fetch(`/availability?date=${dateInput.value}`);
-  const data = await res.json();
-  populateTimes(data.bookedTimes);
+  try {
+    const res = await fetch(`/availability?date=${dateInput.value}`);
+    const data = await res.json();
+    populateTimes(data.bookedTimes);
+  } catch (err) {
+    console.error("Error fetching availability", err);
+  }
 });
 
+// Auth button
 authButton.addEventListener('click', async ()=>{
   const res = await fetch('/auth', {
     method:'POST',
@@ -46,12 +53,13 @@ authButton.addEventListener('click', async ()=>{
   const data = await res.json();
   if(data.authorized){
     submitButton.disabled = false;
-    alert("Authenticated! You can now submit.");
+    alert("✅ Authenticated! You can now submit.");
   } else {
-    alert("Authentication failed!");
+    alert("❌ Authentication failed. Check inputs.");
   }
 });
 
+// Submit form
 bookingForm.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const res = await fetch('/book', {
@@ -67,10 +75,10 @@ bookingForm.addEventListener('submit', async (e)=>{
   });
   const data = await res.json();
   if(data.success){
-    alert("Booking successful!");
+    alert("🎉 Booking successful!");
     bookingForm.reset();
     submitButton.disabled = true;
   } else {
-    alert("Booking failed!");
+    alert("⚠️ Booking failed: " + data.message);
   }
 });
