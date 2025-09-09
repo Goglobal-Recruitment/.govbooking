@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Booking Summary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+  <nav class="nav-bar">
+    <ul>
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="index.html">ABOUT US</a></li>
+      <li><a href="index.html">E-SERVICES</a></li>
+      <li><a href="index.html">DOCUMENTS</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="container">
+  <header class="brand">
+    <h1>Booking Summary</h1>
+    <p class="subtitle">Please confirm your details below.</p>
+  </header>
+
+  <div id="summary-details" class="summary-box"></div>
+
+  <div class="button-group">
+    <button onclick="window.print()" class="btn-auth">Print / Save</button>
+    <button onclick="window.location.href='index.html'" class="btn-back">Home</button>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; Kingdom of Eswatini Government</p>
+</footer>
+
+<script>
+  // Retrieve booking data from localStorage
+  const data = JSON.parse(localStorage.getItem("bookingData"));
+
+  if (data) {
+    document.getElementById("summary-details").innerHTML = `
+      <p><strong>ID Number:</strong> ${data.id_number}</p>
+      <p><strong>Full Forenames:</strong> ${data.forenames}</p>
+      <p><strong>Surname:</strong> ${data.surname}</p>
+      <p><strong>Cellphone:</strong> ${data.dialing_code} ${data.cellphone}</p>
+      <p><strong>Email:</strong> ${data.email || "Not provided"}</p>
+      <p><strong>Appointment Date:</strong> ${data.appointment_date}</p>
+      <p><strong>Appointment Time:</strong> ${data.appointment_time}</p>
+    `;
+  } else {
+    document.getElementById("summary-details").innerHTML = "<p>No booking data found.</p>";
+  }
+</script>
+</body>
+</html>
