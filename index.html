@@ -1,60 +1,289 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Appointment — Enter Details</title>
-  <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      margin: 0; padding: 0;
+    }
+    header {
+      background-color: #0b194a;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .top-bar img.flag {
+      width: 50px;
+      height: auto;
+      border-radius: 4px;
+    }
+    nav.nav-bar ul {
+      list-style: none;
+      margin: 0; padding: 0;
+      display: flex;
+      gap: 1rem;
+      font-weight: 600;
+    }
+    nav.nav-bar ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav.nav-bar ul li a:hover {
+      color: #f0ad4e;
+    }
+    .social-icons a {
+      color: white;
+      margin-left: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .hero {
+      max-width: 100%;
+      overflow: hidden;
+    }
+    .hero img.hero-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .container {
+      max-width: 500px;
+      margin: 2rem auto 4rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+    }
+    .brand h1 {
+      margin-bottom: 0.25rem;
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+    .brand .subtitle {
+      font-size: 0.9rem;
+      color: #555;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    form label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      font-size: 0.85rem;
+    }
+    form input, form select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .row {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .row select {
+      width: 30%;
+    }
+    .row input {
+      width: 70%;
+    }
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .btn-auth, .btn-back {
+      flex: 1;
+      padding: 0.75rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .btn-auth {
+      background-color: #0b194a;
+      color: white;
+      transition: background-color 0.3s;
+    }
+    .btn-auth:hover {
+      background-color: #f0ad4e;
+      color: black;
+    }
+    .btn-back {
+      background-color: #e0e0e0;
+    }
+    footer {
+      background-color: #0b194a;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <!-- Header with flag and nav -->
-  <header>
-    <div class="top-bar">
-      <img src="assets/eswatini-flag.png" alt="Eswatini Flag" class="flag" />
-      <h1>Kingdom of Eswatini</h1>
-      <div class="social-icons">
-        <a href="#">FB</a>
-        <a href="#">X</a>
-        <a href="#">YT</a>
-        <a href="#">IG</a>
-      </div>
+
+<header>
+  <div class="top-bar">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Flag_of_Eswatini.svg/1200px-Flag_of_Eswatini.svg.png" alt="Eswatini Flag" class="flag" />
+    <h1>Kingdom of Eswatini</h1>
+    <div class="social-icons">
+      <a href="#">FB</a>
+      <a href="#">X</a>
+      <a href="#">YT</a>
+      <a href="#">IG</a>
     </div>
-    <nav class="nav-bar">
-      <ul>
-        <li><a href="#">HOME</a></li>
-        <li><a href="#">ABOUT US</a></li>
-        <li><a href="#">MINISTRIES</a></li>
-        <li><a href="#">E-SERVICES</a></li>
-        <li><a href="#">DOCUMENTS</a></li>
-        <li><a href="#">TENDERS</a></li>
-        <li><a href="#">JOBS</a></li>
-      </ul>
-    </nav>
+  </div>
+  <nav class="nav-bar">
+    <ul>
+      <li><a href="#">HOME</a></li>
+      <li><a href="#">ABOUT US</a></li>
+      <li><a href="#">MINISTRIES</a></li>
+      <li><a href="#">E-SERVICES</a></li>
+      <li><a href="#">DOCUMENTS</a></li>
+      <li><a href="#">TENDERS</a></li>
+      <li><a href="#">JOBS</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Swazi_Government_Building.jpg" alt="Government Building" class="hero-img" />
+</section>
+
+<div class="container">
+  <header class="brand">
+    <h1>Appointment Booking</h1>
+    <p class="subtitle">Please capture your details as they appear on your identity document.</p>
   </header>
 
-  <!-- Hero Image -->
-  <section class="hero">
-    <img src="assets/government-building.jpg" alt="Government Building" class="hero-img" />
-  </section>
+  <main>
+    <form id="bookingForm" novalidate>
+      <label for="id_number">ID Number</label>
+      <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
 
-  <!-- Appointment form container -->
-  <div class="container">
-    <header class="brand">
-      <h1>Appointment Booking</h1>
-      <p class="subtitle">Please capture your details as they appear on your identity document.</p>
-    </header>
+      <label for="forenames">Full Forenames *</label>
+      <input id="forenames" name="forenames" type="text" required />
 
-    <main>
-      <form id="bookingForm" novalidate>
-        <label for="id_number">ID Number</label>
-        <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
+      <label for="surname">Surname *</label>
+      <input id="surname" name="surname" type="text" required />
 
-        <label for="forenames">Full Forenames *</label>
-        <input id="forenames" name="forenames" type="text" required />
+      <label>Cellphone Number *</label>
+      <div class="row">
+        <select id="dialing_code" name="dialing_code" required>
+          <option value="+268">+268 (Eswatini)</option>
+          <option value="+27">+27 (South Africa)</option>
+          <option value="+254">+254 (Kenya)</option>
+          <option value="+233">+233 (Ghana)</option>
+          <option value="+234">+234 (Nigeria)</option>
+        </select>
+        <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
+      </div>
 
-        <label for="surname">Surname *</label>
-        <input id="surname" name="surname" type="text" required />
+      <label>Confirm Cellphone Number *</label>
+      <div class="row">
+        <select id="confirm_dialing_code" name="confirm_dialing_code" required>
+          <option value="+268">+268 (Eswatini)</option>
+          <option value="+27">+27 (South Africa)</option>
+          <option value="+254">+254 (Kenya)</option>
+          <option value="+233">+233 (Ghana)</option>
+          <option value="+234">+234 (Nigeria)</option>
+        </select>
+        <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" required />
+      </div>
 
-        <label>Cellphone Number *</label>
-        <div c
+      <label for="email">E-mail (optional)</label>
+      <input id="email" name="email" type="email" />
+
+      <label for="confirm_email">Confirm E-mail</label>
+      <input id="confirm_email" name="confirm_email" type="email" />
+
+      <div class="button-group">
+        <button type="submit" class="btn-auth">Authenticate</button>
+        <button type="button" class="btn-back" onclick="history.back()">Back</button>
+      </div>
+    </form>
+  </main>
+</div>
+
+<footer>
+  <p>&copy; Kingdom of Eswatini Government</p>
+</footer>
+
+<script>
+  // Save data to localStorage helper
+  function saveToStorage(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+
+  // Form submission and validation
+  const form = document.getElementById('bookingForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const id_number = document.getElementById('id_number').value.trim();
+    const forenames = document.getElementById('forenames').value.trim();
+    const surname = document.getElementById('surname').value.trim();
+    const dialing_code = document.getElementById('dialing_code').value;
+    const cellphone = document.getElementById('cellphone').value.trim();
+    const confirm_dialing_code = document.getElementById('confirm_dialing_code').value;
+    const confirm_cellphone = document.getElementById('confirm_cellphone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const confirm_email = document.getElementById('confirm_email').value.trim();
+
+    if (!id_number || !forenames || !surname || !cellphone || !confirm_cellphone) {
+      alert('Please complete all required fields.');
+      return;
+    }
+
+    if (dialing_code !== confirm_dialing_code || cellphone !== confirm_cellphone) {
+      alert('Cellphone numbers or dialing codes do not match.');
+      return;
+    }
+
+    if (email && email !== confirm_email) {
+      alert('Emails do not match.');
+      return;
+    }
+
+    const formData = {
+      id_number,
+      forenames,
+      surname,
+      dialing_code,
+      cellphone,
+      email,
+    };
+
+    saveToStorage('bookingFormData', formData);
+
+    // Redirect to the next page
+    window.location.href = 'select-office.html';
+  });
+</script>
+
+</body>
+</html>
