@@ -1,51 +1,92 @@
-<form id="bookingForm" novalidate action="YOUR_ENDPOINT_URL_HERE" method="post">
-  <label for="id_number">ID Number *</label>
-  <input id="id_number" name="id_number" type="text" required />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Appointment — Enter Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+<nav class="nav-bar">
+  <ul>
+     <li><a href="#home">HOME</a></li>
+    <li><a href="#about">ABOUT US</a></li>
+    <li><a href="#eservices">E-SERVICES</a></li>
+    <li><a href="#documents">DOCUMENTS</a></li>
+  </ul>
+</nav>
 
-  <label for="forenames">Full Forenames *</label>
-  <input id="forenames" name="forenames" type="text" required />
+  </ul>
+</nav>
+</header>
 
-  <label for="surname">Surname *</label>
-  <input id="surname" name="surname" type="text" required />
+<main class="container">
+  <header class="brand">
+    <h1>Appointment Booking</h1>
+    <p class="subtitle">Please capture your details as they appear on your identity document.</p>
+  </header>
 
-  <label>Cellphone Number *</label>
-  <div class="row">
-    <select id="dialing_code" name="dialing_code" required>
-      <option value="+268">+268 (Eswatini)</option>
-      <option value="+27">+27 (South Africa)</option>
-      <option value="+254">+254 (Kenya)</option>
-      <option value="+233">+233 (Ghana)</option>
-      <option value="+234">+234 (Nigeria)</option>
+  <form id="bookingForm" novalidate>
+    <label for="id_number">ID Number *</label>
+    <input id="id_number" name="id_number" type="text" required />
+
+    <label for="forenames">Full Forenames *</label>
+    <input id="forenames" name="forenames" type="text" required />
+
+    <label for="surname">Surname *</label>
+    <input id="surname" name="surname" type="text" required />
+
+    <label>Cellphone Number *</label>
+    <div class="row">
+      <select id="dialing_code" name="dialing_code" required>
+        <option value="+268">+268 (Eswatini)</option>
+        <option value="+27">+27 (South Africa)</option>
+        <option value="+254">+254 (Kenya)</option>
+        <option value="+233">+233 (Ghana)</option>
+        <option value="+234">+234 (Nigeria)</option>
+      </select>
+      <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
+    </div>
+
+    <label for="email">E-mail (optional)</label>
+    <input id="email" name="email" type="email" />
+
+    <!-- New Date Picker -->
+    <label for="appointment_date">Appointment Date *</label>
+    <input
+      id="appointment_date"
+      name="appointment_date"
+      type="date"
+      required
+      min="2025-10-28"
+      max="2026-10-28"
+    />
+
+    <!-- New Time Slot Dropdown -->
+    <label for="appointment_time">Appointment Time *</label>
+    <select id="appointment_time" name="appointment_time" required>
+      <option value="">-- Select a time slot --</option>
+      <option value="08:00-09:00">8am - 9am</option>
+      <option value="10:00-11:00">10am - 11am</option>
+      <option value="12:00-13:00">12pm - 1pm</option>
+      <option value="13:00-14:00">1pm - 2pm</option>
+      <option value="14:00-15:00">2pm - 3pm</option>
+      <option value="15:00-16:00">3pm - 4pm</option>
     </select>
-    <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
-  </div>
 
-  <label for="email">E-mail (optional)</label>
-  <input id="email" name="email" type="email" />
+    <div class="button-group">
+      <button type="submit" class="btn-auth">Submit</button>
+      <button type="button" class="btn-back" onclick="history.back()">Back</button>
+    </div>
+  </form>
+</main>
 
-  <label for="appointment_date">Appointment Date *</label>
-  <input
-    id="appointment_date"
-    name="appointment_date"
-    type="date"
-    required
-    min="2025-10-28"
-    max="2026-10-28"
-  />
+<footer>
+  <p>&copy; Kingdom of Eswatini Government</p>
+</footer>
 
-  <label for="appointment_time">Appointment Time *</label>
-  <select id="appointment_time" name="appointment_time" required>
-    <option value="">-- Select a time slot --</option>
-    <option value="08:00-09:00">8am - 9am</option>
-    <option value="10:00-11:00">10am - 11am</option>
-    <option value="12:00-13:00">12pm - 1pm</option>
-    <option value="13:00-14:00">1pm - 2pm</option>
-    <option value="14:00-15:00">2pm - 3pm</option>
-    <option value="15:00-16:00">3pm - 4pm</option>
-  </select>
-
-  <div class="button-group">
-    <button type="submit" class="btn-auth">Submit</button>
-    <button type="button" class="btn-back" onclick="history.back()">Back</button>
-  </div>
-</form>
+<script src="booking.js"></script>
+</body>
+</html>
