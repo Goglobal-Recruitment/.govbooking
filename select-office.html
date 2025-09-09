@@ -1,60 +1,126 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Select Office Location</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Select Office — Appointment</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
-    <h2>Select a Branch</h2>
-    <p>Please select a location where you would like to apply for your documents:</p>
-    
-    <form id="officeForm">
-      <label for="office">Choose Branch / Office</label>
-      <select id="office" name="office" required>
-        <option value="">-- Select Location --</option>
-        
-        <!-- Eswatini -->
-        <option value="eswatini_mb">Eswatini – Mbabane (Home Affairs HQ)</option>
-        <option value="eswatini_manzini">Eswatini – Manzini Regional Office</option>
-        
-        <!-- South Africa -->
-        <option value="southafrica_menlyn">South Africa – Menlyn Mall DHA Office</option>
-        <option value="southafrica_seshego">South Africa – Seshego DHA Office</option>
-        <option value="southafrica_madikwe">South Africa – Madikwe DHA Office</option>
-        
-        <!-- Zimbabwe -->
-        <option value="zimbabwe_harare">Zimbabwe – Harare Passport Office</option>
-        <option value="zimbabwe_bulawayo">Zimbabwe – Bulawayo Passport Office</option>
-        
-        <!-- Kenya -->
-        <option value="kenya_nairobi">Kenya – Nairobi Immigration Office</option>
-        <option value="kenya_mombasa">Kenya – Mombasa Passport Office</option>
-        
-        <!-- Zambia -->
-        <option value="zambia_lusaka">Zambia – Lusaka Passport Office</option>
-        <option value="zambia_ndola">Zambia – Ndola Immigration Office</option>
-      </select>
+    <header class="brand">
+      <h1>Select a Branch / Office</h1>
+      <p class="subtitle">Choose the location where you will attend for passport / ID services.</p>
+    </header>
 
-      <div class="button-group">
-        <button type="submit" class="btn-auth">Continue</button>
-        <button type="button" class="btn-back" onclick="history.back()">Back</button>
+    <main>
+      <div class="controls">
+        <label for="countryFilter">Filter by country</label>
+        <select id="countryFilter">
+          <option value="">-- All Countries --</option>
+        </select>
+
+        <label for="searchInput">Search office (city, name)</label>
+        <input id="searchInput" placeholder="Type a city or office name" />
       </div>
-    </form>
+
+      <form id="officeForm" novalidate>
+        <label for="officeSelect">Choose Branch / Office</label>
+        <select id="officeSelect" required>
+          <option value="">-- Select Location --</option>
+        </select>
+
+        <div id="officeDetails" class="office-details" aria-live="polite" hidden></div>
+
+        <div class="button-group">
+          <button type="submit" class="btn-auth">Continue</button>
+          <button type="button" class="btn-back" onclick="location.href='index.html'">Back</button>
+        </div>
+      </form>
+    </main>
+
+    <footer><small>Data is sample/demo — verify addresses before use.</small></footer>
   </div>
 
+  <script src="app.js"></script>
+  <script src="offices.js"></script>
   <script>
-    document.getElementById("officeForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const office = document.getElementById("office").value;
-      if (!office) {
-        alert("Please select a location.");
+    // populate country filter and office select
+    const countryFilter = document.getElementById('countryFilter');
+    const officeSelect = document.getElementById('officeSelect');
+    const searchInput = document.getElementById('searchInput');
+    const officeDetails = document.getElementById('officeDetails');
+
+    // get unique countries
+    const countries = Array.from(new Set(OFFICES.map(o => o.country))).sort();
+    countries.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      countryFilter.appendChild(opt);
+    });
+
+    function formatOfficeOption(o) {
+      return `${o.country} — ${o.city} — ${o.name}`;
+    }
+
+    function renderOffices(filterCountry = '', search = '') {
+      const list = OFFICES.filter(o => {
+        if (filterCountry && o.country !== filterCountry) return false;
+        if (search) {
+          const s = search.toLowerCase();
+          const hay = (o.name + ' ' + o.city + ' ' + (o.address||'')).toLowerCase();
+          return hay.includes(s);
+        }
+        return true;
+      });
+
+      // clear and render
+      officeSelect.innerHTML = '<option value="">-- Select Location --</option>';
+      list.forEach((o, idx) => {
+        const opt = document.createElement('option');
+        opt.value = o.id;
+        opt.textContent = formatOfficeOption(o);
+        officeSelect.appendChild(opt);
+      });
+    }
+
+    // show details
+    function showDetailsById(id) {
+      const o = OFFICES.find(x => x.id === id);
+      if (!o) {
+        officeDetails.hidden = true;
+        officeDetails.innerHTML = '';
         return;
       }
-      localStorage.setItem("selectedOffice", document.getElementById("office").selectedOptions[0].text);
-      window.location.href = "confirmation.html";
+      officeDetails.hidden = false;
+      officeDetails.innerHTML = `
+        <h3>${o.name} — ${o.city}, ${o.country}</h3>
+        <p><strong>Address:</strong> ${o.address || 'N/A'}</p>
+        <p><strong>Phone:</strong> ${o.phone || 'N/A'}</p>
+        ${o.hours ? `<p><strong>Hours:</strong> ${o.hours}</p>` : ''}
+        ${o.notes ? `<p><strong>Notes:</strong> ${o.notes}</p>` : ''}
+      `;
+    }
+
+    // initial render
+    renderOffices();
+
+    // events
+    countryFilter.addEventListener('change', () => renderOffices(countryFilter.value, searchInput.value));
+    searchInput.addEventListener('input', () => renderOffices(countryFilter.value, searchInput.value));
+    officeSelect.addEventListener('change', () => showDetailsById(officeSelect.value));
+
+    document.getElementById('officeForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = officeSelect.value;
+      if (!id) { alert('Please select an office.'); return; }
+      const office = OFFICES.find(x => x.id === id);
+      if (!office) { alert('Selected office not found.'); return; }
+
+      // save to storage and go to booking calendar
+      saveToStorage('selectedOffice', office);
+      window.location.href = 'booking.html';
     });
   </script>
 </body>
