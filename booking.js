@@ -13,6 +13,7 @@ function isValidEmail(email) {
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  // Get values and trim
   const idNumber = form.id_number.value.trim();
   const forenames = form.forenames.value.trim();
   const surname = form.surname.value.trim();
@@ -32,13 +33,13 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
-  // Phone numbers must match
+  // Validate phone confirmation
   if (dialingCode !== confirmDialingCode || cellphone !== confirmCellphone) {
     showAlert("Phone number and confirmation do not match.");
     return;
   }
 
-  // Email validation if provided
+  // Validate email if provided
   if (email) {
     if (!isValidEmail(email)) {
       showAlert("Please enter a valid email address.");
@@ -50,13 +51,13 @@ form.addEventListener('submit', async (e) => {
     }
   }
 
-  // Validate ID number allows letters and digits
+  // Validate ID number allows letters and digits only
   if (!/^[a-zA-Z0-9]+$/.test(idNumber)) {
     showAlert("ID number must contain only letters and numbers.");
     return;
   }
 
-  // Prepare payload
+  // Prepare data payload
   const payload = {
     id_number: idNumber,
     forenames,
@@ -69,12 +70,13 @@ form.addEventListener('submit', async (e) => {
     const url = (BACKEND_BASE || "") + "/auth";
 
     if (!BACKEND_BASE) {
-      // No backend, simulate success and go next step
+      // No backend URL set, simulate success for local testing
       sessionStorage.setItem('bookingPayload', JSON.stringify(payload));
       window.location.href = "next-step.html";
       return;
     }
 
+    // Call backend auth API
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -82,6 +84,7 @@ form.addEventListener('submit', async (e) => {
     });
 
     const data = await res.json();
+
     if (data && (data.authorized || data.success)) {
       sessionStorage.setItem('bookingPayload', JSON.stringify(payload));
       window.location.href = "next-step.html";
