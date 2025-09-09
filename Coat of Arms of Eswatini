@@ -5,3 +5,7 @@ img = Image.open("8d2def48-d9fc-4820-a90f-feb137311cb3.png")
 
 # Save it with a new name
 img.save("eswatini_coat_of_arms_fixed.png")
+<header>
+  <img src="images/logo.png" alt="Coat of Arms Logo" id="site-logo" />
+  <!-- Your existing header content -->
+</header>
