@@ -1,156 +1,67 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Appointment — Enter Details</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="container">
-    <header class="brand">
-      <h1>Appointment Booking</h1>
-      <p class="subtitle">Please capture your details as they appear on your identity document.</p>
-    </header>
-
-    <main>
-      <form id="bookingForm" novalidate>
-        <label for="id_number">ID Number</label>
-        <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
-
-        <label for="forenames">Full Forenames *</label>
-        <input id="forenames" name="forenames" type="text" required />
-
-        <label for="surname">Surname *</label>
-        <input id="surname" name="surname" type="text" required />
-
-        <label>Cellphone Number *</label>
-        <div class="row">
-          <select id="dialing_code" name="dialing_code" required>
-            <option value="+268">+268 (Eswatini)</option>
-            <option value="+27">+27 (South Africa)</option>
-            <option value="+254">+254 (Kenya)</option>
-            <option value="+233">+233 (Ghana)</option>
-            <option value="+234">+234 (Nigeria)</option>
-        
-          </select>
-          <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
-        </div>
-
-        <label>Confirm Cellphone Number *</label>
-        <div class="row">
-          <select id="confirm_dialing_code" name="confirm_dialing_code" required>
-            <option value="+268">+268 (Eswatini)</option>
-            <option value="+27">+27 (South Africa)</option>
-            <option value="+254">+254 (Kenya)</option>
-            <option value="+233">+233 (Ghana)</option>
-            <option value="+234">+234 (Nigeria)</option>
-           
-          </select>
-          <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" required />
-        </div>
-
-        <label for="email">E-mail (optional)</label>
-        <input id="email" name="email" type="email" />
-
-        <label for="confirm_email">Confirm E-mail</label>
-        <input id="confirm_email" name="confirm_email" type="email" />
-
-        <div class="button-group">
-          <button type="submit" class="btn-auth">Authenticate</button>
-          <button type="button" class="btn-back" onclick="history.back()">Back</button>
-        </div>
-      </form>
-    </main>
-
-   
-
-  <script src="app.js"></script>
-  <script>
-    // page-specific logic
-    const form = document.getElementById('bookingForm');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const id_number = document.getElementById('id_number').value.trim();
-      const forenames = document.getElementById('forenames').value.trim();
-      const surname = document.getElementById('surname').value.trim();
-      const dialing_code = document.getElementById('dialing_code').value;
-      const cellphone = document.getElementById('cellphone').value.trim();
-      const confirm_dialing_code = document.getElementById('confirm_dialing_code').value;
-      const confirm_cellphone = document.getElementById('confirm_cellphone').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const confirm_email = document.getElementById('confirm_email').value.trim();
-
-      // basic validations
-      if (!id_number || !forenames || !surname || !cellphone || !confirm_cellphone) {
-        alert('Please complete all required fields.');
-        return;
-      }
-      if (dialing_code !== confirm_dialing_code || cellphone !== confirm_cellphone) {
-        alert('Cellphone numbers or dialing codes do not match.');
-        return;
-      }
-      if (email && email !== confirm_email) {
-        alert('Emails do not match.');
-        return;
-      }
-
-      const formData = {
-        id_number, forenames, surname,
-        dialing_code, cellphone, email
-      };
-
-      // store to localStorage for next pages
-      saveToStorage('bookingFormData', formData);
-
-      // go to office selection
-      window.location.href = 'select-office.html';
-    });
-  </script>
-</body>
-  <!DOCTYPE html>
+<!-- index.html -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kingdom of Eswatini</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Appointment Booking — Enter Details</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <header>
-    <div class="top-bar">
-      <img src="assets/eswatini-flag.png" alt="Eswatini Flag" class="flag">
-      <h1>Kingdom of Eswatini</h1>
-      <div class="social-icons">
-        <!-- Replace with actual icons -->
-        <a href="#">FB</a>
-        <a href="#">X</a>
-        <a href="#">YT</a>
-        <a href="#">IG</a>
-      </div>
-    </div>
+  <header class="top-bar">
+    <img src="assets/eswatini-flag.png" alt="Eswatini Flag" class="flag" />
+    <h1>Kingdom of Eswatini</h1>
     <nav class="nav-bar">
       <ul>
-        <li><a href="#">HOME</a></li>
-        <li><a href="#">ABOUT US</a></li>
-        <li><a href="#">MINISTRIES</a></li>
-        <li><a href="#">E-SERVICES</a></li>
-        <li><a href="#">DOCUMENTS</a></li>
-        <li><a href="#">TENDERS</a></li>
-        <li><a href="#">JOBS</a></li>
+        <li><a href="https://www.gov.sz">HOME</a></li>
+        <li><a href="https://www.gov.sz/index.php/about-us">ABOUT US</a></li>
+        <li><a href="https://www.gov.sz/index.php/ministries">MINISTRIES</a></li>
+        <li><a href="https://www.gov.sz/index.php/e-services">E-SERVICES</a></li>
+        <li><a href="https://www.gov.sz/index.php/documents-publications">DOCUMENTS</a></li>
+        <li><a href="https://www.gov.sz/index.php/tenders">TENDERS</a></li>
+        <li><a href="https://www.gov.sz/index.php/jobs">JOBS</a></li>
       </ul>
     </nav>
   </header>
 
   <section class="hero">
-    <img src="assets/government-building.jpg" alt="Government Building" class="hero-img">
+    <img src="assets/hero-bg.jpg" alt="Government Building" class="hero-img">
   </section>
+
+  <main class="container">
+    <h2>Appointment Booking</h2>
+    <p>Please enter your details as they appear on your ID.</p>
+    <form id="bookingForm">
+      <label for="id_number">ID Number</label>
+      <input type="text" id="id_number" name="id_number" required />
+
+      <label for="forenames">Forenames</label>
+      <input type="text" id="forenames" name="forenames" required />
+
+      <label for="surname">Surname</label>
+      <input type="text" id="surname" name="surname" required />
+
+      <label>Cellphone</label>
+      <div class="row">
+        <select id="dialing_code" required>
+          <option value="+268">+268</option>
+          <option value="+27">+27</option>
+        </select>
+        <input type="tel" id="cellphone" required />
+      </div>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" />
+
+      <div class="button-group">
+        <button type="submit" class="btn-auth">Continue</button>
+      </div>
+    </form>
+  </main>
 
   <footer>
     <p>&copy; Kingdom of Eswatini Government</p>
   </footer>
 </body>
-</html>
-
 </html>
