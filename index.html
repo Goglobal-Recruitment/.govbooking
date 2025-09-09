@@ -1,18 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Appointment — Enter Details</title>
   <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
 </head>
 <body>
-
-  <!-- Header Section -->
+  <!-- Header with flag and nav -->
   <header>
     <div class="top-bar">
-      <img src="assets/eswatini-flag.png" alt="Eswatini Flag" class="flag">
+      <img src="assets/eswatini-flag.png" alt="Eswatini Flag" class="flag" />
       <h1>Kingdom of Eswatini</h1>
       <div class="social-icons">
         <a href="#">FB</a>
@@ -34,4 +33,28 @@
     </nav>
   </header>
 
-  <!-- Hero Section -
+  <!-- Hero Image -->
+  <section class="hero">
+    <img src="assets/government-building.jpg" alt="Government Building" class="hero-img" />
+  </section>
+
+  <!-- Appointment form container -->
+  <div class="container">
+    <header class="brand">
+      <h1>Appointment Booking</h1>
+      <p class="subtitle">Please capture your details as they appear on your identity document.</p>
+    </header>
+
+    <main>
+      <form id="bookingForm" novalidate>
+        <label for="id_number">ID Number</label>
+        <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
+
+        <label for="forenames">Full Forenames *</label>
+        <input id="forenames" name="forenames" type="text" required />
+
+        <label for="surname">Surname *</label>
+        <input id="surname" name="surname" type="text" required />
+
+        <label>Cellphone Number *</label>
+        <div c
