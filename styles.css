@@ -112,4 +112,15 @@ footer { text-align:center; padding:20px; background-color:#0b1d3a; color:white;
   .row select, .row input { width:100%; flex:none; }
   .top-bar { flex-direction:column; gap:10px; text-align:center; }
   .nav-bar ul { flex-direction:column; gap:8px; padding:10px; align-items:center; }
+}/* styles.css */
+#appointment_time {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  text-align: left; /* ensures times are left-aligned */
 }
+#appointment_time option {
+  padding: 5px 10px;
+}
+
+
