@@ -47,8 +47,6 @@ const OFFICES = [
     address: "Accra Central",
     phone: "+233 30 277 0000"
   },
-
-  // Add more countries below. Use unique `id` values.
   {
     id: "mz_maputo",
     country: "Mozambique",
@@ -89,9 +87,6 @@ const OFFICES = [
     address: "Tunis Center",
     phone: "+216 71 000 000"
   },
-
-  // you can continue to add representative offices for all countries you want.
-  // Example placeholder for "All Africa" expansion:
   {
     id: "sample_cape_town",
     country: "South Africa",
