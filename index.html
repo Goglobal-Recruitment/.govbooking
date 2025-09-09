@@ -9,16 +9,12 @@
 </head>
 <body>
 <header>
-         </nav>
-  </div>
-
   <nav class="nav-bar">
     <ul>
       <li><a href="https://www.gov.sz" target="_blank" rel="noopener">HOME</a></li>
       <li><a href="https://www.gov.sz/index.php/about-us" target="_blank" rel="noopener">ABOUT US</a></li>
       <li><a href="https://www.gov.sz/index.php/e-services" target="_blank" rel="noopener">E-SERVICES</a></li>
       <li><a href="https://www.gov.sz/index.php/documents" target="_blank" rel="noopener">DOCUMENTS</a></li>
-      
     </ul>
   </nav>
 </header>
@@ -62,28 +58,12 @@
       </select>
       <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" required />
     </div>
-const email = form.email.value.trim();
-const confirmEmail = form.confirm_email.value.trim();
 
-function isValidEmail(email) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-}
+    <label for="email">E-mail (optional)</label>
+    <input id="email" name="email" type="email" />
 
-// Check if email is provided, then validate format
-if (email) {
-  if (!isValidEmail(email)) {
-    showAlert("Please enter a valid email address.");
-    return;
-  }
-
-  if (email !== confirmEmail) {
-    showAlert("Email and confirmation do not match.");
-    return;
-  }
-}
-
-    
+    <label for="confirm_email">Confirm E-mail</label>
+    <input id="confirm_email" name="confirm_email" type="email" />
 
     <div class="button-group">
       <button type="submit" class="btn-auth">Authenticate & Continue</button>
