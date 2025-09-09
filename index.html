@@ -46,12 +46,27 @@
       </select>
       <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
     </div>
-  
-    <label for="email">E-mail (optional)</label>
+
+    <label>Confirm Cellphone Number *</label>
+    <div class="row">
+      <select id="confirm_dialing_code" name="confirm_dialing_code" required>
+        <option value="+268">+268 (Eswatini)</option>
+        <option value="+27">+27 (South Africa)</option>
+        <option value="+254">+254 (Kenya)</option>
+        <option value="+233">+233 (Ghana)</option>
+        <option value="+234">+234 (Nigeria)</option>
+      </select>
+      <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" placeholder="Confirm cellphone number" required />
+    </div>
+
+    <label for="email">E-mail </label>
     <input id="email" name="email" type="email" />
 
-        <div class="button-group">
-      <button type="submit" class="btn-auth">Submitt</button>
+    <label for="confirm_email">Confirm E-mail</label>
+    <input id="confirm_email" name="confirm_email" type="email" />
+
+    <div class="button-group">
+      <button type="submit" class="btn-auth">Submit</button>
       <button type="button" class="btn-back" onclick="history.back()">Back</button>
     </div>
   </form>
