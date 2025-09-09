@@ -1,103 +1,107 @@
-// offices.js
-// Sample list of branches/offices across Africa (editable).
-// NOTE: These are demo entries. Verify addresses/phones before use.
-const OFFICES = [
-  {
-    id: "esw_mb_mha",
-    country: "Eswatini",
-    city: "Mbabane",
-    name: "Ministry of Home Affairs & Justice - Main Office",
-    address: "Mhlambanyatsi Usuthu Link Rd, Mbabane",
-    phone: "+268 2404 2941",
-    hours: "Mon-Fri 08:00 - 16:00",
-    notes: "Primary national office. Verify hours before visiting."
-  },
-  {
-    id: "za_menlyn",
-    country: "South Africa",
-    city: "Pretoria (Menlyn)",
-    name: "DHA Menlyn Mall Branch (Demo)",
-    address: "Menlyn Mall, Pretoria",
-    phone: "+27 12 652 0000",
-    hours: "Mon-Fri 08:00 - 16:00",
-    notes: "Sample entry; replace with accurate branch info."
-  },
-  {
-    id: "ke_nairobi",
-    country: "Kenya",
-    city: "Nairobi",
-    name: "Immigration Headquarters - Nairobi",
-    address: "Kenyatta Avenue, Nairobi",
-    phone: "+254 20 222 0000",
-    hours: "Mon-Fri 08:00 - 17:00"
-  },
-  {
-    id: "ng_abj",
-    country: "Nigeria",
-    city: "Abuja",
-    name: "Immigration Headquarters - Abuja",
-    address: "Area 11, Garki, Abuja",
-    phone: "+234 9 234 0000"
-  },
-  {
-    id: "gh_accra",
-    country: "Ghana",
-    city: "Accra",
-    name: "Ghana Passport and Immigration",
-    address: "Accra Central",
-    phone: "+233 30 277 0000"
-  },
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Select Booking - Gov Booking</title>
+  <link rel="stylesheet" href="common.css" />
+  <script src="offices.js"></script>
+</head>
+<body>
+  <div class="container">
+    <form id="bookingForm" action="submit.html" method="GET">
+      <h2>Select Booking Date & Time</h2>
 
-  // Add more countries below. Use unique `id` values.
-  {
-    id: "mz_maputo",
-    country: "Mozambique",
-    city: "Maputo",
-    name: "Immigration Office - Maputo",
-    address: "Maputo City Center",
-    phone: "+258 21 319 000"
-  },
-  {
-    id: "zw_harare",
-    country: "Zimbabwe",
-    city: "Harare",
-    name: "Home Affairs - Harare",
-    address: "Harare Central",
-    phone: "+263 24 228 5000"
-  },
-  {
-    id: "bw_gaborone",
-    country: "Botswana",
-    city: "Gaborone",
-    name: "Immigration Office - Gaborone",
-    address: "Gaborone CBD",
-    phone: "+267 391 4000"
-  },
-  {
-    id: "eg_cairo",
-    country: "Egypt",
-    city: "Cairo",
-    name: "Passport & ID Office - Cairo",
-    address: "Downtown Cairo",
-    phone: "+20 2 2790 0000"
-  },
-  {
-    id: "tn_tunis",
-    country: "Tunisia",
-    city: "Tunis",
-    name: "Ministry - Tunis",
-    address: "Tunis Center",
-    phone: "+216 71 000 000"
-  },
+      <!-- Hidden fields -->
+      <input type="hidden" id="idNumber" name="idNumber" />
+      <input type="hidden" id="fullForenames" name="fullForenames" />
+      <input type="hidden" id="surname" name="surname" />
+      <input type="hidden" id="cellphone" name="cellphone" />
+      <input type="hidden" id="email" name="email" />
+      <input type="hidden" id="officeId" name="officeId" />
 
-  // you can continue to add representative offices for all countries you want.
-  // Example placeholder for "All Africa" expansion:
-  {
-    id: "sample_cape_town",
-    country: "South Africa",
-    city: "Cape Town",
-    name: "Sample Branch - Cape Town",
-    address: "Cape Town Central",
-    phone: "+27 21 000 0000"
-  }
-];
+      <div id="selectedOfficeDetails" style="margin-bottom:20px; border:1px solid #ccc; padding:10px; display:none;">
+        <h3>Selected Office</h3>
+        <p><strong>Name:</strong> <span id="officeName"></span></p>
+        <p><strong>Address:</strong> <span id="officeAddress"></span></p>
+        <p><strong>Phone:</strong> <span id="officePhone"></span></p>
+        <p><strong>Hours:</strong> <span id="officeHours"></span></p>
+      </div>
+
+      <label for="bookingDate">Select Date:</label>
+      <input type="date" id="bookingDate" name="bookingDate" required min="" />
+
+      <label for="bookingTime">Select Time:</label>
+      <select id="bookingTime" name="bookingTime" required>
+        <option value="" disabled selected>Select a time</option>
+        <option value="09:00 AM">09:00 AM</option>
+        <option value="10:00 AM">10:00 AM</option>
+        <option value="11:00 AM">11:00 AM</option>
+        <option value="01:00 PM">01:00 PM</option>
+        <option value="02:00 PM">02:00 PM</option>
+        <option value="03:00 PM">03:00 PM</option>
+      </select>
+
+      <button type="submit">Next</button>
+    </form>
+  </div>
+
+  <script>
+    // Set minimum date to today
+    const bookingDateInput = document.getElementById('bookingDate');
+    bookingDateInput.min = new Date().toISOString().split('T')[0];
+
+    // Get URL params and populate hidden fields
+    function getParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        idNumber: params.get('idNumber') || '',
+        fullForenames: params.get('fullForenames') || '',
+        surname: params.get('surname') || '',
+        cellphone: params.get('cellphone') || '',
+        email: params.get('email') || '',
+        officeId: params.get('officeId') || '',
+      };
+    }
+    const data = getParams();
+
+    // Redirect to auth if required data missing
+    if(!data.idNumber || !data.fullForenames || !data.surname || !data.cellphone){
+      alert('Authentication data missing. Redirecting to authenticate.');
+      window.location.href = 'auth.html';
+    }
+
+    // Redirect to office selection if officeId missing
+    if(!data.officeId){
+      alert('Office selection missing. Redirecting to office selection.');
+      // Pass auth data in query string
+      const query = new URLSearchParams({
+        idNumber: data.idNumber,
+        fullForenames: data.fullForenames,
+        surname: data.surname,
+        cellphone: data.cellphone,
+        email: data.email
+      }).toString();
+      window.location.href = 'office.html?' + query;
+    }
+
+    // Set hidden inputs
+    document.getElementById('idNumber').value = data.idNumber;
+    document.getElementById('fullForenames').value = data.fullForenames;
+    document.getElementById('surname').value = data.surname;
+    document.getElementById('cellphone').value = data.cellphone;
+    document.getElementById('email').value = data.email;
+    document.getElementById('officeId').value = data.officeId;
+
+    // Show selected office details
+    const selectedOffice = OFFICES.find(o => o.id === data.officeId);
+    if(selectedOffice){
+      document.getElementById('officeName').textContent = selectedOffice.name;
+      document.getElementById('officeAddress').textContent = selectedOffice.address;
+      document.getElementById('officePhone').textContent = selectedOffice.phone;
+      document.getElementById('officeHours').textContent = selectedOffice.hours || 'N/A';
+      document.getElementById('selectedOfficeDetails').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
