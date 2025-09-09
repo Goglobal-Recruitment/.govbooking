@@ -7,7 +7,11 @@ function showAlert(msg) { alert(msg); }
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-
+<header>
+  <img src="images/logo.png" alt="Coat of Arms Logo" id="site-logo" />
+  <!-- Your existing header content -->
+</header>
+  
   // collect
   const idNumber = form.id_number.value.trim();
   const forenames = form.forenames.value.trim();
