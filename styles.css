@@ -16,26 +16,22 @@
 /* Layout base */
 html, body {
   height: 100%;
-  margin: 0;
   display: flex;
   flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  color: #222;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
 }
 
-/* Body styling */
+/* Body background */
 body {
-  font-family: 'Poppins', sans-serif;
-
-  /* Background image */
   background-image: url('9bee7398-5857-4911-8fc9-2a2260769a90.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-
   position: relative;
-  color: #222;
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
 }
 
 /* Overlay */
@@ -43,7 +39,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0,0,0,0.3);
   z-index: 0;
   pointer-events: none;
 }
@@ -72,6 +68,7 @@ header, main, footer {
   width: 100%;
 }
 
+/* Main container */
 main.container {
   flex: 1;
   max-width: 700px;
@@ -79,8 +76,7 @@ main.container {
   padding: 2rem;
   background: var(--card);
   border-radius: 10px;
-  box-shadow: 0 6px 22px rgba(15, 23, 42, 0.08);
-  position: relative;
+  box-shadow: 0 6px 22px rgba(15,23,42,0.08);
 }
 
 /* Top bar */
@@ -88,21 +84,16 @@ main.container {
   background-color: #0b1d3a;
   color: white;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   padding: 10px 20px;
-  gap: 10px;
   flex-wrap: wrap;
-}
-.flag {
-  width: 50px;
-  height: auto;
+  gap: 10px;
 }
 .top-bar h1 {
   margin: 0;
   font-weight: 700;
   font-size: 1.2rem;
-  flex: 1;
   text-align: center;
 }
 
@@ -115,11 +106,9 @@ main.container {
 }
 .nav-bar ul {
   display: flex;
-  list-style: none;
   justify-content: center;
+  list-style: none;
   gap: 18px;
-  margin: 0;
-  padding: 0;
   flex-wrap: wrap;
 }
 .nav-bar a {
@@ -171,6 +160,7 @@ form select:focus {
   outline: none;
 }
 
+/* Row styling for select + input */
 .row {
   display: flex;
   gap: 10px;
@@ -222,6 +212,16 @@ footer {
   width: 100%;
 }
 
+/* Appointment dropdown */
+#appointment_time {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+#appointment_time option {
+  padding: 5px 10px;
+}
+
 /* ✅ Responsiveness */
 
 /* Large laptops / desktops */
@@ -255,15 +255,4 @@ footer {
   .brand h1 {
     font-size: 1.2rem;
   }
-}
-
-/* Appointment dropdown */
-#appointment_time {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  text-align: left;
-}
-#appointment_time option {
-  padding: 5px 10px;
 }
