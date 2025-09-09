@@ -1,49 +1,62 @@
-// booking.js - client side for index.html
-const BACKEND_BASE = ""; // set to your backend URL (e.g. "https://your-backend.example.com") or leave empty to use same origin
-
+const BACKEND_BASE = ""; // or your backend URL if you have one
 const form = document.getElementById('bookingForm');
 
-function showAlert(msg) { alert(msg); }
+function showAlert(msg) {
+  alert(msg);
+}
+
+function isValidEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-</header>
-  
-  // collect
   const idNumber = form.id_number.value.trim();
   const forenames = form.forenames.value.trim();
   const surname = form.surname.value.trim();
+
   const dialingCode = form.dialing_code.value;
   const cellphone = form.cellphone.value.trim();
+
   const confirmDialingCode = form.confirm_dialing_code.value;
   const confirmCellphone = form.confirm_cellphone.value.trim();
+
   const email = form.email.value.trim();
   const confirmEmail = form.confirm_email.value.trim();
 
-  // basic required checks
+  // Validate required fields
   if (!idNumber || !forenames || !surname || !cellphone || !confirmCellphone) {
     showAlert("Please complete all required fields.");
     return;
   }
 
+  // Phone numbers must match
   if (dialingCode !== confirmDialingCode || cellphone !== confirmCellphone) {
     showAlert("Phone number and confirmation do not match.");
     return;
   }
 
-  if (email && email !== confirmEmail) {
-    showAlert("Email and confirmation do not match.");
+  // Email validation if provided
+  if (email) {
+    if (!isValidEmail(email)) {
+      showAlert("Please enter a valid email address.");
+      return;
+    }
+    if (email !== confirmEmail) {
+      showAlert("Email and confirmation do not match.");
+      return;
+    }
+  }
+
+  // Validate ID number allows letters and digits
+  if (!/^[a-zA-Z0-9]+$/.test(idNumber)) {
+    showAlert("ID number must contain only letters and numbers.");
     return;
   }
 
-  // optional: simple ID numeric check
-  if (!/^\d+$/.test(idNumber)) {
-   howAlert("ID number must contain only letters and numbers.");
-    return;
-  }
-
-  // data object to send to auth endpoint
+  // Prepare payload
   const payload = {
     id_number: idNumber,
     forenames,
@@ -53,12 +66,10 @@ form.addEventListener('submit', async (e) => {
   };
 
   try {
-    // send to backend auth endpoint (if you have one)
     const url = (BACKEND_BASE || "") + "/auth";
+
     if (!BACKEND_BASE) {
-      // same-origin fetch will try the server hosted with your pages; likely 404 on GitHub Pages.
-      console.log("No BACKEND_BASE configured — skipping remote auth and continuing to next step for local testing.");
-      // store temp data in sessionStorage and go to next step
+      // No backend, simulate success and go next step
       sessionStorage.setItem('bookingPayload', JSON.stringify(payload));
       window.location.href = "next-step.html";
       return;
@@ -72,7 +83,6 @@ form.addEventListener('submit', async (e) => {
 
     const data = await res.json();
     if (data && (data.authorized || data.success)) {
-      // keep payload for next-step to read
       sessionStorage.setItem('bookingPayload', JSON.stringify(payload));
       window.location.href = "next-step.html";
     } else {
@@ -80,7 +90,7 @@ form.addEventListener('submit', async (e) => {
     }
   } catch (err) {
     console.error(err);
-    showAlert("Server error or no backend available. For testing, the site will continue locally.");
+    showAlert("Server error or no backend available. Continuing locally for testing.");
     sessionStorage.setItem('bookingPayload', JSON.stringify(payload));
     window.location.href = "next-step.html";
   }
