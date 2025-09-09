@@ -39,6 +39,21 @@
 <script>
   // Retrieve booking data from localStorage
   const data = JSON.parse(localStorage.getItem("bookingData"));
+function showSummary(booking){
+  document.getElementById("bookingSummary").innerHTML = `
+    <h3>Booking Summary</h3>
+    <p>Reference Number: ${booking.reference}</p>
+    <p>ID Number: ${booking.idNumber}</p>
+    <p>Name: ${booking.fullName}</p>
+    <p>Cellphone: ${booking.cellphone}</p>
+    <p>Email: ${booking.email}</p>
+    <p>Date: ${booking.appointmentDate}</p>
+    <p>Time: ${booking.appointmentTime}</p>
+    <p>Location: ${booking.location}</p>
+    <p>Office: ${booking.office}</p>
+    <p>Notes: ${booking.notes}</p>
+  `;
+}
 
   if (data) {
     document.getElementById("summary-details").innerHTML = `
