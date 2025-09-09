@@ -11,17 +11,17 @@
   <div class="watermark"></div>
 
   <!-- Booking Form -->
-  <div class="booking-container">
-    <h1>Book an Appointment</h1>
+  <div class="booking-container animate-fade">
+    <h1 class="animate-slide">Book an Appointment</h1>
     <form id="bookingForm">
       <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" required>
+      <input type="text" id="name" name="name" required pattern="[A-Za-z\s]+">
 
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required>
 
       <label for="phone">Phone Number</label>
-      <input type="text" id="phone" name="phone" required>
+      <input type="tel" id="phone" name="phone" required pattern="[0-9]+">
 
       <label for="date">Select Date</label>
       <input type="date" id="date" name="date" required>
@@ -29,8 +29,8 @@
       <label for="time">Select Time</label>
       <select id="time" name="time" required></select>
 
-      <button type="button" id="authButton">Authenticate</button>
-      <button type="submit" id="submitButton" disabled>Submit</button>
+      <button type="button" id="authButton" class="btn-auth">Authenticate</button>
+      <button type="submit" id="submitButton" disabled class="btn-submit">Submit</button>
     </form>
   </div>
 
