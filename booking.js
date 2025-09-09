@@ -37,7 +37,7 @@ form.addEventListener('submit', async (e) => {
 
   // optional: simple ID numeric check
   if (!/^\d+$/.test(idNumber)) {
-    showAlert("ID number must contain digits only.");
+   howAlert("ID number must contain only letters and numbers.");
     return;
   }
 
