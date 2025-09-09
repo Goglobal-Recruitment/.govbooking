@@ -13,113 +13,89 @@
   <div class="top-bar">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Flag_of_Eswatini.svg/1200px-Flag_of_Eswatini.svg.png" alt="Eswatini Flag" class="flag" />
     <h1>Kingdom of Eswatini</h1>
-    <div class="social-icons">
-      <a href="https://www.facebook.com">FB</a>
-      <a href="https://twitter.com">X</a>
-      <a href="https://www.youtube.com">YT</a>
-      <a href="https://www.instagram.com">IG</a>
-    </div>
+    <nav class="social-icons">
+      <a href="#" aria-label="Facebook">FB</a>
+      <a href="#" aria-label="Twitter">X</a>
+      <a href="#" aria-label="YouTube">YT</a>
+      <a href="#" aria-label="Instagram">IG</a>
+    </nav>
   </div>
+
   <nav class="nav-bar">
     <ul>
-      <li><a href="https://www.gov.sz">HOME</a></li>
-      <li><a href="https://www.gov.sz/index.php/about-us">ABOUT US</a></li>
-      <li><a href="https://www.gov.sz/index.php/ministries-departments">MINISTRIES</a></li>
-      <li><a href="https://www.gov.sz/index.php/e-services">E-SERVICES</a></li>
-      <li><a href="https://www.gov.sz/index.php/documents-publications">DOCUMENTS</a></li>
-      <li><a href="https://www.gov.sz/index.php/tenders">TENDERS</a></li>
-      <li><a href="https://www.gov.sz/index.php/jobs">JOBS</a></li>
+      <li><a href="https://www.gov.sz" target="_blank" rel="noopener">HOME</a></li>
+      <li><a href="https://www.gov.sz/index.php/about-us" target="_blank" rel="noopener">ABOUT US</a></li>
+      <li><a href="https://www.gov.sz/index.php/ministry" target="_blank" rel="noopener">MINISTRIES</a></li>
+      <li><a href="https://www.gov.sz/index.php/e-services" target="_blank" rel="noopener">E-SERVICES</a></li>
+      <li><a href="https://www.gov.sz/index.php/documents" target="_blank" rel="noopener">DOCUMENTS</a></li>
+      <li><a href="https://www.gov.sz/index.php/tenders" target="_blank" rel="noopener">TENDERS</a></li>
+      <li><a href="https://www.gov.sz/index.php/jobs" target="_blank" rel="noopener">JOBS</a></li>
     </ul>
   </nav>
 </header>
 
 <section class="hero">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Swazi_Government_Building.jpg" alt="Government Building" class="hero-img" />
+  <img src="https://www.gov.sz/images/slider/slider-1.jpg" alt="Government Building" class="hero-img" />
 </section>
 
-<div class="container">
+<main class="container">
   <header class="brand">
     <h1>Appointment Booking</h1>
-    <p class="subtitle">Please enter your details exactly as they appear on your ID document.</p>
+    <p class="subtitle">Please capture your details as they appear on your identity document.</p>
   </header>
 
-  <main>
-    <form id="bookingForm" novalidate>
-      <label for="id_number">ID Number</label>
-      <input id="id_number" name="id_number" type="text" required />
+  <form id="bookingForm" novalidate>
+    <label for="id_number">ID Number *</label>
+    <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
 
-      <label for="forenames">Full Forenames *</label>
-      <input id="forenames" name="forenames" type="text" required />
+    <label for="forenames">Full Forenames *</label>
+    <input id="forenames" name="forenames" type="text" required />
 
-      <label for="surname">Surname *</label>
-      <input id="surname" name="surname" type="text" required />
+    <label for="surname">Surname *</label>
+    <input id="surname" name="surname" type="text" required />
 
-      <label>Cellphone Number *</label>
-      <div class="row">
-        <select id="dialing_code" name="dialing_code" required>
-          <option value="+268">+268 (Eswatini)</option>
-          <option value="+27">+27 (South Africa)</option>
-        </select>
-        <input id="cellphone" name="cellphone" type="tel" required />
-      </div>
+    <label>Cellphone Number *</label>
+    <div class="row">
+      <select id="dialing_code" name="dialing_code" required>
+        <option value="+268">+268 (Eswatini)</option>
+        <option value="+27">+27 (South Africa)</option>
+        <option value="+254">+254 (Kenya)</option>
+        <option value="+233">+233 (Ghana)</option>
+        <option value="+234">+234 (Nigeria)</option>
+      </select>
+      <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
+    </div>
 
-      <label>Confirm Cellphone *</label>
-      <div class="row">
-        <select id="confirm_dialing_code" name="confirm_dialing_code" required>
-          <option value="+268">+268 (Eswatini)</option>
-          <option value="+27">+27 (South Africa)</option>
-        </select>
-        <input id="confirm_cellphone" name="confirm_cellphone" type="tel" required />
-      </div>
+    <label>Confirm Cellphone Number *</label>
+    <div class="row">
+      <select id="confirm_dialing_code" name="confirm_dialing_code" required>
+        <option value="+268">+268 (Eswatini)</option>
+        <option value="+27">+27 (South Africa)</option>
+        <option value="+254">+254 (Kenya)</option>
+        <option value="+233">+233 (Ghana)</option>
+        <option value="+234">+234 (Nigeria)</option>
+      </select>
+      <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" required />
+    </div>
 
-      <label for="email">Email (optional)</label>
-      <input id="email" name="email" type="email" />
+    <label for="email">E-mail (optional)</label>
+    <input id="email" name="email" type="email" />
 
-      <label for="confirm_email">Confirm Email</label>
-      <input id="confirm_email" name="confirm_email" type="email" />
+    <label for="confirm_email">Confirm E-mail</label>
+    <input id="confirm_email" name="confirm_email" type="email" />
 
-      <div class="button-group">
-        <button type="submit" class="btn-auth">Continue</button>
-        <button type="button" class="btn-back" onclick="history.back()">Back</button>
-      </div>
-    </form>
-  </main>
-</div>
+    <div class="button-group">
+      <button type="submit" class="btn-auth">Authenticate</button>
+      <button type="button" class="btn-back" onclick="history.back()">Back</button>
+    </div>
+  </form>
+</main>
 
 <footer>
   <p>&copy; Kingdom of Eswatini Government</p>
 </footer>
 
-<script>
-  function saveToStorage(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-
-  document.getElementById('bookingForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const data = {
-      id_number: document.getElementById('id_number').value.trim(),
-      forenames: document.getElementById('forenames').value.trim(),
-      surname: document.getElementById('surname').value.trim(),
-      dialing_code: document.getElementById('dialing_code').value,
-      cellphone: document.getElementById('cellphone').value.trim(),
-      email: document.getElementById('email').value.trim()
-    };
-
-    if (document.getElementById('cellphone').value.trim() !== document.getElementById('confirm_cellphone').value.trim()) {
-      alert('Cellphone numbers do not match.');
-      return;
-    }
-
-    if (document.getElementById('email').value && document.getElementById('email').value !== document.getElementById('confirm_email').value) {
-      alert('Email addresses do not match.');
-      return;
-    }
-
-    saveToStorage('userData', data);
-    window.location.href = 'select-office.html';
-  });
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
