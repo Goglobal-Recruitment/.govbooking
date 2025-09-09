@@ -112,3 +112,57 @@ button {
   .controls { grid-template-columns: 1fr; }
   .row { flex-direction: column; }
 }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.top-bar {
+  background-color: #0b1d3a;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.flag {
+  width: 50px;
+  height: auto;
+}
+
+.nav-bar {
+  background-color: #07162d;
+  padding: 10px 0;
+}
+
+.nav-bar ul {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-bar li {
+  margin: 0 15px;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #0b1d3a;
+  color: white;
+}
