@@ -1,253 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Appointment — Enter Details</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    /* Simple responsive form styling */
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f9f9f9;
-      margin: 0; padding: 0;
-      display: flex; flex-direction: column; min-height: 100vh;
-    }
-
-    header, footer {
-      background-color: #0b1e3d;
-      color: white;
-      padding: 10px 20px;
-    }
-
-    .nav-bar ul {
-      display: flex;
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .nav-bar ul li a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .container {
-      flex-grow: 1;
-      max-width: 500px;
-      margin: 2rem auto;
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-    }
-
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: 600;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.25rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 1rem;
-      box-sizing: border-box;
-    }
-
-    .row {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .row select {
-      width: 35%;
-    }
-
-    .row input {
-      width: 65%;
-    }
-
-    .button-group {
-      margin-top: 2rem;
-      display: flex;
-      gap: 1rem;
-      justify-content: space-between;
-    }
-
-    .btn-auth, .btn-back {
-      flex: 1;
-      padding: 0.75rem;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: background-color 0.3s ease;
-    }
-
-    .btn-auth {
-      background-color: #2f7a2f;
-      color: white;
-    }
-
-    .btn-auth:hover {
-      background-color: #255d25;
-    }
-
-    .btn-back {
-      background-color: #ccc;
-    }
-
-    .btn-back:hover {
-      background-color: #999;
-    }
-
-    @media (max-width: 480px) {
-      .row {
-        flex-direction: column;
-      }
-      .row select, .row input {
-        width: 100%;
-      }
-      .button-group {
-        flex-direction: column;
-      }
-      .button-group button {
-        width: 100%;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Watermark Background -->
+  <div class="watermark"></div>
 
-<header>
-  <div class="top-bar">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Flag_of_Eswatini.svg/1200px-Flag_of_Eswatini.svg.png" alt="Eswatini Flag" class="flag" width="40" />
-    <h1>Kingdom of Eswatini</h1>
-    <nav class="social-icons">
-      <a href="#" aria-label="Facebook">FB</a>
-      <a href="#" aria-label="Twitter">X</a>
-      <a href="#" aria-label="YouTube">YT</a>
-      <a href="#" aria-label="Instagram">IG</a>
-    </nav>
+  <!-- Booking Form -->
+  <div class="booking-container animate-fade">
+    <h1 class="animate-slide">Book an Appointment</h1>
+    <form id="bookingForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required pattern="[A-Za-z\s]+">
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required pattern="[0-9]+">
+
+      <label for="date">Select Date</label>
+      <input type="date" id="date" name="date" required>
+
+      <label for="time">Select Time</label>
+      <select id="time" name="time" required></select>
+
+      <button type="button" id="authButton" class="btn-auth">Authenticate</button>
+      <button type="submit" id="submitButton" disabled class="btn-submit">Submit</button>
+    </form>
   </div>
 
-  <nav class="nav-bar">
-    <ul>
-      <li><a href="https://www.gov.sz" target="_blank" rel="noopener">HOME</a></li>
-      <li><a href="https://www.gov.sz/index.php/about-us" target="_blank" rel="noopener">ABOUT US</a></li>
-      <li><a href="https://www.gov.sz/index.php/ministry" target="_blank" rel="noopener">MINISTRIES</a></li>
-      <li><a href="https://www.gov.sz/index.php/e-services" target="_blank" rel="noopener">E-SERVICES</a></li>
-      <li><a href="https://www.gov.sz/index.php/documents" target="_blank" rel="noopener">DOCUMENTS</a></li>
-      <li><a href="https://www.gov.sz/index.php/tenders" target="_blank" rel="noopener">TENDERS</a></li>
-      <li><a href="https://www.gov.sz/index.php/jobs" target="_blank" rel="noopener">JOBS</a></li>
-    </ul>
-  </nav>
-</header>
-
-<main class="container">
-  <header class="brand">
-    <h1>Appointment Booking</h1>
-    <p class="subtitle">Please capture your details as they appear on your identity document.</p>
-  </header>
-
-  <form id="bookingForm" novalidate>
-    <label for="id_number">ID Number *</label>
-    <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
-
-    <label for="forenames">Full Forenames *</label>
-    <input id="forenames" name="forenames" type="text" required />
-
-    <label for="surname">Surname *</label>
-    <input id="surname" name="surname" type="text" required />
-
-    <label>Cellphone Number *</label>
-    <div class="row">
-      <select id="dialing_code" name="dialing_code" required>
-        <option value="+268">+268 (Eswatini)</option>
-        <option value="+27">+27 (South Africa)</option>
-        <option value="+254">+254 (Kenya)</option>
-        <option value="+233">+233 (Ghana)</option>
-        <option value="+234">+234 (Nigeria)</option>
-      </select>
-      <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
-    </div>
-
-    <label>Confirm Cellphone Number *</label>
-    <div class="row">
-      <select id="confirm_dialing_code" name="confirm_dialing_code" required>
-        <option value="+268">+268 (Eswatini)</option>
-        <option value="+27">+27 (South Africa)</option>
-        <option value="+254">+254 (Kenya)</option>
-        <option value="+233">+233 (Ghana)</option>
-        <option value="+234">+234 (Nigeria)</option>
-      </select>
-      <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" required />
-    </div>
-
-    <label for="email">E-mail (optional)</label>
-    <input id="email" name="email" type="email" />
-
-    <label for="confirm_email">Confirm E-mail</label>
-    <input id="confirm_email" name="confirm_email" type="email" />
-
-    <div class="button-group">
-      <button type="submit" class="btn-auth">Authenticate</button>
-      <button type="button" class="btn-back" onclick="history.back()">Back</button>
-    </div>
-  </form>
-</main>
-
-<footer>
-  <p>&copy; Kingdom of Eswatini Government</p>
-</footer>
-
-<script>
-  // Form validation and redirection on submit
-  document.getElementById('bookingForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const idNumber = document.getElementById('id_number').value.trim();
-    const forenames = document.getElementById('forenames').value.trim();
-    const surname = document.getElementById('surname').value.trim();
-    const dialingCode = document.getElementById('dialing_code').value;
-    const cellphone = document.getElementById('cellphone').value.trim();
-    const confirmDialingCode = document.getElementById('confirm_dialing_code').value;
-    const confirmCellphone = document.getElementById('confirm_cellphone').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const confirmEmail = document.getElementById('confirm_email').value.trim();
-
-    // Basic validation
-    if (!idNumber || !forenames || !surname || !cellphone || !confirmCellphone) {
-      alert('Please fill in all required fields.');
-      return;
-    }
-
-    if (dialingCode !== confirmDialingCode || cellphone !== confirmCellphone) {
-      alert('Cellphone numbers do not match.');
-      return;
-    }
-
-    if (email || confirmEmail) {
-      if (email !== confirmEmail) {
-        alert('Emails do not match.');
-        return;
-      }
-    }
-
-    // If validation passes, redirect to next page
-    // Change this URL to your actual next screen
-    window.location.href = 'next-step.html';
-  });
-</script>
-
+  <script src="booking.js"></script>
 </body>
 </html>
