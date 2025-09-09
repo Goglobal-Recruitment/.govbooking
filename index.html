@@ -1,243 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Appointment — Enter Details</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-  <style>
-    /* Animated Gradient Background */
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0; padding: 0;
-      background: linear-gradient(270deg, #0b194a, #142f6f, #0b194a, #264b91);
-      background-size: 800% 800%;
-      animation: gradientBG 15s ease infinite;
-      min-height: 100vh;
-      color: #222;
-    }
-
-    header {
-      background-color: #0b194a;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .top-bar {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .top-bar img.flag {
-      width: 50px;
-      height: auto;
-      border-radius: 4px;
-    }
-    nav.nav-bar ul {
-      list-style: none;
-      margin: 0; padding: 0;
-      display: flex;
-      gap: 1rem;
-      font-weight: 600;
-    }
-    nav.nav-bar ul li a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-    nav.nav-bar ul li a:hover {
-      color: #f0ad4e;
-    }
-    .social-icons a {
-      color: white;
-      margin-left: 1rem;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    .hero {
-      max-width: 100%;
-      overflow: hidden;
-      margin-bottom: 2rem;
-    }
-    .hero img.hero-img {
-      width: 100%;
-      height: auto;
-      display: block;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-      border-radius: 4px;
-    }
-    .container {
-      max-width: 500px;
-      margin: 0 auto 4rem;
-      padding: 2rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 8px 24px rgb(0 0 0 / 0.2);
-      animation: fadeIn 1.2s ease forwards;
-      opacity: 0;
-    }
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-    .brand h1 {
-      margin-bottom: 0.25rem;
-      font-weight: 700;
-      font-size: 1.5rem;
-      text-align: center;
-      color: #0b194a;
-    }
-    .brand .subtitle {
-      font-size: 0.9rem;
-      color: #555;
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-    form label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-      font-size: 0.85rem;
-      color: #222;
-    }
-    form input, form select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      box-sizing: border-box;
-      transition: border-color 0.3s;
-    }
-    form input:focus, form select:focus {
-      outline: none;
-      border-color: #f0ad4e;
-      box-shadow: 0 0 5px #f0ad4e;
-    }
-    .row {
-      display: flex;
-      gap: 0.5rem;
-    }
-    .row select {
-      width: 30%;
-    }
-    .row input {
-      width: 70%;
-    }
-    .button-group {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .btn-auth, .btn-back {
-      flex: 1;
-      padding: 0.75rem;
-      font-weight: 700;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .btn-auth {
-      background-color: #0b194a;
-      color: white;
-    }
-    .btn-auth:hover {
-      background-color: #f0ad4e;
-      color: black;
-    }
-    .btn-back {
-      background-color: #e0e0e0;
-      color: #333;
-    }
-    .btn-back:hover {
-      background-color: #c0c0c0;
-    }
-    footer {
-      background-color: #0b194a;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.3);
-      z-index: 1000;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Select Office — Appointment</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="container">
+    <header class="brand">
+      <h1>Select a Branch / Office</h1>
+      <p class="subtitle">Choose the location where you will attend for passport / ID services.</p>
+    </header>
 
-<header>
-  <div class="top-bar">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Flag_of_Eswatini.svg/1200px-Flag_of_Eswatini.svg.png" alt="Eswatini Flag" class="flag" />
-    <h1>Kingdom of Eswatini</h1>
-    <div class="social-icons">
-      <a href="#">FB</a>
-      <a href="#">X</a>
-      <a href="#">YT</a>
-      <a href="#">IG</a>
-    </div>
-  </div>
-  <nav class="nav-bar">
-    <ul>
-      <li><a href="#">HOME</a></li>
-      <li><a href="#">ABOUT US</a></li>
-      <li><a href="#">MINISTRIES</a></li>
-      <li><a href="#">E-SERVICES</a></li>
-      <li><a href="#">DOCUMENTS</a></li>
-      <li><a href="#">TENDERS</a></li>
-      <li><a href="#">JOBS</a></li>
-    </ul>
-  </nav>
-</header>
-
-<section class="hero">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Swazi_Government_Building.jpg" alt="Government Building" class="hero-img" />
-</section>
-
-<div class="container">
-  <header class="brand">
-    <h1>Appointment Booking</h1>
-    <p class="subtitle">Please capture your details as they appear on your identity document.</p>
-  </header>
-
-  <main>
-    <form id="bookingForm" novalidate>
-      <label for="id_number">ID Number</label>
-      <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
-
-      <label for="forenames">Full Forenames *</label>
-      <input id="forenames" name="forenames" type="text" required />
-
-      <label for="surname">Surname *</label>
-      <input id="surname" name="surname" type="text" required />
-
-      <label>Cellphone Number *</label>
-      <div class="row">
-        <select id="dialing_code" name="dialing_code" required>
-          <option value="+268">+268 (Eswatini)</option>
-          <option value="+27">+27 (South Africa)</option>
-          <option value="+254">+254 (Kenya)</option>
-          <option value="+233">+233 (Ghana)</option>
-          <option value="+234">+234 (Nigeria)</option>
+    <main>
+      <div class="controls">
+        <label for="countryFilter">Filter by country</label>
+        <select id="countryFilter">
+          <option value="">-- All Countries --</option>
         </select>
-        <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
+
+        <label for="searchInput">Search office (city, name)</label>
+        <input id="searchInput" placeholder="Type a city or office name" />
       </div>
 
-      <label>
+      <form id="officeForm" novalidate>
+        <label for="officeSelect">Choose Branch / Office</label>
+        <select id="officeSelect" required>
+          <option value="">-- Select Location --</option>
+        </select>
+
+        <div id="officeDetails" class="office-details" aria-live="polite" hidden></div>
+
+        <div class="button-group">
+          <button type="submit" class="btn-auth">Continue</button>
+          <button type="button" class="btn-back" onclick="location.href='index.html'">Back</button>
+        </div>
+      </form>
+    </main>
+
+    <footer><small>Data is sample/demo — verify addresses before use.</small></footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script src="offices.js"></script>
+  <script>
+    // populate country filter and office select
+    const countryFilter = document.getElementById('countryFilter');
+    const officeSelect = document.getElementById('officeSelect');
+    const searchInput = document.getElementById('searchInput');
+    const officeDetails = document.getElementById('officeDetails');
+
+    // get unique countries
+    const countries = Array.from(new Set(OFFICES.map(o => o.country))).sort();
+    countries.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      countryFilter.appendChild(opt);
+    });
+
+    function formatOfficeOption(o) {
+      return `${o.country} — ${o.city} — ${o.name}`;
+    }
+
+    function renderOffices(filterCountry = '', search = '') {
+      const list = OFFICES.filter(o => {
+        if (filterCountry && o.country !== filterCountry) return false;
+        if (search) {
+          const s = search.toLowerCase();
+          const hay = (o.name + ' ' + o.city + ' ' + (o.address||'')).toLowerCase();
+          return hay.includes(s);
+        }
+        return true;
+      });
+
+      // clear and render
+      officeSelect.innerHTML = '<option value="">-- Select Location --</option>';
+      list.forEach((o, idx) => {
+        const opt = document.createElement('option');
+        opt.value = o.id;
+        opt.textContent = formatOfficeOption(o);
+        officeSelect.appendChild(opt);
+      });
+    }
+
+    // show details
+    function showDetailsById(id) {
+      const o = OFFICES.find(x => x.id === id);
+      if (!o) {
+        officeDetails.hidden = true;
+        officeDetails.innerHTML = '';
+        return;
+      }
+      officeDetails.hidden = false;
+      officeDetails.innerHTML = `
+        <h3>${o.name} — ${o.city}, ${o.country}</h3>
+        <p><strong>Address:</strong> ${o.address || 'N/A'}</p>
+        <p><strong>Phone:</strong> ${o.phone || 'N/A'}</p>
+        ${o.hours ? `<p><strong>Hours:</strong> ${o.hours}</p>` : ''}
+        ${o.notes ? `<p><strong>Notes:</strong> ${o.notes}</p>` : ''}
+      `;
+    }
+
+    // initial render
+    renderOffices();
+
+    // events
+    countryFilter.addEventListener('change', () => renderOffices(countryFilter.value, searchInput.value));
+    searchInput.addEventListener('input', () => renderOffices(countryFilter.value, searchInput.value));
+    officeSelect.addEventListener('change', () => showDetailsById(officeSelect.value));
+
+    document.getElementById('officeForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = officeSelect.value;
+      if (!id) { alert('Please select an office.'); return; }
+      const office = OFFICES.find(x => x.id === id);
+      if (!office) { alert('Selected office not found.'); return; }
+
+      // save to storage and go to booking calendar
+      saveToStorage('selectedOffice', office);
+      window.location.href = 'booking.html';
+    });
+  </script>
+</body>
+</html>
