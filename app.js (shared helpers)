@@ -1,0 +1,26 @@
+// app.js - small utility functions for the demo
+function saveToStorage(key, obj) {
+  try {
+    localStorage.setItem(key, JSON.stringify(obj));
+  } catch (err) {
+    console.error('Storage error', err);
+  }
+}
+
+function readFromStorage(key) {
+  try {
+    const s = localStorage.getItem(key);
+    return s ? JSON.parse(s) : null;
+  } catch (err) {
+    console.error('Storage read error', err);
+    return null;
+  }
+}
+
+function clearStorage(key) {
+  localStorage.removeItem(key);
+}
+
+function formatPhone(code, number) {
+  return `${code} ${number}`;
+}
