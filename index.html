@@ -62,12 +62,28 @@
       </select>
       <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" required />
     </div>
+const email = form.email.value.trim();
+const confirmEmail = form.confirm_email.value.trim();
 
-    <label for="email">E-mail (optional)</label>
-    <input id="email" name="email" type="email" />
+function isValidEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
 
-    <label for="confirm_email">Confirm E-mail</label>
-    <input id="confirm_email" name="confirm_email" type="email" />
+// Check if email is provided, then validate format
+if (email) {
+  if (!isValidEmail(email)) {
+    showAlert("Please enter a valid email address.");
+    return;
+  }
+
+  if (email !== confirmEmail) {
+    showAlert("Email and confirmation do not match.");
+    return;
+  }
+}
+
+    
 
     <div class="button-group">
       <button type="submit" class="btn-auth">Authenticate & Continue</button>
