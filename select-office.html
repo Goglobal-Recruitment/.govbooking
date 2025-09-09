@@ -21,7 +21,7 @@
         </select>
 
         <label for="searchInput">Search office (city, name)</label>
-        <input id="searchInput" placeholder="Type a city or office name" />
+        <input id="searchInput" type="search" aria-label="Search office by city or name" placeholder="Type a city or office name" />
       </div>
 
       <form id="officeForm" novalidate>
@@ -42,85 +42,104 @@
     <footer><small>Data is sample/demo — verify addresses before use.</small></footer>
   </div>
 
-  <script src="app.js"></script>
   <script src="offices.js"></script>
   <script>
-    // populate country filter and office select
-    const countryFilter = document.getElementById('countryFilter');
-    const officeSelect = document.getElementById('officeSelect');
-    const searchInput = document.getElementById('searchInput');
-    const officeDetails = document.getElementById('officeDetails');
+    document.addEventListener('DOMContentLoaded', () => {
+      const countryFilter = document.getElementById('countryFilter');
+      const officeSelect = document.getElementById('officeSelect');
+      const searchInput = document.getElementById('searchInput');
+      const officeDetails = document.getElementById('officeDetails');
 
-    // get unique countries
-    const countries = Array.from(new Set(OFFICES.map(o => o.country))).sort();
-    countries.forEach(c => {
-      const opt = document.createElement('option');
-      opt.value = c;
-      opt.textContent = c;
-      countryFilter.appendChild(opt);
-    });
-
-    function formatOfficeOption(o) {
-      return `${o.country} — ${o.city} — ${o.name}`;
-    }
-
-    function renderOffices(filterCountry = '', search = '') {
-      const list = OFFICES.filter(o => {
-        if (filterCountry && o.country !== filterCountry) return false;
-        if (search) {
-          const s = search.toLowerCase();
-          const hay = (o.name + ' ' + o.city + ' ' + (o.address||'')).toLowerCase();
-          return hay.includes(s);
-        }
-        return true;
-      });
-
-      // clear and render
-      officeSelect.innerHTML = '<option value="">-- Select Location --</option>';
-      list.forEach((o, idx) => {
+      // Populate country filter dropdown
+      const countries = Array.from(new Set(OFFICES.map(o => o.country))).sort();
+      countries.forEach(c => {
         const opt = document.createElement('option');
-        opt.value = o.id;
-        opt.textContent = formatOfficeOption(o);
-        officeSelect.appendChild(opt);
+        opt.value = c;
+        opt.textContent = c;
+        countryFilter.appendChild(opt);
       });
-    }
 
-    // show details
-    function showDetailsById(id) {
-      const o = OFFICES.find(x => x.id === id);
-      if (!o) {
+      // Helper: format option label
+      function formatOfficeOption(o) {
+        return `${o.country} — ${o.city} — ${o.name}`;
+      }
+
+      // Render office options based on filters
+      function renderOffices(filterCountry = '', search = '') {
+        const filtered = OFFICES.filter(o => {
+          if (filterCountry && o.country !== filterCountry) return false;
+          if (search) {
+            const s = search.toLowerCase();
+            const hay = (o.name + ' ' + o.city + ' ' + (o.address || '')).toLowerCase();
+            return hay.includes(s);
+          }
+          return true;
+        });
+
+        // Reset options
+        officeSelect.innerHTML = '<option value="">-- Select Location --</option>';
+
+        filtered.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.id;
+          opt.textContent = formatOfficeOption(o);
+          officeSelect.appendChild(opt);
+        });
+
+        // Reset details and selected value when re-rendering
         officeDetails.hidden = true;
         officeDetails.innerHTML = '';
-        return;
+        officeSelect.value = '';
       }
-      officeDetails.hidden = false;
-      officeDetails.innerHTML = `
-        <h3>${o.name} — ${o.city}, ${o.country}</h3>
-        <p><strong>Address:</strong> ${o.address || 'N/A'}</p>
-        <p><strong>Phone:</strong> ${o.phone || 'N/A'}</p>
-        ${o.hours ? `<p><strong>Hours:</strong> ${o.hours}</p>` : ''}
-        ${o.notes ? `<p><strong>Notes:</strong> ${o.notes}</p>` : ''}
-      `;
-    }
 
-    // initial render
-    renderOffices();
+      // Show office details on selection
+      function showDetailsById(id) {
+        const o = OFFICES.find(x => x.id === id);
+        if (!o) {
+          officeDetails.hidden = true;
+          officeDetails.innerHTML = '';
+          return;
+        }
+        officeDetails.hidden = false;
+        officeDetails.innerHTML = `
+          <h3>${o.name} — ${o.city}, ${o.country}</h3>
+          <p><strong>Address:</strong> ${o.address || 'N/A'}</p>
+          <p><strong>Phone:</strong> ${o.phone || 'N/A'}</p>
+          ${o.hours ? `<p><strong>Hours:</strong> ${o.hours}</p>` : ''}
+          ${o.notes ? `<p><strong>Notes:</strong> ${o.notes}</p>` : ''}
+        `;
+      }
 
-    // events
-    countryFilter.addEventListener('change', () => renderOffices(countryFilter.value, searchInput.value));
-    searchInput.addEventListener('input', () => renderOffices(countryFilter.value, searchInput.value));
-    officeSelect.addEventListener('change', () => showDetailsById(officeSelect.value));
+      // Initial render
+      renderOffices();
 
-    document.getElementById('officeForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const id = officeSelect.value;
-      if (!id) { alert('Please select an office.'); return; }
-      const office = OFFICES.find(x => x.id === id);
-      if (!office) { alert('Selected office not found.'); return; }
+      // Event listeners
+      countryFilter.addEventListener('change', () => renderOffices(countryFilter.value, searchInput.value));
+      searchInput.addEventListener('input', () => renderOffices(countryFilter.value, searchInput.value));
+      officeSelect.addEventListener('change', () => showDetailsById(officeSelect.value));
 
-      // save to storage and go to booking calendar
-      saveToStorage('selectedOffice', office);
-      window.location.href = 'booking.html';
+      // Handle form submission
+      document.getElementById('officeForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const selectedId = officeSelect.value;
+        if (!selectedId) {
+          alert('Please select an office.');
+          return;
+        }
+
+        const selectedOffice = OFFICES.find(o => o.id === selectedId);
+        if (!selectedOffice) {
+          alert('Selected office not found.');
+          return;
+        }
+
+        // Save selection to localStorage
+        localStorage.setItem('selectedOffice', JSON.stringify(selectedOffice));
+
+        // Redirect to booking page
+        window.location.href = 'booking.html';
+      });
     });
   </script>
 </body>
