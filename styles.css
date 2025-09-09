@@ -1,271 +1,371 @@
-:root {
-  --bg: #f5f5f6;
-  --card: #ffffff;
-  --muted: #666;
-  --accent: #0a6b3b; /* green */
-  --accent-2: #2a8a55;
-  --danger: #c23;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Appointment — Enter Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-image: url('5a9b973c-18e0-4479-890f-8a9ce1721298.png'); /* your uploaded image path */
+      --card: #ffffff;
+      --muted: #666;
+      --accent: #0a6b3b; /* green */
+      --accent-2: #2a8a55;
+      --danger: #c23;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: var(--bg);
-  color: #222;
-  -webkit-font-smoothing: antialiased;
-}
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-image) no-repeat center center fixed;
+      background-size: cover;
+      color: #222;
+      -webkit-font-smoothing: antialiased;
+    }
 
-.top-bar {
-  background-color: #0b1d3a;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  flex-wrap: wrap;
-  gap: 10px;
-}
+    /* Overlay to dim background for better readability */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(245, 245, 246, 0.85); /* white translucent */
+      z-index: 0;
+    }
 
-.flag {
-  width: 50px;
-  height: auto;
-}
+    header, main, footer {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: auto;
+      padding: 0 20px;
+    }
 
-.top-bar h1 {
-  margin: 0;
-  font-weight: 700;
-  font-size: 1.4rem;
-  flex-grow: 1;
-  text-align: center;
-}
+    .top-bar {
+      background-color: #0b1d3a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
 
-.social-icons a {
-  color: white;
-  margin-left: 1rem;
-  font-weight: 700;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-}
+    .flag {
+      width: 50px;
+      height: auto;
+    }
 
-.social-icons a:hover {
-  color: var(--accent);
-}
+    .top-bar h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.4rem;
+      flex-grow: 1;
+      text-align: center;
+    }
 
-.nav-bar {
-  background-color: #07162d;
-  padding: 10px 0;
-  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.2);
-}
+    .social-icons a {
+      color: white;
+      margin-left: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
 
-.nav-bar ul {
-  display: flex;
-  list-style: none;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+    .social-icons a:hover {
+      color: var(--accent);
+    }
 
-.nav-bar li {
-  margin: 0;
-}
+    .nav-bar {
+      background-color: #07162d;
+      padding: 10px 0;
+      box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.2);
+      margin-top: 10px;
+    }
 
-.nav-bar a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 6px 12px;
-  display: inline-block;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+    .nav-bar ul {
+      display: flex;
+      list-style: none;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
 
-.nav-bar a:hover,
-.nav-bar a:focus {
-  background-color: var(--accent);
-  color: white;
-  outline: none;
-}
+    .nav-bar li {
+      margin: 0;
+    }
 
-.hero {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  height: 320px;
-  max-height: 40vh;
-  animation: slowZoom 20s ease-in-out infinite alternate;
-}
+    .nav-bar a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 6px 12px;
+      display: inline-block;
+      border-radius: 4px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-.hero-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: brightness(0.8);
-  transition: filter 0.3s ease;
-}
+    .nav-bar a:hover,
+    .nav-bar a:focus {
+      background-color: var(--accent);
+      color: white;
+      outline: none;
+    }
 
-.hero:hover .hero-img {
-  filter: brightness(1);
-}
+    .container {
+      max-width: 600px;
+      margin: 2rem auto 4rem;
+      padding: 2rem;
+      background: var(--card);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+      position: relative;
+      z-index: 1;
+    }
 
-@keyframes slowZoom {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.05);
-  }
-}
+    .brand {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
 
-.container {
-  max-width: 600px;
-  margin: 2rem auto 4rem;
-  padding: 2rem;
-  background: var(--card);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
-}
+    .brand h1 {
+      margin-bottom: 0.25rem;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: var(--accent-2);
+    }
 
-.brand {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
+    .brand .subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      margin: 0;
+    }
 
-.brand h1 {
-  margin-bottom: 0.25rem;
-  font-weight: 700;
-  font-size: 1.8rem;
-  color: var(--accent-2);
-}
+    form label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
 
-.brand .subtitle {
-  font-size: 1rem;
-  color: var(--muted);
-  margin: 0;
-}
+    form input,
+    form select {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
 
-form label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-  font-size: 0.9rem;
-}
+    form input:focus,
+    form select:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 6px var(--accent-2);
+    }
 
-form input,
-form select {
-  width: 100%;
-  padding: 10px 12px;
-  margin-bottom: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-}
+    .row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
 
-form input:focus,
-form select:focus {
-  border-color: var(--accent);
-  outline: none;
-  box-shadow: 0 0 6px var(--accent-2);
-}
+    .row select {
+      flex: 1;
+      max-width: 120px;
+    }
 
-.row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
+    .row input {
+      flex: 3;
+    }
 
-.row select {
-  flex: 1;
-  max-width: 120px;
-}
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 1.2rem;
+    }
 
-.row input {
-  flex: 3;
-}
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
 
-.button-group {
-  display: flex;
-  gap: 10px;
-  margin-top: 1.2rem;
-}
+    .btn-auth {
+      background: var(--accent);
+      color: #fff;
+      flex: 1;
+    }
 
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 18px;
-  font-weight: 700;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
+    .btn-auth:hover,
+    .btn-auth:focus {
+      background: var(--accent-2);
+      outline: none;
+    }
 
-.btn-auth {
-  background: var(--accent);
-  color: #fff;
-  flex: 1;
-}
+    .btn-back {
+      background: #e8e8e8;
+      color: #222;
+      flex: 1;
+    }
 
-.btn-auth:hover,
-.btn-auth:focus {
-  background: var(--accent-2);
-  outline: none;
-}
+    .btn-back:hover,
+    .btn-back:focus {
+      background: #ccc;
+      outline: none;
+    }
 
-.btn-back {
-  background: #e8e8e8;
-  color: #222;
-  flex: 1;
-}
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #0b1d3a;
+      color: white;
+      font-size: 0.9rem;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      z-index: 1;
+    }
 
-.btn-back:hover,
-.btn-back:focus {
-  background: #ccc;
-  outline: none;
-}
+    /* Responsive */
+    @media (max-width: 700px) {
+      .row {
+        flex-direction: column;
+      }
 
-footer {
-  text-align: center;
-  padding: 20px;
-  background-color: #0b1d3a;
-  color: white;
-  font-size: 0.9rem;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-}
+      .row select,
+      .row input {
+        max-width: 100%;
+        flex: none;
+      }
 
-/* Responsive */
-@media (max-width: 700px) {
-  .row {
-    flex-direction: column;
-  }
+      .nav-bar ul {
+        flex-direction: column;
+        gap: 10px;
+      }
 
-  .row select,
-  .row input {
-    max-width: 100%;
-    flex: none;
-  }
+      .top-bar {
+        flex-direction: column;
+        gap: 8px;
+      }
 
-  .nav-bar ul {
-    flex-direction: column;
-    gap: 10px;
-  }
+      .top-bar h1 {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
 
-  .top-bar {
-    flex-direction: column;
-    gap: 8px;
-  }
+<header>
+  <div class="top-bar">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Flag_of_Eswatini.svg/1200px-Flag_of_Eswatini.svg.png" alt="Eswatini Flag" class="flag" />
+    <h1>Kingdom of Eswatini</h1>
+    <nav class="social-icons">
+      <a href="#" aria-label="Facebook">FB</a>
+      <a href="#" aria-label="Twitter">X</a>
+      <a href="#" aria-label="YouTube">YT</a>
+      <a href="#" aria-label="Instagram">IG</a>
+    </nav>
+  </div>
 
-  .top-bar h1 {
-    text-align: center;
-  }
-}
+  <nav class="nav-bar">
+    <ul>
+      <li><a href="https://www.gov.sz" target="_blank" rel="noopener">HOME</a></li>
+      <li><a href="https://www.gov.sz/index.php/about-us" target="_blank" rel="noopener">ABOUT US</a></li>
+      <li><a href="https://www.gov.sz/index.php/ministry" target="_blank" rel="noopener">MINISTRIES</a></li>
+      <li><a href="https://www.gov.sz/index.php/e-services" target="_blank" rel="noopener">E-SERVICES</a></li>
+      <li><a href="https://www.gov.sz/index.php/documents" target="_blank" rel="noopener">DOCUMENTS</a></li>
+      <li><a href="https://www.gov.sz/index.php/tenders" target="_blank" rel="noopener">TENDERS</a></li>
+      <li><a href="https://www.gov.sz/index.php/jobs" target="_blank" rel="noopener">JOBS</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="container">
+  <header class="brand">
+    <h1>Appointment Booking</h1>
+    <p class="subtitle">Please capture your details as they appear on your identity document.</p>
+  </header>
+
+  <form id="bookingForm" novalidate>
+    <label for="id_number">ID Number *</label>
+    <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
+
+    <label for="forenames">Full Forenames *</label>
+    <input id="forenames" name="forenames" type="text" required />
+
+    <label for="surname">Surname *</label>
+    <input id="surname" name="surname" type="text" required />
+
+    <label>Cellphone Number *</label>
+    <div class="row">
+      <select id="dialing_code" name="dialing_code" required>
+        <option value="+268">+268 (Eswatini)</option>
+        <option value="+27">+27 (South Africa)</option>
+        <option value="+254">+254 (Kenya)</option>
+        <option value="+233">+233 (Ghana)</option>
+        <option value="+234">+234 (Nigeria)</option>
+      </select>
+      <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
+    </div>
+
+    <label>Confirm Cellphone Number *</label>
+    <div class="row">
+      <select id="confirm_dialing_code" name="confirm_dialing_code" required>
+        <option value="+268">+268 (Eswatini)</option>
+        <option value="+27">+27 (South Africa)</option>
+        <option value="+254">+254 (Kenya)</option>
+        <option value="+233">+233 (Ghana)</option>
+        <option value="+234">+234 (Nigeria)</option>
+      </select>
+      <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" required />
+    </div>
+
+    <label for="email">E-mail (optional)</label>
+    <input id="email" name="email" type="email" />
+
+    <label for="confirm_email">Confirm E-mail</label>
+    <input id="confirm_email" name="confirm_email" type="email" />
+
+    <div class="button-group">
+      <button type="submit" class="btn-auth">Authenticate</button>
+      <button type="button" class="btn-back" onclick="history.back()">Back</button>
+    </div>
+  </form>
+</main>
+
+<footer>
+  <p>&copy; Kingdom of Eswatini Government</p>
+</footer>
+
+<script>
+  const form = document.getElementById('bookingForm');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Simple validation: check if required fields filled and confirmation fields match
+    const idNumber = form.id_number.value.trim();
+    const forenames = form.forenames.value.trim();
+    const surname = form.surname.value.trim();
+    const dialingCode = form.dialing_code.value;
+    const cellphone = form.cellphone.value.trim();
+    const
