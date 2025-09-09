@@ -1,236 +1,156 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Select Office — Appointment</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      margin: 0; padding: 0;
-      display: flex; flex-direction: column; align-items: center;
-    }
-    .container {
-      background: white;
-      padding: 20px;
-      margin: 40px auto;
-      width: 90%;
-      max-width: 700px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1, p {
-      text-align: center;
-    }
-    label {
-      font-weight: bold;
-      margin-top: 15px;
-      display: block;
-    }
-    select, input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      margin-top: 6px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
-    .office-details {
-      background: #f1f1f1;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 6px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    .buttons {
-      margin-top: 25px;
-      display: flex;
-      justify-content: space-between;
-    }
-    button {
-      padding: 12px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    button.continue {
-      background-color: #2a6d34;
-      color: white;
-    }
-    button.back {
-      background-color: #ccc;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Appointment — Enter Details</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Select a Branch / Office</h1>
-    <p>Choose the location where you will attend for passport / ID services.</p>
+    <header class="brand">
+      <h1>Appointment Booking</h1>
+      <p class="subtitle">Please capture your details as they appear on your identity document.</p>
+    </header>
 
-    <label for="countrySelect">Filter by country</label>
-    <select id="countrySelect">
-      <option value="all">All Countries</option>
-      <option value="Eswatini" selected>Eswatini</option>
-      <!-- Add other countries if needed -->
-    </select>
+    <main>
+      <form id="bookingForm" novalidate>
+        <label for="id_number">ID Number</label>
+        <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
 
-    <label for="searchInput">Search office (city, name)</label>
-    <input type="text" id="searchInput" placeholder="Type a city or office name" />
+        <label for="forenames">Full Forenames *</label>
+        <input id="forenames" name="forenames" type="text" required />
 
-    <label for="officeSelect">Choose Branch / Office</label>
-    <select id="officeSelect" size="5" style="height: auto;">
-      <!-- offices will be populated here -->
-    </select>
+        <label for="surname">Surname *</label>
+        <input id="surname" name="surname" type="text" required />
 
-    <div class="office-details" id="officeDetails">
-      <!-- details shown here -->
+        <label>Cellphone Number *</label>
+        <div class="row">
+          <select id="dialing_code" name="dialing_code" required>
+            <option value="+268">+268 (Eswatini)</option>
+            <option value="+27">+27 (South Africa)</option>
+            <option value="+254">+254 (Kenya)</option>
+            <option value="+233">+233 (Ghana)</option>
+            <option value="+234">+234 (Nigeria)</option>
+        
+          </select>
+          <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
+        </div>
+
+        <label>Confirm Cellphone Number *</label>
+        <div class="row">
+          <select id="confirm_dialing_code" name="confirm_dialing_code" required>
+            <option value="+268">+268 (Eswatini)</option>
+            <option value="+27">+27 (South Africa)</option>
+            <option value="+254">+254 (Kenya)</option>
+            <option value="+233">+233 (Ghana)</option>
+            <option value="+234">+234 (Nigeria)</option>
+           
+          </select>
+          <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" required />
+        </div>
+
+        <label for="email">E-mail (optional)</label>
+        <input id="email" name="email" type="email" />
+
+        <label for="confirm_email">Confirm E-mail</label>
+        <input id="confirm_email" name="confirm_email" type="email" />
+
+        <div class="button-group">
+          <button type="submit" class="btn-auth">Authenticate</button>
+          <button type="button" class="btn-back" onclick="history.back()">Back</button>
+        </div>
+      </form>
+    </main>
+
+   
+
+  <script src="app.js"></script>
+  <script>
+    // page-specific logic
+    const form = document.getElementById('bookingForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id_number = document.getElementById('id_number').value.trim();
+      const forenames = document.getElementById('forenames').value.trim();
+      const surname = document.getElementById('surname').value.trim();
+      const dialing_code = document.getElementById('dialing_code').value;
+      const cellphone = document.getElementById('cellphone').value.trim();
+      const confirm_dialing_code = document.getElementById('confirm_dialing_code').value;
+      const confirm_cellphone = document.getElementById('confirm_cellphone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const confirm_email = document.getElementById('confirm_email').value.trim();
+
+      // basic validations
+      if (!id_number || !forenames || !surname || !cellphone || !confirm_cellphone) {
+        alert('Please complete all required fields.');
+        return;
+      }
+      if (dialing_code !== confirm_dialing_code || cellphone !== confirm_cellphone) {
+        alert('Cellphone numbers or dialing codes do not match.');
+        return;
+      }
+      if (email && email !== confirm_email) {
+        alert('Emails do not match.');
+        return;
+      }
+
+      const formData = {
+        id_number, forenames, surname,
+        dialing_code, cellphone, email
+      };
+
+      // store to localStorage for next pages
+      saveToStorage('bookingFormData', formData);
+
+      // go to office selection
+      window.location.href = 'select-office.html';
+    });
+  </script>
+</body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kingdom of Eswatini</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="top-bar">
+      <img src="assets/eswatini-flag.png" alt="Eswatini Flag" class="flag">
+      <h1>Kingdom of Eswatini</h1>
+      <div class="social-icons">
+        <!-- Replace with actual icons -->
+        <a href="#">FB</a>
+        <a href="#">X</a>
+        <a href="#">YT</a>
+        <a href="#">IG</a>
+      </div>
     </div>
+    <nav class="nav-bar">
+      <ul>
+        <li><a href="#">HOME</a></li>
+        <li><a href="#">ABOUT US</a></li>
+        <li><a href="#">MINISTRIES</a></li>
+        <li><a href="#">E-SERVICES</a></li>
+        <li><a href="#">DOCUMENTS</a></li>
+        <li><a href="#">TENDERS</a></li>
+        <li><a href="#">JOBS</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <div class="buttons">
-      <button class="continue" id="continueBtn" disabled>Continue</button>
-      <button class="back" id="backBtn">Back</button>
-    </div>
-  </div>
+  <section class="hero">
+    <img src="assets/government-building.jpg" alt="Government Building" class="hero-img">
+  </section>
 
-<script>
-  // Sample offices data
-  const offices = [
-    {
-      country: "Eswatini",
-      city: "Mbabane",
-      name: "Ministry of Home Affairs & Justice - Main Office",
-      address: "Mhlambanyatsi Usuthu Link Rd, Mbabane",
-      phone: "+268 2404 2941",
-      hours: "Mon-Fri 08:00 - 16:00",
-      notes: "Primary national office. Verify hours before visiting."
-    },
-    {
-      country: "Eswatini",
-      city: "Manzini",
-      name: "Manzini Regional Office",
-      address: "123 Main Street, Manzini",
-      phone: "+268 1234 5678",
-      hours: "Mon-Fri 08:00 - 16:00",
-      notes: "Regional office for Manzini area."
-    },
-    // Add more offices here as needed
-  ];
-
-  const countrySelect = document.getElementById('countrySelect');
-  const searchInput = document.getElementById('searchInput');
-  const officeSelect = document.getElementById('officeSelect');
-  const officeDetails = document.getElementById('officeDetails');
-  const continueBtn = document.getElementById('continueBtn');
-  const backBtn = document.getElementById('backBtn');
-
-  function filterOffices() {
-    const countryFilter = countrySelect.value;
-    const searchTerm = searchInput.value.trim().toLowerCase();
-
-    const filtered = offices.filter(office => {
-      const matchesCountry = countryFilter === 'all' || office.country === countryFilter;
-      const matchesSearch = office.city.toLowerCase().includes(searchTerm) ||
-                            office.name.toLowerCase().includes(searchTerm);
-      return matchesCountry && matchesSearch;
-    });
-
-    populateOfficeDropdown(filtered);
-  }
-
-  function populateOfficeDropdown(list) {
-    officeSelect.innerHTML = '';
-
-    if (list.length === 0) {
-      const option = document.createElement('option');
-      option.text = 'No offices found';
-      option.disabled = true;
-      officeSelect.add(option);
-      officeDetails.innerHTML = '';
-      continueBtn.disabled = true;
-      return;
-    }
-
-    list.forEach((office, index) => {
-      const option = document.createElement('option');
-      option.value = index;
-      option.text = `${office.country} — ${office.city} — ${office.name}`;
-      officeSelect.add(option);
-    });
-
-    officeSelect.selectedIndex = 0;
-    showOfficeDetails(list[0]);
-    continueBtn.disabled = false;
-  }
-
-  function showOfficeDetails(office) {
-    if (!office) {
-      officeDetails.innerHTML = '';
-      continueBtn.disabled = true;
-      return;
-    }
-
-    officeDetails.innerHTML = `
-      <strong>${office.name} — ${office.city}, ${office.country}</strong><br/>
-      <strong>Address:</strong> ${office.address}<br/>
-      <strong>Phone:</strong> ${office.phone}<br/>
-      <strong>Hours:</strong> ${office.hours}<br/>
-      <strong>Notes:</strong> ${office.notes}
-    `;
-    continueBtn.disabled = false;
-  }
-
-  officeSelect.addEventListener('change', () => {
-    const selectedIndex = officeSelect.value;
-    const countryFilter = countrySelect.value;
-    const searchTerm = searchInput.value.trim().toLowerCase();
-
-    const filtered = offices.filter(office => {
-      const matchesCountry = countryFilter === 'all' || office.country === countryFilter;
-      const matchesSearch = office.city.toLowerCase().includes(searchTerm) ||
-                            office.name.toLowerCase().includes(searchTerm);
-      return matchesCountry && matchesSearch;
-    });
-
-    showOfficeDetails(filtered[selectedIndex]);
-  });
-
-  countrySelect.addEventListener('change', filterOffices);
-  searchInput.addEventListener('input', filterOffices);
-
-  backBtn.addEventListener('click', () => {
-    window.history.back();
-  });
-
-  continueBtn.addEventListener('click', () => {
-    const selectedIndex = officeSelect.value;
-    if (selectedIndex === null || selectedIndex === '') {
-      alert('Please select an office.');
-      return;
-    }
-
-    // Save selected office data to localStorage or pass via query params
-    const countryFilter = countrySelect.value;
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    const filtered = offices.filter(office => {
-      const matchesCountry = countryFilter === 'all' || office.country === countryFilter;
-      const matchesSearch = office.city.toLowerCase().includes(searchTerm) ||
-                            office.name.toLowerCase().includes(searchTerm);
-      return matchesCountry && matchesSearch;
-    });
-
-    const selectedOffice = filtered[selectedIndex];
-    localStorage.setItem('selectedOffice', JSON.stringify(selectedOffice));
-
-    // Go to the next page where you can implement date/time selection
-    window.location.href = 'select-date-time.html';
-  });
-
-  // Initial populate
-  filterOffices();
-</script>
+  <footer>
+    <p>&copy; Kingdom of Eswatini Government</p>
+  </footer>
 </body>
 </html>
+
+</html>  correct to show all images
