@@ -32,14 +32,13 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 
-  /* Optional overlay for better readability */
   position: relative;
   color: #222;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
 
-/* Add a subtle dark overlay */
+/* Overlay */
 body::before {
   content: "";
   position: fixed;
@@ -49,7 +48,7 @@ body::before {
   pointer-events: none;
 }
 
-/* watermark background */
+/* Watermark */
 body::after {
   content: "";
   position: fixed;
@@ -63,17 +62,18 @@ body::after {
   z-index: 0;
 }
 
-/* layout wrappers */
+/* Layout wrappers */
 header, main, footer {
   position: relative;
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
+  width: 100%;
 }
 
 main.container {
-  flex: 1; /* pushes footer down */
+  flex: 1;
   max-width: 700px;
   margin: 2rem auto 3rem;
   padding: 2rem;
@@ -83,7 +83,7 @@ main.container {
   position: relative;
 }
 
-/* top bar */
+/* Top bar */
 .top-bar {
   background-color: #0b1d3a;
   color: white;
@@ -92,6 +92,7 @@ main.container {
   justify-content: space-between;
   padding: 10px 20px;
   gap: 10px;
+  flex-wrap: wrap;
 }
 .flag {
   width: 50px;
@@ -105,7 +106,7 @@ main.container {
   text-align: center;
 }
 
-/* nav bar */
+/* Nav bar */
 .nav-bar {
   background-color: #07162d;
   padding: 10px 0;
@@ -127,9 +128,13 @@ main.container {
   padding: 6px 10px;
   border-radius: 4px;
   font-weight: 600;
+  transition: background 0.2s ease;
+}
+.nav-bar a:hover {
+  background: rgba(255,255,255,0.2);
 }
 
-/* branding */
+/* Branding */
 .brand {
   text-align: center;
   margin-bottom: 1rem;
@@ -143,7 +148,7 @@ main.container {
   color: var(--muted);
 }
 
-/* form */
+/* Form */
 form label {
   display: block;
   font-weight: 600;
@@ -178,7 +183,7 @@ form select:focus {
   flex: 1;
 }
 
-/* buttons */
+/* Buttons */
 .button-group {
   display: flex;
   gap: 10px;
@@ -206,25 +211,53 @@ button {
   background: var(--accent-2);
 }
 
-/* footer */
+/* Footer */
 footer {
   text-align: center;
   padding: 20px;
   background-color: #0b1d3a;
   color: white;
   font-size: 0.9rem;
+  margin-top: auto;
   width: 100%;
 }
 
-/* responsiveness */
-@media (max-width:700px){
+/* ✅ Responsiveness */
+
+/* Large laptops / desktops */
+@media (min-width: 1200px) {
+  main.container {
+    max-width: 800px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  main.container {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+  .brand h1 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Phones */
+@media (max-width: 700px){
   .row { flex-direction: column; }
   .row select, .row input { width: 100%; flex: none; }
   .top-bar { flex-direction: column; gap: 10px; text-align: center; }
   .nav-bar ul { flex-direction: column; gap: 8px; padding: 10px; align-items: center; }
+  main.container {
+    margin: 1rem;
+    padding: 1.2rem;
+  }
+  .brand h1 {
+    font-size: 1.2rem;
+  }
 }
 
-/* appointment time dropdown */
+/* Appointment dropdown */
 #appointment_time {
   width: 100%;
   padding: 10px;
