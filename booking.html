@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Choose Date & Time — Appointment</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="brand">
+      <h1>Choose Date & Time</h1>
+      <p class="subtitle">Select a convenient appointment slot at your chosen office.</p>
+    </header>
+
+    <main>
+      <section id="summary" class="summary"></section>
+
+      <form id="bookingStepForm" novalidate>
+        <label for="date">Choose a Date</label>
+        <input id="date" type="date" required />
+
+        <label for="timeSlot">Available Time Slot</label>
+        <select id="timeSlot" required>
+          <option value="">-- Select a time --</option>
+        </select>
+
+        <div class="button-group">
+          <button type="submit" class="btn-auth">Confirm Booking</button>
+          <button type="button" class="btn-back" onclick="location.href='select-office.html'">Back</button>
+        </div>
+      </form>
+
+      <div id="confirmation" class="confirmation" hidden></div>
+    </main>
+
+    <footer><small>Demo booking — replace with real availability/calendar API for production.</small></footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // show summary of saved form + selected office
+    const summaryEl = document.getElementById('summary');
+    const bookingFormData = readFromStorage('bookingFormData');
+    const selectedOffice = readFromStorage('selectedOffice');
+
+    if (!bookingFormData || !selectedOffice) {
+      // missing context — go back to start
+      alert('Missing booking details. You will be redirected to start.');
+      location.href = 'index.html';
+    } else {
+      summaryEl.innerHTML = `
+        <h3>Applicant</h3>
+        <p><strong>${bookingFormData.forenames} ${bookingFormData.surname}</strong></p>
+        <p><strong>ID:</strong> ${bookingFormData.id_number}</p>
+        <h3>Office</h3>
+        <p><strong>${selectedOffice.name}</strong><br />
+        ${selectedOffice.city}, ${selectedOffice.country}</p>
+      `;
+    }
+
+    // simple availability generator (demo only)
+    function generateTimeSlots() {
+      // sample fixed slots
+      return [
+        '09:00', '09:30', '10:00', '10:30',
+        '11:00', '11:30', '13:00', '13:30',
+        '14:00', '14:30', '15:00'
+      ];
+    }
+
+    const timeSlotSelect = document.getElementById('timeSlot');
+    generateTimeSlots().forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t;
+      opt.textContent = t;
+      timeSlotSelect.appendChild(opt);
+    });
+
+    document.getElementById('bookingStepForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('timeSlot').value;
+      if (!date || !time) {
+        alert('Please choose a date and a time slot.');
+        return;
+      }
+
+      const booking = {
+        applicant: bookingFormData,
+        office: selectedOffice,
+        date, time,
+        createdAt: new Date().toISOString(),
+        ref: 'REF-' + Math.random().toString(36).slice(2,9).toUpperCase()
+      };
+
+      saveToStorage('pendingBooking', booking);
+
+      // show confirmation (demo). For production, POST to your backend or serverless function here
+      document.getElementById('confirmation').hidden = false;
+      document.getElementById('bookingStepForm').hidden = true;
+      document.getElementById('confirmation').innerHTML = `
+        <h2>Booking Confirmed (Demo)</h2>
+        <p>Reference: <strong>${booking.ref}</strong></p>
+        <p><strong>${booking.applicant.forenames} ${booking.applicant.surname}</strong></p>
+        <p><strong>Office:</strong> ${booking.office.name} — ${booking.office.city}, ${booking.office.country}</p>
+        <p><strong>Date:</strong> ${booking.date} <strong>Time:</strong> ${booking.time}</p>
+        <p>Please note: this demo does not create a real appointment. Integrate with a backend to finalize bookings.</p>
+      `;
+
+      // Optional: send to a serverless backend (Formspree, Netlify Functions, Firebase...)
+      // Example: post to API endpoint
+      // fetch('/api/book', { method: 'POST', body: JSON.stringify(booking), headers: {'Content-Type':'application/json'} })
+    });
+  </script>
+</body>
+</html>
