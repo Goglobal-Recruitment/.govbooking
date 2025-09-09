@@ -1,343 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Appointment — Enter Details</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #f5f5f6;
-      --card: #ffffff;
-      --muted: #666;
-      --accent: #0a6b3b; /* green */
-      --accent-2: #2a8a55;
-      --danger: #c23;
-    }
+:root {
+  --primary: #0b1d3a;
+  --highlight: #f0ad4e;
+  --text-muted: #666;
+}
 
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: #222;
-      -webkit-font-smoothing: antialiased;
-      position: relative;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #f5f5f6;
+  color: #222;
+}
 
-    /* Animated Gradient Background */
-    .background-animated {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: linear-gradient(270deg, #0b1d3a, #142f6f, #264b91, #0b1d3a);
-      background-size: 800% 800%;
-      animation: gradientBG 15s ease infinite;
-      z-index: -1;
-    }
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+.top-bar {
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
 
-    /* Container with glow */
-    .container {
-      max-width: 920px;
-      margin: 32px auto;
-      padding: 20px;
-      background: rgba(255 255 255 / 0.95);
-      box-shadow: 0 8px 30px rgba(240, 173, 78, 0.5);
-      border-radius: 8px;
-      position: relative;
-      z-index: 10;
-      animation: fadeIn 1s ease forwards;
-      opacity: 0;
-    }
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
+.flag {
+  width: 50px;
+  height: auto;
+}
 
-    .brand {
-      text-align: center;
-      margin-bottom: 18px;
-    }
-    .brand h1 { margin: 0; font-size: 22px; }
-    .subtitle { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+.nav-bar {
+  background-color: #07162d;
+  padding: 10px 0;
+}
 
-    main {
-      padding: 22px;
-    }
+.nav-bar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
 
-    label {
-      display: block;
-      margin: 16px 0 6px;
-      font-weight: 600;
-      font-size: 13px;
-    }
+.nav-bar li {
+  margin: 0 15px;
+}
 
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    input[type="date"],
-    select,
-    textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      font-size: 14px;
-    }
+.nav-bar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
 
-    .row { display: flex; gap: 10px; align-items: center; }
-    .row select { flex: 1; max-width: 120px; }
-    .row input { flex: 3; }
+.hero-img {
+  width: 100%;
+  display: block;
+}
 
-    .button-group {
-      display:flex;
-      gap: 10px;
-      margin-top:18px;
-    }
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
 
-    button {
-      cursor:pointer;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 18px;
-      font-weight: 700;
-      font-size: 14px;
-    }
+.brand {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-    .btn-auth {
-      background: var(--accent);
-      color: #fff;
-      flex: 1;
-      transition: background-color 0.3s ease;
-    }
-    .btn-auth:hover {
-      background: var(--accent-2);
-    }
+.subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+}
 
-    .btn-back {
-      background: #e8e8e8;
-      color: #222;
-      flex: 1;
-    }
+form label {
+  font-weight: 600;
+  margin-top: 1rem;
+  display: block;
+}
 
-    .footer, footer { text-align:center; color:var(--muted); margin-top:12px; font-size:13px; }
+form input,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
 
-    /* Header styles */
-    .top-bar {
-      background-color: #0b1d3a;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-    }
-    .flag {
-      width: 50px;
-      height: auto;
-    }
-    .nav-bar {
-      background-color: #07162d;
-      padding: 10px 0;
-    }
-    .nav-bar ul {
-      display: flex;
-      list-style: none;
-      justify-content: center;
-      margin: 0;
-      padding: 0;
-    }
-    .nav-bar li {
-      margin: 0 15px;
-    }
-    .nav-bar a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-    .nav-bar a:hover {
-      color: #f0ad4e;
-    }
+.row {
+  display: flex;
+  gap: 10px;
+}
 
-    .hero-img {
-      width: 100%;
-      height: auto;
-      display: block;
-      margin-top: 0;
-    }
+.row select {
+  flex: 1;
+}
+.row input {
+  flex: 3;
+}
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #0b1d3a;
-      color: white;
-    }
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
 
-    /* Responsive */
-    @media (max-width: 720px) {
-      .container { padding: 12px; }
-      .row { flex-direction: column; }
-      .row select { max-width: 100%; }
-      .row input { flex: 1; }
-      .nav-bar ul {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .nav-bar li {
-        margin: 5px 10px;
-      }
-    }
-  </style>
-</head>
-<body>
+.btn-auth {
+  flex: 1;
+  background-color: var(--primary);
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  <div class="background-animated"></div>
+.btn-auth:hover {
+  background-color: var(--highlight);
+  color: black;
+}
 
-  <header>
-    <div class="top-bar">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Flag_of_Eswatini.svg/1200px-Flag_of_Eswatini.svg.png" alt="Eswatini Flag" class="flag" />
-      <h1>Kingdom of Eswatini</h1>
-      <div class="social-icons">
-        <a href="#" style="color:white; margin-left:10px; font-weight:700; text-decoration:none;">FB</a>
-        <a href="#" style="color:white; margin-left:10px; font-weight:700; text-decoration:none;">X</a>
-        <a href="#" style="color:white; margin-left:10px; font-weight:700; text-decoration:none;">YT</a>
-        <a href="#" style="color:white; margin-left:10px; font-weight:700; text-decoration:none;">IG</a>
-      </div>
-    </div>
-    <nav class="nav-bar">
-      <ul>
-        <li><a href="#">HOME</a></li>
-        <li><a href="#">ABOUT US</a></li>
-        <li><a href="#">MINISTRIES</a></li>
-        <li><a href="#">E-SERVICES</a></li>
-        <li><a href="#">DOCUMENTS</a></li>
-        <li><a href="#">TENDERS</a></li>
-        <li><a href="#">JOBS</a></li>
-      </ul>
-    </nav>
-  </header>
+.btn-back {
+  flex: 1;
+  background-color: #ddd;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  <section class="hero">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Swazi_Government_Building.jpg" alt="Government Building" class="hero-img" />
-  </section>
-
-  <div class="container">
-    <header class="brand">
-      <h1>Appointment Booking</h1>
-      <p class="subtitle">Please capture your details as they appear on your identity document.</p>
-    </header>
-
-    <main>
-      <form id="bookingForm" novalidate>
-        <label for="id_number">ID Number</label>
-        <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
-
-        <label for="forenames">Full Forenames *</label>
-        <input id="forenames" name="forenames" type="text" required />
-
-        <label for="surname">Surname *</label>
-        <input id="surname" name="surname" type="text" required />
-
-        <label>Cellphone Number *</label>
-        <div class="row">
-          <select id="dialing_code" name="dialing_code" required>
-            <option value="+268">+268 (Eswatini)</option>
-            <option value="+27">+27 (South Africa)</option>
-            <option value="+254">+254 (Kenya)</option>
-            <option value="+233">+233 (Ghana)</option>
-            <option value="+234">+234 (Nigeria)</option>
-          </select>
-          <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
-        </div>
-
-        <label>Confirm Cellphone Number *</label>
-        <div class="row">
-          <select id="confirm_dialing_code" name="confirm_dialing_code" required>
-            <option value="+268">+268 (Eswatini)</option>
-            <option value="+27">+27 (South Africa)</option>
-            <option value="+254">+254 (Kenya)</option>
-            <option value="+233">+233 (Ghana)</option>
-            <option value="+234">+234 (Nigeria)</option>
-          </select>
-          <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" required />
-        </div>
-
-        <label for="email">E-mail (optional)</label>
-        <input id="email" name="email" type="email" />
-
-        <label for="confirm_email">Confirm E-mail</label>
-        <input id="confirm_email" name="confirm_email" type="email" />
-
-        <div class="button-group">
-          <button type="submit" class="btn-auth">Authenticate</button>
-          <button type="button" class="btn-back" onclick="history.back()">Back</button>
-        </div>
-      </form>
-    </main>
-  </div>
-
-  <footer>
-    <p>&copy; Kingdom of Eswatini Government</p>
-  </footer>
-
-  <script>
-    // Save data to localStorage helper
-    function saveToStorage(key, data) {
-      localStorage.setItem(key, JSON.stringify(data));
-    }
-
-    // Form submission and validation
-    const form = document.getElementById('bookingForm');
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const id_number = document.getElementById('id_number').value.trim();
-      const forenames = document.getElementById('forenames').value.trim();
-      const surname = document.getElementById('surname').value.trim();
-      const dialing_code = document.getElementById('dialing_code').value;
-      const cellphone = document.getElementById('cellphone').value.trim();
-      const confirm_dialing_code = document.getElementById('confirm_dialing_code').value;
-      const confirm_cellphone = document.getElementById('confirm_cellphone').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const confirm_email = document.getElementById('confirm_email').value.trim();
-
-      if (!id_number || !forenames || !surname || !cellphone || !confirm_cellphone) {
-        alert('Please complete all required fields.');
-        return;
-      }
-
-      if (dialing_code !== confirm_dialing_code || cellphone !== confirm_cellphone) {
-        alert('Cellphone numbers or dialing codes do not match.');
-        return;
-      }
-
-      if (email && email !== confirm_email) {
-        alert('Emails do not match.');
-        return;
-      }
-
-      const formData = {
-        id_number,
-        forenames,
-        surname,
-        dialing_code,
-        cellphone,
-        email,
-      };
-
-      saveToStorage('bookingFormData', formData);
-
-      // Redirect to the next page
-      window.location.href = 'select-office.html';
-    });
-  </script>
-
-</body>
-</html>
+footer {
+  background-color: var(--primary);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
