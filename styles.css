@@ -1,61 +1,96 @@
-<script>
-  const form = document.getElementById('bookingForm');
+:root {
+  --card: #ffffff;
+  --muted: #666;
+  --accent: #0a6b3b;
+  --accent-2: #2a8a55;
+  --danger: #c23;
+}
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+/* Reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
 
-    // Collect values
-    const idNumber = form.id_number.value.trim();
-    const forenames = form.forenames.value.trim();
-    const surname = form.surname.value.trim();
-    const dialingCode = form.dialing_code.value;
-    const cellphone = form.cellphone.value.trim();
-    const confirmDialingCode = form.confirm_dialing_code.value;
-    const confirmCellphone = form.confirm_cellphone.value.trim();
-    const email = form.email.value.trim();
-    const confirmEmail = form.confirm_email.value.trim();
+/* Page base */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, #f5f7fb 0%, #e9eefb 100%);
+  color: #222;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
 
-    // Basic validation
-    if (!idNumber || !forenames || !surname || !cellphone || !confirmCellphone) {
-      alert("Please fill in all required fields.");
-      return;
-    }
+/* watermark background (uses swazi-coat.png from repo root) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url('swazi-coat.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 300px 300px;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+}
 
-    if (cellphone !== confirmCellphone || dialingCode !== confirmDialingCode) {
-      alert("Cellphone numbers do not match.");
-      return;
-    }
+/* layout */
+header, main, footer { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-    if (email && email !== confirmEmail) {
-      alert("Emails do not match.");
-      return;
-    }
+.top-bar {
+  background-color: #0b1d3a;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  gap: 10px;
+}
+.flag { width: 50px; height: auto; }
+.top-bar h1 { margin: 0; font-weight:700; font-size:1.2rem; flex:1; text-align:center; }
 
-    // TODO: Call backend authentication endpoint
-    // Example placeholder:
-    fetch("https://your-backend-url.com/auth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id_number: idNumber,
-        forenames,
-        surname,
-        phone: dialingCode + cellphone,
-        email,
-      }),
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        // Redirect to next step page
-        window.location.href = "next-step.html";
-      } else {
-        alert("Authentication failed. Please try again.");
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Server error. Please try again later.");
-    });
-  });
-</script>
+.nav-bar { background-color: #07162d; padding: 10px 0; margin-top:10px; box-shadow: inset 0 -3px 6px rgba(0,0,0,0.15); }
+.nav-bar ul { display:flex; list-style:none; justify-content:center; gap:18px; margin:0; padding:0; flex-wrap:wrap;}
+.nav-bar a { color:white; text-decoration:none; padding:6px 10px; border-radius:4px; font-weight:600; }
+
+.container {
+  max-width: 700px;
+  margin: 2rem auto 3rem;
+  padding: 2rem;
+  background: var(--card);
+  border-radius: 10px;
+  box-shadow: 0 6px 22px rgba(15, 23, 42, 0.08);
+  position: relative;
+}
+
+.brand { text-align:center; margin-bottom:1rem; }
+.brand h1 { color: var(--accent-2); font-size:1.6rem; margin-bottom:6px; }
+.brand .subtitle { color:var(--muted); }
+
+/* form */
+form label { display:block; font-weight:600; margin-bottom:6px; margin-top:10px; }
+form input, form select {
+  width:100%; padding:10px 12px; margin-bottom:6px; border-radius:6px; border:1px solid #ddd; font-size:1rem;
+}
+form input:focus, form select:focus { border-color:var(--accent); box-shadow:0 0 6px rgba(42,138,85,0.12); outline:none; }
+
+.row { display:flex; gap:10px; align-items:center; }
+.row select { flex:0 0 130px; }
+.row input { flex:1; }
+
+/* buttons */
+.button-group { display:flex; gap:10px; margin-top:1rem; }
+button { cursor:pointer; border:none; border-radius:8px; padding:12px 18px; font-weight:700; font-size:1rem; }
+.btn-auth { background:var(--accent); color:white; flex:1; }
+.btn-back { background:#eee; color:#222; flex:1; }
+.btn-auth:hover { background:var(--accent-2); }
+
+/* footer */
+footer { text-align:center; padding:20px; background-color:#0b1d3a; color:white; font-size:0.9rem; position:relative; bottom:0; width:100%; }
+
+/* responsiveness */
+@media (max-width:700px){
+  .row { flex-direction:column; }
+  .row select, .row input { width:100%; flex:none; }
+  .top-bar { flex-direction:column; gap:10px; text-align:center; }
+  .nav-bar ul { flex-direction:column; gap:8px; padding:10px; align-items:center; }
+}
