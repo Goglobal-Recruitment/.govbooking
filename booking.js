@@ -4,7 +4,6 @@ const form = document.getElementById('bookingForm');
 function showAlert(msg) {
   alert(msg);
 }
-
 function isValidEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
