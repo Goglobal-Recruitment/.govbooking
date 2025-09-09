@@ -1,39 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booking</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Appointment — Enter Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Watermark Background -->
-  <div class="watermark"></div>
 
-  <!-- Booking Form -->
-  <div class="booking-container animate-fade">
-    <h1 class="animate-slide">Book an Appointment</h1>
-    <form id="bookingForm">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" required pattern="[A-Za-z\s]+">
-
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
-
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" name="phone" required pattern="[0-9]+">
-
-      <label for="date">Select Date</label>
-      <input type="date" id="date" name="date" required>
-
-      <label for="time">Select Time</label>
-      <select id="time" name="time" required></select>
-
-      <button type="button" id="authButton" class="btn-auth">Authenticate</button>
-      <button type="submit" id="submitButton" disabled class="btn-submit">Submit</button>
-    </form>
+<header>
+  <div class="top-bar">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Flag_of_Eswatini.svg/1200px-Flag_of_Eswatini.svg.png" alt="Eswatini Flag" class="flag" />
+    <h1>Kingdom of Eswatini</h1>
+    <nav class="social-icons">
+      <a href="#" aria-label="Facebook">FB</a>
+      <a href="#" aria-label="Twitter">X</a>
+      <a href="#" aria-label="YouTube">YT</a>
+      <a href="#" aria-label="Instagram">IG</a>
+    </nav>
   </div>
 
-  <script src="booking.js"></script>
+  <nav class="nav-bar">
+    <ul>
+      <li><a href="https://www.gov.sz" target="_blank" rel="noopener">HOME</a></li>
+      <li><a href="https://www.gov.sz/index.php/about-us" target="_blank" rel="noopener">ABOUT US</a></li>
+      <li><a href="https://www.gov.sz/index.php/ministry" target="_blank" rel="noopener">MINISTRIES</a></li>
+      <li><a href="https://www.gov.sz/index.php/e-services" target="_blank" rel="noopener">E-SERVICES</a></li>
+      <li><a href="https://www.gov.sz/index.php/documents" target="_blank" rel="noopener">DOCUMENTS</a></li>
+      <li><a href="https://www.gov.sz/index.php/tenders" target="_blank" rel="noopener">TENDERS</a></li>
+      <li><a href="https://www.gov.sz/index.php/jobs" target="_blank" rel="noopener">JOBS</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="container">
+  <header class="brand">
+    <h1>Appointment Booking</h1>
+    <p class="subtitle">Please capture your details as they appear on your identity document.</p>
+  </header>
+
+  <form id="bookingForm" novalidate>
+    <label for="id_number">ID Number *</label>
+    <input id="id_number" name="id_number" type="text" inputmode="numeric" required />
+
+    <label for="forenames">Full Forenames *</label>
+    <input id="forenames" name="forenames" type="text" required />
+
+    <label for="surname">Surname *</label>
+    <input id="surname" name="surname" type="text" required />
+
+    <label>Cellphone Number *</label>
+    <div class="row">
+      <select id="dialing_code" name="dialing_code" required>
+        <option value="+268">+268 (Eswatini)</option>
+        <option value="+27">+27 (South Africa)</option>
+        <option value="+254">+254 (Kenya)</option>
+        <option value="+233">+233 (Ghana)</option>
+        <option value="+234">+234 (Nigeria)</option>
+      </select>
+      <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
+    </div>
+
+    <label>Confirm Cellphone Number *</label>
+    <div class="row">
+      <select id="confirm_dialing_code" name="confirm_dialing_code" required>
+        <option value="+268">+268 (Eswatini)</option>
+        <option value="+27">+27 (South Africa)</option>
+        <option value="+254">+254 (Kenya)</option>
+        <option value="+233">+233 (Ghana)</option>
+        <option value="+234">+234 (Nigeria)</option>
+      </select>
+      <input id="confirm_cellphone" name="confirm_cellphone" type="tel" inputmode="tel" required />
+    </div>
+
+    <label for="email">E-mail (optional)</label>
+    <input id="email" name="email" type="email" />
+
+    <label for="confirm_email">Confirm E-mail</label>
+    <input id="confirm_email" name="confirm_email" type="email" />
+
+    <div class="button-group">
+      <button type="submit" class="btn-auth">Authenticate & Continue</button>
+      <button type="button" class="btn-back" onclick="history.back()">Back</button>
+    </div>
+  </form>
+</main>
+
+<footer>
+  <p>&copy; Kingdom of Eswatini Government</p>
+</footer>
+
+<script src="booking.js"></script>
 </body>
 </html>
