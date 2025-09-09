@@ -13,10 +13,29 @@ html, body { height: 100%; }
 /* Page base */
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(180deg, #f5f7fb 0%, #e9eefb 100%);
+
+  /* Background image */
+  background-image: url('9bee7398-5857-4911-8fc9-2a2260769a90.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  /* Optional overlay for better readability */
+  position: relative;
   color: #222;
   -webkit-font-smoothing: antialiased;
-  position: relative;
+  min-height: 100vh;
+}
+
+/* Add a subtle dark overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3); /* Adjust opacity as needed */
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* watermark background (uses swazi-coat.png from repo root) */
