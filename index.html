@@ -353,3 +353,122 @@
   </script>
 </body>
 </html>
+
+<!-- ✅ Excel-style booking storage + duplicate check logic -->
+<script>
+  // Utility: Get stored booking data
+  function getStoredBookings() {
+    return JSON.parse(localStorage.getItem("bookingData") || "[]");
+  }
+
+  // Utility: Save booking data
+  function saveBookingData(data) {
+    localStorage.setItem("bookingData", JSON.stringify(data));
+  }
+
+  // ✅ Intercept form submission and prevent duplicate ID numbers
+  function goToSummary(event) {
+    event.preventDefault();
+    const form = document.getElementById('bookingForm');
+    let allValid = true;
+    const processedRadioNames = {};
+
+    form.querySelectorAll('input[required], select[required]').forEach(el => {
+      el.style.borderColor = '#ccc';
+      if (el.type === 'radio') {
+        if (processedRadioNames[el.name]) return;
+        processedRadioNames[el.name] = true;
+        const radios = form.querySelectorAll(`input[name="${el.name}"]`);
+        const checked = Array.from(radios).some(r => r.checked);
+        if (!checked) {
+          radios.forEach(r => r.parentElement.style.color = 'red');
+          allValid = false;
+        } else {
+          radios.forEach(r => r.parentElement.style.color = 'black');
+        }
+      } else {
+        if (!el.value) {
+          el.style.borderColor = 'red';
+          allValid = false;
+        }
+      }
+    });
+
+    if (!allValid) {
+      showPopup("Complete all fields.", "warning");
+      return false;
+    }
+
+    const id = document.getElementById("id_number").value;
+    const bookings = getStoredBookings();
+    const existing = bookings.find(b => b.id_number === id);
+
+    if (existing) {
+      showPopup("Booking already exists for this ID number. Redirecting...", "warning");
+      setTimeout(() => {
+        window.location.href = "summary.html";
+      }, 1000);
+      return false;
+    }
+
+    const formData = {};
+    fieldsToSave.forEach(name => {
+      if (name === "gender") {
+        const checked = form.querySelector('input[name="gender"]:checked');
+        if (checked) formData["gender"] = checked.value;
+        return;
+      }
+      const el = document.getElementById(name);
+      if (el) formData[name] = el.value;
+    });
+
+    bookings.push(formData);
+    saveBookingData(bookings);
+
+    // Store current form to localStorage (for summary page)
+    Object.keys(formData).forEach(key => {
+      localStorage.setItem(key, formData[key]);
+    });
+
+    localStorage.setItem("hasBooking", "true");
+    showPopup("Booking saved. Redirecting to summary...", "success");
+    setTimeout(() => {
+      window.location.href = "summary.html";
+    }, 700);
+    return false;
+  }
+  <!-- Optional: Upload/Download Booking Data -->
+<div style="margin-top: 20px; text-align: center;">
+  <button onclick="downloadBookings()">📥 Download Bookings</button>
+  <input type="file" accept=".json" onchange="uploadBookings(this.files[0])" />
+</div>
+
+
+  // ✅ Optional: Download/Upload Booking Data
+  window.downloadBookings = () => {
+    const data = localStorage.getItem("bookingData") || "[]";
+    const blob = new Blob([data], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "booking_data.json";
+    a.click();
+  };
+
+  window.uploadBookings = (file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const bookings = JSON.parse(reader.result);
+        if (Array.isArray(bookings)) {
+          saveBookingData(bookings);
+          showPopup("Booking data uploaded successfully.", "success");
+        } else {
+          showPopup("Invalid booking file format.", "warning");
+        }
+      } catch {
+        showPopup("Error reading file.", "warning");
+      }
+    };
+    reader.readAsText(file);
+  };
+</script>
