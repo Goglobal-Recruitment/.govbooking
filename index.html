@@ -1,202 +1,92 @@
-<script>
-  /***** Custom popup (replaces alert()) *****/
-  function showPopup(message, type = "warning", duration = 3000) {
-    const existing = document.querySelector('.cg-popup');
-    if (existing) existing.remove();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Appointment — Enter Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+<nav class="nav-bar">
+  <ul>
+<li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">HOME</a></li>
+<li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">ABOUT US</a></li>
+<li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">E-SERVICES</a></li>
+<li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">DOCUMENTS</a></li>
 
-    const popup = document.createElement('div');
-    popup.className = 'cg-popup';
-    popup.style.background = type === 'success' ? '#d4edda' : '#fff3cd';
-    popup.style.color = type === 'success' ? '#155724' : '#856404';
-    popup.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #ffeeba';
-    popup.innerHTML = `${type === 'success' ? '✅' : '⚠️'} ${message}`;
-    document.body.appendChild(popup);
-    setTimeout(() => popup.remove(), duration);
-  }
+   </ul>
+</nav>
+</header>
 
-  /***** Country & office mappings *****/
-  const countryLocations = {
-    'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
-    'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
-    'Kenya': ['Nairobi', 'Mombasa', 'Kisumu'],
-    'Ghana': ['Accra', 'Kumasi', 'Tamale'],
-    'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt'],
-  };
+<main class="container">
+  <header class="brand">
+    <h1>Appointment Booking</h1>
+    <p class="subtitle">Please capture your details as they appear on your identity document.</p>
+  </header>
 
-  const officeLocations = {
-    'Mbabane': ['Main Office', 'Regional Office 1', 'Regional Office 2'],
-    'Manzini': ['Main Office', 'Branch 1', 'Branch 2'],
-    'Lobamba': ['Main Office'],
-    'Pretoria': ['Main Office', 'Branch 1', 'Branch 2'],
-    'Johannesburg': ['Main Office', 'Branch 1'],
-    'Cape Town': ['Main Office'],
-    'Nairobi': ['Main Office', 'Branch 1'],
-    'Mombasa': ['Main Office'],
-    'Kisumu': ['Branch 1'],
-    'Accra': ['Main Office', 'Branch 1'],
-    'Kumasi': ['Branch 1'],
-    'Tamale': ['Branch 1'],
-    'Lagos': ['Main Office', 'Branch 1', 'Branch 2'],
-    'Abuja': ['Main Office'],
-    'Port Harcourt': ['Branch 1'],
-  };
+  <form id="bookingForm" novalidate>
+    <label for="id_number">ID Number *</label>
+    <input id="id_number" name="id_number" type="text" required />
 
-  function updateLocations() {
-    const country = document.getElementById('country').value;
-    const locationSelect = document.getElementById('location');
-    const officeSelect = document.getElementById('office');
+    <label for="forenames">Full Forenames *</label>
+    <input id="forenames" name="forenames" type="text" required />
 
-    locationSelect.innerHTML = '<option value="">Select Location</option>';
-    officeSelect.innerHTML = '<option value="">Select Office</option>';
+    <label for="surname">Surname *</label>
+    <input id="surname" name="surname" type="text" required />
 
-    if (countryLocations[country]) {
-      countryLocations[country].forEach(location => {
-        const option = document.createElement('option');
-        option.value = location;
-        option.textContent = location;
-        locationSelect.appendChild(option);
-      });
-    }
-  }
+    <label>Cellphone Number *</label>
+    <div class="row">
+      <select id="dialing_code" name="dialing_code" required>
+        <option value="+268">+268 (Eswatini)</option>
+        <option value="+27">+27 (South Africa)</option>
+        <option value="+254">+254 (Kenya)</option>
+        <option value="+233">+233 (Ghana)</option>
+        <option value="+234">+234 (Nigeria)</option>
+      </select>
+      <input id="cellphone" name="cellphone" type="tel" inputmode="tel" placeholder="e.g. 77123456" required />
+    </div>
 
-  function updateOffices() {
-    const location = document.getElementById('location').value;
-    const officeSelect = document.getElementById('office');
-    officeSelect.innerHTML = '<option value="">Select Office</option>';
+    <label for="email">E-mail (optional)</label>
+    <input id="email" name="email" type="email" />
 
-    if (officeLocations[location]) {
-      officeLocations[location].forEach(office => {
-        const option = document.createElement('option');
-        option.value = office;
-        option.textContent = office;
-        officeSelect.appendChild(option);
-      });
-    }
-  }
+    <!-- New Date Picker -->
+    <label for="appointment_date">Appointment Date *</label>
+    <input
+      id="appointment_date"
+      name="appointment_date"
+      type="date"
+      required
+      min="2025-10-28"
+      max="2026-10-28"
+    />
 
-  /***** Date restrictions: disable September, weekends, public holidays *****/
-  const publicHolidays = [
-    "2025-01-01",
-    "2025-03-21",
-    "2025-04-18",
-    "2025-05-01",
-    "2025-06-16",
-    "2025-12-25",
-    "2025-12-26"
-  ];
+    <!-- New Time Slot Dropdown -->
+    <label for="appointment_time">Appointment Time *</label>
+    <select id="appointment_time" name="appointment_time" required>
+      <option value="">-- Select a time slot --</option>
+      <option value="08:00-09:00">8am - 9am</option>
+      <option value="10:00-11:00">10am - 11am</option>
+      <option value="12:00-13:00">12pm - 1pm</option>
+      <option value="13:00-14:00">1pm - 2pm</option>
+      <option value="14:00-15:00">2pm - 3pm</option>
+      <option value="15:00-16:00">3pm - 4pm</option>
+    </select>
 
-  const dateInput = document.getElementById("appointment_date");
-  dateInput.addEventListener("change", () => {
-    const val = dateInput.value;
-    if (!val) return;
-    const chosen = new Date(val + 'T00:00:00');
-    const month = chosen.getMonth();
-    const day = chosen.getDay();
+    <div class="button-group">
+      <button type="submit" class="btn-auth">Submit</button>
+      <button type="button" class="btn-back" onclick="history.back()">Back</button>
+    </div>
+  </form>
+</main>
 
-    if (month === 8 || day === 0 || day === 6 || publicHolidays.includes(val)) {
-      showPopup("Selected date is not available. Please choose another date.", "warning");
-      dateInput.value = "";
-    }
-  });
+<footer>
+  <p>&copy; Kingdom of Eswatini Government</p>
+</footer>
 
-  /***** Validation, save to localStorage, and navigation behavior *****/
-  const fieldsToSave = [
-    'id_number','forenames','surname','country','location','office',
-    'appointment_date','appointment_time','gender'
-  ];
+<script src="booking.js"></script>
+</body>
+</html>
+<div id="bookingSummary"></div>
 
-  window.addEventListener("load", () => {
-    if (localStorage.getItem("hasBooking") === "true") {
-      window.location.href = "summary.html";
-    }
-  });
-
-  // Utility: Get stored booking data
-  function getStoredBookings() {
-    return JSON.parse(localStorage.getItem("bookingData") || "[]");
-  }
-
-  // Utility: Save booking data
-  function saveBookingData(data) {
-    localStorage.setItem("bookingData", JSON.stringify(data));
-  }
-
-  function goToSummary(event) {
-    event.preventDefault();
-    const form = document.getElementById('bookingForm');
-    let allValid = true;
-    const processedRadioNames = {};
-
-    // Reset previous validation styles
-    form.querySelectorAll('input, select').forEach(el => {
-      el.style.borderColor = '#ccc';
-      if(el.type === 'radio') {
-        el.parentElement.style.color = 'black';
-      }
-    });
-
-    // Validate required fields
-    form.querySelectorAll('input[required], select[required]').forEach(el => {
-      if (el.type === 'radio') {
-        if (processedRadioNames[el.name]) return; // only once per radio group
-        processedRadioNames[el.name] = true;
-        const radios = form.querySelectorAll(`input[name="${el.name}"]`);
-        const checked = Array.from(radios).some(r => r.checked);
-        if (!checked) {
-          radios.forEach(r => r.parentElement.style.color = 'red');
-          allValid = false;
-        }
-      } else {
-        if (!el.value.trim()) {
-          el.style.borderColor = 'red';
-          allValid = false;
-        }
-      }
-    });
-
-    if (!allValid) {
-      showPopup("Please complete all required fields.", "warning");
-      return false;
-    }
-
-    const id = document.getElementById("id_number").value.trim();
-    const bookings = getStoredBookings();
-    const existing = bookings.find(b => b.id_number === id);
-
-    if (existing) {
-      showPopup("Booking already exists for this ID number. Redirecting...", "warning");
-      setTimeout(() => {
-        window.location.href = "summary.html";
-      }, 1500);
-      return false;
-    }
-
-    // Gather form data
-    const formData = {};
-    fieldsToSave.forEach(name => {
-      if (name === "gender") {
-        const checked = form.querySelector('input[name="gender"]:checked');
-        if (checked) formData["gender"] = checked.value;
-      } else {
-        const el = form.elements[name];
-        if (el) {
-          formData[name] = el.value.trim();
-        }
-      }
-    });
-
-    // Save new booking to localStorage
-    bookings.push(formData);
-    saveBookingData(bookings);
-    localStorage.setItem("hasBooking", "true");
-
-    showPopup("Booking saved successfully!", "success");
-
-    // Redirect to summary page after short delay
-    setTimeout(() => {
-      window.location.href = "summary.html";
-    }, 1500);
-
-    return false;
-  }
-</script>
