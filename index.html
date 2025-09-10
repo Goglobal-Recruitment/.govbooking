@@ -209,85 +209,41 @@
   </main>
 
   <script>
+    // Public holidays for South Africa (example list for now, you can expand it as needed)
+    const publicHolidays = [
+      '2025-12-16',  // Example
+      '2025-12-25'   // Example
+    ];
+
+    // Function to disable weekends, September, and public holidays
+    const disableDates = (date) => {
+      const day = date.getDay();
+      const month = date.getMonth();
+      const dateString = date.toISOString().split('T')[0];
+
+      // Disable weekends (0 is Sunday, 6 is Saturday)
+      if (day === 0 || day === 6) return true;
+
+      // Disable September (month is 8)
+      if (month === 8) return true;
+
+      // Disable public holidays
+      if (publicHolidays.includes(dateString)) return true;
+
+      return false;
+    };
+
+    // Date picker with disabled dates
+    const appointmentDate = document.getElementById('appointment_date');
+    appointmentDate.addEventListener('input', (event) => {
+      const selectedDate = new Date(event.target.value);
+      if (disableDates(selectedDate)) {
+        event.target.setCustomValidity("This date is not available.");
+      } else {
+        event.target.setCustomValidity("");
+      }
+    });
+
     // Data structure to hold country, location, and office info
     const countryLocations = {
-      'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
-      'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
-      'Kenya': ['Nairobi', 'Mombasa', 'Kisumu'],
-      'Ghana': ['Accra', 'Kumasi', 'Tamale'],
-      'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt'],
-    };
-
-    const officeLocations = {
-      'Mbabane': ['Main Office', 'Regional Office 1', 'Regional Office 2'],
-      'Manzini': ['Main Office', 'Branch 1', 'Branch 2'],
-      'Lobamba': ['Main Office'],
-      'Pretoria': ['Main Office', 'Branch 1', 'Branch 2'],
-      'Johannesburg': ['Main Office', 'Branch 1'],
-      'Cape Town': ['Main Office'],
-      'Nairobi': ['Main Office', 'Branch 1'],
-      'Mombasa': ['Main Office'],
-      'Kisumu': ['Branch 1'],
-      'Accra': ['Main Office', 'Branch 1'],
-      'Kumasi': ['Branch 1'],
-      'Tamale': ['Branch 1'],
-      'Lagos': ['Main Office', 'Branch 1', 'Branch 2'],
-      'Abuja': ['Main Office'],
-      'Port Harcourt': ['Branch 1'],
-    };
-
-    // Update locations based on selected country
-    function updateLocations() {
-      const country = document.getElementById('country').value;
-      const locationSelect = document.getElementById('location');
-      const officeSelect = document.getElementById('office');
-
-      // Clear previous options
-      locationSelect.innerHTML = '<option value="">Select Location</option>';
-      officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-      if (countryLocations[country]) {
-        // Populate locations for the selected country
-        countryLocations[country].forEach(location => {
-          const option = document.createElement('option');
-          option.value = location;
-          option.textContent = location;
-          locationSelect.appendChild(option);
-        });
-      }
-    }
-
-    // Update offices based on selected location
-    function updateOffices() {
-      const location = document.getElementById('location').value;
-      const officeSelect = document.getElementById('office');
-
-      // Clear previous office options
-      officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-      if (officeLocations[location]) {
-        // Populate offices for the selected location
-        officeLocations[location].forEach(office => {
-          const option = document.createElement('option');
-          option.value = office;
-          option.textContent = office;
-          officeSelect.appendChild(option);
-        });
-      }
-    }
-
-    // Function to handle form submission and redirect to summary page
-    function goToSummary(event) {
-      event.preventDefault();
-      // Validate that all fields are filled
-      const form = document.getElementById('bookingForm');
-      if (!form.checkValidity()) {
-        alert('Please fill in all the required fields.');
-        return false;
-      }
-      window.location.href = "summary.html"; // Adjust the URL for the summary page.
-    }
-  </script>
-
-</body>
-</html>
+      'Eswatini': ['Mbabane', 'Manzini', 'Lobamba
