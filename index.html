@@ -282,8 +282,10 @@
       // Validate that all fields are filled
       const form = document.getElementById('bookingForm');
       if (!form.checkValidity()) {
-        alert('Please fill in all the required fields.');
-        return false;
+  alert('Please fill in all details.');
+  return false;
+}
+
       }
       window.location.href = "summary.html"; // Adjust the URL for the summary page.
     }
@@ -291,3 +293,4 @@
 
 </body>
 </html>
+
