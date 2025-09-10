@@ -6,8 +6,61 @@
   <title>Appointment — Enter Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Basic responsive styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      padding: 20px;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .button-group button {
+      margin-right: 10px;
+    }
+
+    /* Responsive form inputs */
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    /* Basic styling for buttons */
+    .btn-auth {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .btn-back {
+      background-color: #f44336;
+      color: white;
+    }
+
+    /* Responsive Media Query */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .button-group {
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
+
 <header>
   <nav class="nav-bar">
     <ul>
@@ -101,7 +154,7 @@
 </footer>
 
 <script>
-// Country and Location Data (replace this with your actual data)
+// Example country, city, and office data structure (expand it with actual data)
 const countryLocations = {
   'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
   'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
@@ -110,7 +163,7 @@ const countryLocations = {
   'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt']
 };
 
-// Office Data for each location
+// Example office locations (expand it with actual offices)
 const officeLocations = {
   'Pretoria': ['Main Office', 'Branch 1', 'Branch 2'],
   'Johannesburg': ['Main Office', 'Branch 1'],
@@ -133,39 +186,4 @@ document.getElementById('country').addEventListener('change', function() {
   const officeSelect = document.getElementById('office');
 
   // Clear previous options
-  locationSelect.innerHTML = '<option value="">Select Location</option>';
-  officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-  if (country && countryLocations[country]) {
-    // Populate location options for selected country
-    countryLocations[country].forEach(location => {
-      const option = document.createElement('option');
-      option.value = location;
-      option.textContent = location;
-      locationSelect.appendChild(option);
-    });
-  }
-});
-
-// Handle location change
-document.getElementById('location').addEventListener('change', function() {
-  const location = this.value;
-  const officeSelect = document.getElementById('office');
-
-  // Clear previous office options
-  officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-  if (location && officeLocations[location]) {
-    // Populate office options for selected location
-    officeLocations[location].forEach(office => {
-      const option = document.createElement('option');
-      option.value = office;
-      option.textContent = office;
-      officeSelect.appendChild(option);
-    });
-  }
-});
-
-</script>
-</body>
-</html>
+  locationSelect.innerHTML = '<option value="">Select Location</option
