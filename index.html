@@ -6,6 +6,7 @@
   <title>Appointment — Enter Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <style>
+    /* Keep your original styles - unchanged aside from spacing */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
@@ -60,6 +61,20 @@
       .button-group { flex-direction: column; }
       .button-group button { width: 100%; margin-bottom: 10px; }
     }
+
+    /* small style for custom popup so it doesn't clash with page */
+    .cg-popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 18px;
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+      font-family: 'Poppins', sans-serif;
+      z-index: 10000;
+      font-size: 15px;
+    }
   </style>
 </head>
 <body>
@@ -75,14 +90,18 @@
         <label for="id_number">ID Number *</label>
         <input id="id_number" name="id_number" type="text" required />
       </div>
+
       <div class="form-group">
         <label for="forenames">Full Forenames *</label>
         <input id="forenames" name="forenames" type="text" required />
       </div>
+
       <div class="form-group">
         <label for="surname">Surname *</label>
         <input id="surname" name="surname" type="text" required />
       </div>
+
+      <!-- Country Selection -->
       <div class="form-group">
         <label for="country">Country *</label>
         <select id="country" name="country" required onchange="updateLocations()">
@@ -94,22 +113,30 @@
           <option value="Nigeria">Nigeria</option>
         </select>
       </div>
+
+      <!-- Location Selection -->
       <div class="form-group">
         <label for="location">Location *</label>
         <select id="location" name="location" required onchange="updateOffices()">
           <option value="">Select Location</option>
         </select>
       </div>
+
+      <!-- Office Selection -->
       <div class="form-group">
         <label for="office">Office *</label>
         <select id="office" name="office" required>
           <option value="">Select Office</option>
         </select>
       </div>
+
+      <!-- Appointment Date Picker -->
       <div class="form-group">
         <label for="appointment_date">Appointment Date *</label>
         <input id="appointment_date" name="appointment_date" type="date" required />
       </div>
+
+      <!-- Appointment Time Slot -->
       <div class="form-group">
         <label for="appointment_time">Appointment Time *</label>
         <select id="appointment_time" name="appointment_time" required>
@@ -122,6 +149,8 @@
           <option value="15:00-16:00">3pm - 4pm</option>
         </select>
       </div>
+
+      <!-- Gender Radio Buttons -->
       <div class="form-group">
         <label>Gender *</label>
         <div class="radio-group">
@@ -129,6 +158,8 @@
           <label><input type="radio" name="gender" value="Female" required /> Female</label>
         </div>
       </div>
+
+      <!-- Submit and Back Buttons -->
       <div class="button-group">
         <button type="submit" class="btn-auth">Submit</button>
         <button type="button" class="btn-back" onclick="window.location.href='https://www.gov.sz'">Back to Website</button>
@@ -137,7 +168,23 @@
   </main>
 
   <script>
-    // Country & office mappings
+    /***** Custom popup (replaces alert()) *****/
+    function showPopup(message, type = "warning", duration = 3000) {
+      // remove existing popup if present so messages don't stack unusually
+      const existing = document.querySelector('.cg-popup');
+      if (existing) existing.remove();
+
+      const popup = document.createElement('div');
+      popup.className = 'cg-popup';
+      popup.style.background = type === 'success' ? '#d4edda' : '#fff3cd';
+      popup.style.color = type === 'success' ? '#155724' : '#856404';
+      popup.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #ffeeba';
+      popup.innerHTML = `${type === 'success' ? '✅' : '⚠️'} ${message}`;
+      document.body.appendChild(popup);
+      setTimeout(() => popup.remove(), duration);
+    }
+
+    /***** Country & office mappings (unchanged) *****/
     const countryLocations = {
       'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
       'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
@@ -145,6 +192,7 @@
       'Ghana': ['Accra', 'Kumasi', 'Tamale'],
       'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt'],
     };
+
     const officeLocations = {
       'Mbabane': ['Main Office', 'Regional Office 1', 'Regional Office 2'],
       'Manzini': ['Main Office', 'Branch 1', 'Branch 2'],
@@ -163,36 +211,14 @@
       'Port Harcourt': ['Branch 1'],
     };
 
-    // Public holidays (sample common dates for 2025)
-    const publicHolidays = [
-      "2025-01-01", // New Year
-      "2025-05-01", // Workers Day
-      "2025-06-16", // Youth Day SA
-      "2025-07-20", // Eid al-Adha (example)
-      "2025-12-25", // Christmas
-      "2025-12-26"  // Boxing Day
-    ];
-
-    // Disable weekends, September, public holidays
-    const dateInput = document.getElementById("appointment_date");
-    dateInput.addEventListener("input", () => {
-      const chosen = new Date(dateInput.value);
-      const month = chosen.getMonth(); // 0=Jan
-      const day = chosen.getDay(); // 0=Sun, 6=Sat
-      const iso = dateInput.value;
-
-      if (month === 8 || day === 0 || day === 6 || publicHolidays.includes(iso)) {
-        alert("⚠️ Selected date is not available. Please choose another date.");
-        dateInput.value = "";
-      }
-    });
-
     function updateLocations() {
       const country = document.getElementById('country').value;
       const locationSelect = document.getElementById('location');
       const officeSelect = document.getElementById('office');
+
       locationSelect.innerHTML = '<option value="">Select Location</option>';
       officeSelect.innerHTML = '<option value="">Select Office</option>';
+
       if (countryLocations[country]) {
         countryLocations[country].forEach(location => {
           const option = document.createElement('option');
@@ -207,6 +233,7 @@
       const location = document.getElementById('location').value;
       const officeSelect = document.getElementById('office');
       officeSelect.innerHTML = '<option value="">Select Office</option>';
+
       if (officeLocations[location]) {
         officeLocations[location].forEach(office => {
           const option = document.createElement('option');
@@ -217,14 +244,65 @@
       }
     }
 
+    /***** Date restrictions: grey out all September, weekends and public holidays *****/
+    // NOTE: native <input type="date"> cannot literally "grey out" specific days cross-browser,
+    // but we enforce by disallowing selection and clearing the field if invalid.
+    const publicHolidays = [
+      // A short sample of common/representative public-holiday dates (YYYY-MM-DD).
+      // Add or edit these as you need per country. This list won't affect other pages.
+      "2025-01-01", // New Year
+      "2025-03-21", // Human Rights Day (SA)
+      "2025-04-18", // Good Friday (example)
+      "2025-05-01", // Workers Day
+      "2025-06-16", // Youth Day (SA)
+      "2025-12-25", // Christmas
+      "2025-12-26"  // Boxing Day
+      // You can extend this list for country-specific holidays if required.
+    ];
+
+    const dateInput = document.getElementById("appointment_date");
+    dateInput.addEventListener("change", () => {
+      const val = dateInput.value;
+      if (!val) return;
+      const chosen = new Date(val + 'T00:00:00'); // ensure local parsing
+      const month = chosen.getMonth(); // 0=Jan, so 8 = September
+      const day = chosen.getDay(); // 0=Sun, 6=Sat
+
+      // If month is September (8), or weekend, or in publicHolidays -> reject
+      if (month === 8 || day === 0 || day === 6 || publicHolidays.includes(val)) {
+        showPopup("Selected date is not available. Please choose another date.", "warning");
+        dateInput.value = "";
+      }
+    });
+
+    /***** Validation, save to localStorage, and navigation behavior *****/
+    // Keep a list of fields we want to save to summary (we will only save if field exists).
+    const fieldsToSave = [
+      'id_number','forenames','surname','country','location','office',
+      'appointment_date','appointment_time','gender','cellphone','email','dialing_code'
+    ];
+
+    // If user already has a booking, redirect to summary immediately (prevents rebooking)
+    window.addEventListener("load", () => {
+      if (localStorage.getItem("hasBooking") === "true") {
+        // Immediately send them to summary page (this was requested)
+        window.location.href = "summary.html";
+      }
+    });
+
     function goToSummary(event) {
       event.preventDefault();
       const form = document.getElementById('bookingForm');
       let allValid = true;
 
+      // Avoid double-checking the same radio group
+      const processedRadioNames = {};
+
       form.querySelectorAll('input[required], select[required]').forEach(el => {
-        el.style.borderColor = '#ccc';
+        el.style.borderColor = '#ccc'; // reset
         if (el.type === 'radio') {
+          if (processedRadioNames[el.name]) return;
+          processedRadioNames[el.name] = true;
           const radios = form.querySelectorAll(`input[name="${el.name}"]`);
           const checked = Array.from(radios).some(r => r.checked);
           if (!checked) {
@@ -242,21 +320,36 @@
       });
 
       if (!allValid) {
-        alert('⚠️ Complete all fields.');
+        showPopup("Complete all fields.", "warning");
         return false;
       }
 
-      // Save booking to prevent rebooking
-      localStorage.setItem("hasBooking", "true");
-      window.location.href = 'summary.html';
-    }
+      // Save each field to localStorage if the element exists on the page.
+      fieldsToSave.forEach(name => {
+        // gender handled separately (radio)
+        if (name === 'gender') {
+          const checked = form.querySelector('input[name="gender"]:checked');
+          if (checked) localStorage.setItem('gender', checked.value);
+          return;
+        }
+        const el = document.getElementById(name);
+        if (el) {
+          // If element exists, store the current value (string)
+          localStorage.setItem(name, el.value);
+        }
+      });
 
-    // Prevent rebooking
-    window.addEventListener("load", () => {
-      if (localStorage.getItem("hasBooking") === "true") {
-        window.location.href = "summary.html";
-      }
-    });
+      // Mark that user has a booking to prevent rebooking
+      localStorage.setItem("hasBooking", "true");
+
+      // Show success popup and redirect to summary
+      showPopup("Booking saved. Redirecting to summary...", "success");
+      setTimeout(() => {
+        window.location.href = 'summary.html';
+      }, 700);
+
+      return false;
+    }
   </script>
 </body>
 </html>
