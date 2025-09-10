@@ -61,18 +61,37 @@
       });
     }
   }
+// Form submission handler
+function goToSummary(event) {
+  event.preventDefault();
+  const form = document.getElementById('bookingForm');
+  let allValid = true;
 
-  // Form submission handler
-  function goToSummary(event) {
-    event.preventDefault();
-    const form = document.getElementById('bookingForm');
-
-    if (!form.checkValidity()) {
-      alert('⚠️ Complete all fields.');
-      return false;
+  // Reset borders first
+  Array.from(form.elements).forEach(el => {
+    if (el.tagName === "INPUT" || el.tagName === "SELECT") {
+      el.style.border = "1px solid #ccc";
     }
+  });
 
-    // Redirect when all fields are complete
-    window.location.href = "summary.html"; 
+  // Check validity of each field
+  Array.from(form.elements).forEach(el => {
+    if ((el.hasAttribute("required") && !el.value) || 
+        (el.type === "radio" && el.required && !form.querySelector(`input[name="${el.name}"]:checked`))) {
+      allValid = false;
+      if (el.tagName === "INPUT" || el.tagName === "SELECT") {
+        el.style.border = "2px solid red";
+      }
+    }
+  });
+
+  if (!allValid) {
+    alert('⚠️ Complete all fields.');
+    return false;
   }
-</script>
+
+  // Redirect when all fields are complete
+  window.location.href = "summary.html"; 
+}
+
+ 
