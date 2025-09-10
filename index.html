@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Appointment — Enter Details</title>
+  <title>Booking Form</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <style>
-    /* Your existing CSS code remains unchanged */
+    /* Styling for the page */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background-image: url('images/ha-slide1.png');
+      background-image: url('images/ha-slide1.png'); /* Ensure the image is in the correct folder */
       background-size: cover;
       background-position: center;
     }
@@ -26,18 +26,75 @@
       margin-top: 40px;
     }
 
-    /* Add more of your CSS styles here... */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      font-weight: bold;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .form-group input[type="radio"] {
+      width: auto;
+      display: inline-block;
+    }
+
+    .button-group {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .btn-auth, .btn-back {
+      padding: 10px 20px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-auth {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .btn-back {
+      background-color: #f44336;
+      color: white;
+    }
+
+    /* Styling for the alert pop-up */
+    .alert {
+      display: none;
+      color: red;
+      text-align: center;
+      font-size: 1.2rem;
+      background-color: #f8d7da;
+      padding: 10px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
 
 <main class="container">
   <header class="brand">
-    <h1>Appointment Booking</h1>
-    <p class="subtitle">Please capture your details as they appear on your identity document.</p>
+    <h1>Booking Form</h1>
+    <p class="subtitle">Please enter your details to book an appointment.</p>
   </header>
 
-  <form id="bookingForm" novalidate onsubmit="return goToSummary(event)">
+  <!-- Alert for incomplete fields -->
+  <div id="alert" class="alert">Complete all fields</div>
+
+  <form id="bookingForm" novalidate onsubmit="return validateForm(event)">
     <div class="form-group">
       <label for="id_number">ID Number *</label>
       <input id="id_number" name="id_number" type="text" required />
@@ -82,10 +139,10 @@
       </select>
     </div>
 
-    <!-- Appointment Date Picker -->
+    <!-- Appointment Date Picker (greyed out) -->
     <div class="form-group">
       <label for="appointment_date">Appointment Date *</label>
-      <input id="appointment_date" name="appointment_date" type="date" required />
+      <input id="appointment_date" name="appointment_date" type="date" required disabled />
     </div>
 
     <!-- Appointment Time Slot -->
@@ -114,7 +171,7 @@
     <!-- Submit and Back Buttons -->
     <div class="button-group">
       <button type="submit" class="btn-auth">Submit</button>
-      <button type="button" class="btn-back" onclick="window.location.href='https://www.gov.sz'">Back to Website</button>
+      <button type="button" class="btn-back" onclick="window.location.href='index.html'">Back to Form</button>
     </div>
   </form>
 </main>
@@ -161,58 +218,4 @@
       // Populate locations for the selected country
       countryLocations[country].forEach(location => {
         const option = document.createElement('option');
-        option.value = location;
-        option.textContent = location;
-        locationSelect.appendChild(option);
-      });
-    }
-  }
-
-  // Update offices based on selected location
-  function updateOffices() {
-    const location = document.getElementById('location').value;
-    const officeSelect = document.getElementById('office');
-
-    // Clear previous office options
-    officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-    if (officeLocations[location]) {
-      // Populate offices for the selected location
-      officeLocations[location].forEach(office => {
-        const option = document.createElement('option');
-        option.value = office;
-        option.textContent = office;
-        officeSelect.appendChild(option);
-      });
-    }
-  }
-
-  // Function to handle form submission and redirect to summary page
-  function goToSummary(event) {
-    event.preventDefault(); // Prevent default form submission
-
-    const form = document.getElementById('bookingForm');
-    if (!form.checkValidity()) {
-      // Display the alert with the updated message
-      alert('Complete all fields');
-      return false;
-    }
-
-    // Save form data to sessionStorage
-    sessionStorage.setItem('id_number', document.getElementById('id_number').value);
-    sessionStorage.setItem('forenames', document.getElementById('forenames').value);
-    sessionStorage.setItem('surname', document.getElementById('surname').value);
-    sessionStorage.setItem('country', document.getElementById('country').value);
-    sessionStorage.setItem('location', document.getElementById('location').value);
-    sessionStorage.setItem('office', document.getElementById('office').value);
-    sessionStorage.setItem('appointment_date', document.getElementById('appointment_date').value);
-    sessionStorage.setItem('appointment_time', document.getElementById('appointment_time').value);
-    sessionStorage.setItem('gender', document.querySelector('input[name="gender"]:checked').value);
-
-    // Redirect to the summary page
-    window.location.href = 'summary.html';
-  }
-</script>
-
-</body>
-</html>
+        option.value
