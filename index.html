@@ -6,35 +6,24 @@
   <title>Appointment — Enter Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <style>
-    /* Use the uploaded image as the background */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background-image: url('images/ha-slide1.png'); /* Replace with correct image path or Base64 */
+      background-image: url('images/ha-slide1.png');
       background-size: cover;
       background-position: center;
     }
-
-    /* Container Styling */
     .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 20px;
-      background-color: rgba(255, 255, 255, 0.8); /* Transparency for the container */
+      background-color: rgba(255, 255, 255, 0.8);
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       margin-top: 40px;
     }
-
-    /* Navbar styling */
-    .navbar {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin: 20px 0;
-    }
-
+    .navbar { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
     .navbar a {
       text-decoration: none;
       padding: 10px 20px;
@@ -44,12 +33,7 @@
       font-weight: bold;
       transition: background-color 0.3s ease;
     }
-
-    .navbar a:hover {
-      background-color: #2d85b7;
-    }
-
-    /* Form and Input Styling */
+    .navbar a:hover { background-color: #2d85b7; }
     select, input, label {
       width: 100%;
       padding: 10px;
@@ -57,32 +41,11 @@
       border-radius: 4px;
       border: 1px solid #ccc;
     }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .radio-group {
-      display: flex;
-      gap: 20px;
-      margin: 10px 0;
-    }
-
-    .radio-group label {
-      display: flex;
-      align-items: center;
-    }
-
-    .radio-group input {
-      margin-right: 10px;
-    }
-
-    .button-group {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-
+    .form-group { margin-bottom: 15px; }
+    .radio-group { display: flex; gap: 20px; margin: 10px 0; }
+    .radio-group label { display: flex; align-items: center; }
+    .radio-group input { margin-right: 10px; }
+    .button-group { display: flex; justify-content: space-between; margin-top: 20px; }
     .button-group button {
       padding: 10px 20px;
       border-radius: 4px;
@@ -90,31 +53,12 @@
       cursor: pointer;
       width: 48%;
     }
-
-    .btn-auth {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .btn-back {
-      background-color: #f44336;
-      color: white;
-    }
-
-    /* Responsiveness */
+    .btn-auth { background-color: #4CAF50; color: white; }
+    .btn-back { background-color: #f44336; color: white; }
     @media (max-width: 768px) {
-      .container {
-        padding: 15px;
-      }
-
-      .button-group {
-        flex-direction: column;
-      }
-
-      .button-group button {
-        width: 100%;
-        margin-bottom: 10px;
-      }
+      .container { padding: 15px; }
+      .button-group { flex-direction: column; }
+      .button-group button { width: 100%; margin-bottom: 10px; }
     }
   </style>
 </head>
@@ -131,18 +75,14 @@
         <label for="id_number">ID Number *</label>
         <input id="id_number" name="id_number" type="text" required />
       </div>
-
       <div class="form-group">
         <label for="forenames">Full Forenames *</label>
         <input id="forenames" name="forenames" type="text" required />
       </div>
-
       <div class="form-group">
         <label for="surname">Surname *</label>
         <input id="surname" name="surname" type="text" required />
       </div>
-
-      <!-- Country Selection -->
       <div class="form-group">
         <label for="country">Country *</label>
         <select id="country" name="country" required onchange="updateLocations()">
@@ -154,30 +94,22 @@
           <option value="Nigeria">Nigeria</option>
         </select>
       </div>
-
-      <!-- Location Selection -->
       <div class="form-group">
         <label for="location">Location *</label>
         <select id="location" name="location" required onchange="updateOffices()">
           <option value="">Select Location</option>
         </select>
       </div>
-
-      <!-- Office Selection -->
       <div class="form-group">
         <label for="office">Office *</label>
         <select id="office" name="office" required>
           <option value="">Select Office</option>
         </select>
       </div>
-
-      <!-- Appointment Date Picker -->
       <div class="form-group">
         <label for="appointment_date">Appointment Date *</label>
         <input id="appointment_date" name="appointment_date" type="date" required />
       </div>
-
-      <!-- Appointment Time Slot -->
       <div class="form-group">
         <label for="appointment_time">Appointment Time *</label>
         <select id="appointment_time" name="appointment_time" required>
@@ -190,8 +122,6 @@
           <option value="15:00-16:00">3pm - 4pm</option>
         </select>
       </div>
-
-      <!-- Gender Radio Buttons -->
       <div class="form-group">
         <label>Gender *</label>
         <div class="radio-group">
@@ -199,8 +129,6 @@
           <label><input type="radio" name="gender" value="Female" required /> Female</label>
         </div>
       </div>
-
-      <!-- Submit and Back Buttons -->
       <div class="button-group">
         <button type="submit" class="btn-auth">Submit</button>
         <button type="button" class="btn-back" onclick="window.location.href='https://www.gov.sz'">Back to Website</button>
@@ -209,6 +137,7 @@
   </main>
 
   <script>
+    // Country & office mappings
     const countryLocations = {
       'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
       'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
@@ -216,7 +145,6 @@
       'Ghana': ['Accra', 'Kumasi', 'Tamale'],
       'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt'],
     };
-
     const officeLocations = {
       'Mbabane': ['Main Office', 'Regional Office 1', 'Regional Office 2'],
       'Manzini': ['Main Office', 'Branch 1', 'Branch 2'],
@@ -235,14 +163,36 @@
       'Port Harcourt': ['Branch 1'],
     };
 
+    // Public holidays (sample common dates for 2025)
+    const publicHolidays = [
+      "2025-01-01", // New Year
+      "2025-05-01", // Workers Day
+      "2025-06-16", // Youth Day SA
+      "2025-07-20", // Eid al-Adha (example)
+      "2025-12-25", // Christmas
+      "2025-12-26"  // Boxing Day
+    ];
+
+    // Disable weekends, September, public holidays
+    const dateInput = document.getElementById("appointment_date");
+    dateInput.addEventListener("input", () => {
+      const chosen = new Date(dateInput.value);
+      const month = chosen.getMonth(); // 0=Jan
+      const day = chosen.getDay(); // 0=Sun, 6=Sat
+      const iso = dateInput.value;
+
+      if (month === 8 || day === 0 || day === 6 || publicHolidays.includes(iso)) {
+        alert("⚠️ Selected date is not available. Please choose another date.");
+        dateInput.value = "";
+      }
+    });
+
     function updateLocations() {
       const country = document.getElementById('country').value;
       const locationSelect = document.getElementById('location');
       const officeSelect = document.getElementById('office');
-
       locationSelect.innerHTML = '<option value="">Select Location</option>';
       officeSelect.innerHTML = '<option value="">Select Office</option>';
-
       if (countryLocations[country]) {
         countryLocations[country].forEach(location => {
           const option = document.createElement('option');
@@ -257,7 +207,6 @@
       const location = document.getElementById('location').value;
       const officeSelect = document.getElementById('office');
       officeSelect.innerHTML = '<option value="">Select Office</option>';
-
       if (officeLocations[location]) {
         officeLocations[location].forEach(office => {
           const option = document.createElement('option');
@@ -273,9 +222,8 @@
       const form = document.getElementById('bookingForm');
       let allValid = true;
 
-      // Check required inputs and selects
       form.querySelectorAll('input[required], select[required]').forEach(el => {
-        el.style.borderColor = '#ccc'; // reset
+        el.style.borderColor = '#ccc';
         if (el.type === 'radio') {
           const radios = form.querySelectorAll(`input[name="${el.name}"]`);
           const checked = Array.from(radios).some(r => r.checked);
@@ -298,8 +246,17 @@
         return false;
       }
 
+      // Save booking to prevent rebooking
+      localStorage.setItem("hasBooking", "true");
       window.location.href = 'summary.html';
     }
+
+    // Prevent rebooking
+    window.addEventListener("load", () => {
+      if (localStorage.getItem("hasBooking") === "true") {
+        window.location.href = "summary.html";
+      }
+    });
   </script>
 </body>
 </html>
