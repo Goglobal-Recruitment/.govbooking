@@ -65,26 +65,19 @@
     <label>Location:</label>
     <select id="location" name="location" required>
       <option value="">Select Location</option>
-      <!-- Dynamic locations will be populated based on country -->
     </select>
 
+    <!-- Office Selection based on Location -->
     <label>Office:</label>
     <select id="office" name="office" required>
       <option value="">Select Office</option>
-      <!-- Dynamic offices will be populated based on location -->
     </select>
 
-    <!-- New Date Picker -->
+    <!-- Appointment Date Picker -->
     <label for="appointment_date">Appointment Date *</label>
-    <input
-      id="appointment_date"
-      name="appointment_date"
-      type="date"
-      required
-      min="2025-10-28"
-      max="2026-10-28"
-    />
+    <input id="appointment_date" name="appointment_date" type="date" required min="2025-10-28" max="2026-10-28" />
 
+    <!-- Appointment Time Slot -->
     <label for="appointment_time">Appointment Time *</label>
     <select id="appointment_time" name="appointment_time" required>
       <option value="">-- Select a time slot --</option>
@@ -108,10 +101,6 @@
 </footer>
 
 <script>
-// Simulated stored data
-let bookedAppointments = JSON.parse(localStorage.getItem('bookedAppointments')) || [];
-let usedIdNumbers = JSON.parse(localStorage.getItem('usedIdNumbers')) || [];
-
 // Country and Location Data (replace this with your actual data)
 const countryLocations = {
   'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
@@ -121,7 +110,7 @@ const countryLocations = {
   'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt']
 };
 
-// Office Data for each location (example, replace with actual data)
+// Office Data for each location
 const officeLocations = {
   'Pretoria': ['Main Office', 'Branch 1', 'Branch 2'],
   'Johannesburg': ['Main Office', 'Branch 1'],
@@ -137,17 +126,18 @@ const officeLocations = {
   'Port Harcourt': ['Branch 1']
 };
 
+// Handle country change
 document.getElementById('country').addEventListener('change', function() {
   const country = this.value;
   const locationSelect = document.getElementById('location');
   const officeSelect = document.getElementById('office');
 
-  // Clear current options
+  // Clear previous options
   locationSelect.innerHTML = '<option value="">Select Location</option>';
   officeSelect.innerHTML = '<option value="">Select Office</option>';
 
   if (country && countryLocations[country]) {
-    // Populate locations for the selected country
+    // Populate location options for selected country
     countryLocations[country].forEach(location => {
       const option = document.createElement('option');
       option.value = location;
@@ -157,15 +147,16 @@ document.getElementById('country').addEventListener('change', function() {
   }
 });
 
+// Handle location change
 document.getElementById('location').addEventListener('change', function() {
   const location = this.value;
   const officeSelect = document.getElementById('office');
 
-  // Clear current office options
+  // Clear previous office options
   officeSelect.innerHTML = '<option value="">Select Office</option>';
 
   if (location && officeLocations[location]) {
-    // Populate offices for the selected location
+    // Populate office options for selected location
     officeLocations[location].forEach(office => {
       const option = document.createElement('option');
       option.value = office;
@@ -175,15 +166,6 @@ document.getElementById('location').addEventListener('change', function() {
   }
 });
 
-document.getElementById('bookingForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  // Get form values
-  const idNumber = document.getElementById('id_number').value;
-  const forenames = document.getElementById('forenames').value;
-  const surname = document.getElementById('surname').value;
-  const cellphone = document.getElementById('cellphone').value;
-  const email = document.getElementById('email').value;
-  const appointmentDate = document.getElementById('appointment_date').value;
-  const location = document.getElementById('location').value;
-  const office = document.getElement
+</script>
+</body>
+</html>
