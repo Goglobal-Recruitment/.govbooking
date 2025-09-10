@@ -6,31 +6,25 @@
   <title>Appointment — Enter Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <style>
-    /* Set the background image to the one you uploaded */
+    /* Use the uploaded image as the background */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background-image: url('/mnt/data/ha-slide1.png'); /* Path to your image */
+      background-image: url('images/ha-slide1.png'); /* Replace with correct image path or Base64 */
       background-size: cover;
       background-position: center;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
     }
 
     /* Container Styling */
     .container {
       max-width: 900px;
-      width: 100%;
-      padding: 30px;
-      background-color: rgba(255, 255, 255, 0.9); /* Transparent background */
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8); /* Transparency for the container */
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       margin-top: 40px;
-      animation: fadeIn 1s ease-in-out;
     }
 
     /* Navbar styling */
@@ -48,26 +42,20 @@
       color: white;
       border-radius: 5px;
       font-weight: bold;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      transition: background-color 0.3s ease;
     }
 
     .navbar a:hover {
       background-color: #2d85b7;
-      transform: scale(1.05);
     }
 
     /* Form and Input Styling */
     select, input, label {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin: 10px 0;
       border-radius: 4px;
       border: 1px solid #ccc;
-      transition: background-color 0.3s ease;
-    }
-
-    label {
-      font-weight: bold;
     }
 
     .form-group {
@@ -93,16 +81,14 @@
       display: flex;
       justify-content: space-between;
       margin-top: 20px;
-      flex-wrap: wrap;
     }
 
     .button-group button {
-      padding: 12px 20px;
+      padding: 10px 20px;
       border-radius: 4px;
       border: none;
       cursor: pointer;
       width: 48%;
-      transition: transform 0.3s ease, background-color 0.3s ease;
     }
 
     .btn-auth {
@@ -113,16 +99,6 @@
     .btn-back {
       background-color: #f44336;
       color: white;
-    }
-
-    .btn-auth:hover {
-      background-color: #45a049;
-      transform: scale(1.05);
-    }
-
-    .btn-back:hover {
-      background-color: #e53935;
-      transform: scale(1.05);
     }
 
     /* Responsiveness */
@@ -139,36 +115,12 @@
         width: 100%;
         margin-bottom: 10px;
       }
-
-      .navbar a {
-        padding: 8px 15px;
-        font-size: 14px;
-      }
-    }
-
-    /* Add animation for fade-in */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <a href="https://www.gov.sz" target="_blank">Back to Website</a>
-    <a href="#home">Home</a>
-    <a href="#about">About Us</a>
-    <a href="#services">E-Services</a>
-    <a href="#documents">Documents</a>
-  </nav>
-
-  <main class="container">
+    <main class="container">
     <header class="brand">
       <h1>Appointment Booking</h1>
       <p class="subtitle">Please capture your details as they appear on your identity document.</p>
