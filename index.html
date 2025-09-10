@@ -138,23 +138,21 @@
     <!-- Country Selection -->
     <div class="form-group">
       <label for="country">Country *</label>
-      <select id="country" name="country" required>
+      <select id="country" name="country" required onchange="updateLocations()">
         <option value="">Select Country</option>
-        <!-- Add all African countries here -->
         <option value="Eswatini">Eswatini</option>
         <option value="South Africa">South Africa</option>
         <option value="Kenya">Kenya</option>
         <option value="Ghana">Ghana</option>
         <option value="Nigeria">Nigeria</option>
-        <!-- Add more African countries -->
-        <!-- Example: <option value="Uganda">Uganda</option> -->
+        <!-- More African countries -->
       </select>
     </div>
 
     <!-- Location Selection based on Country -->
     <div class="form-group">
       <label>Location:</label>
-      <select id="location" name="location" required>
+      <select id="location" name="location" required onchange="updateOffices()">
         <option value="">Select Location</option>
       </select>
     </div>
@@ -199,8 +197,7 @@
 </footer>
 
 <script>
-// Country, Location, and Office data (including Eswatini)
-// The structure of the data for countries, locations, and offices
+// Country, Location, and Office data
 const countryLocations = {
   'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
   'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
@@ -219,4 +216,10 @@ const officeLocations = {
   'Cape Town': ['Main Office'],
   'Nairobi': ['Main Office', 'Branch 1'],
   'Mombasa': ['Main Office'],
-  'Kisumu': ['Branch 
+  'Kisumu': ['Branch 1'],
+  'Accra': ['Main Office', 'Branch 1'],
+  'Kumasi': ['Branch 1'],
+  'Tamale': ['Branch 1'],
+  'Lagos': ['Main Office', 'Branch 1', 'Branch 2'],
+  'Abuja': ['Main Office'],
+  'Port Harcourt': ['Branch
