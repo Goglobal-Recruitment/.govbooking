@@ -6,12 +6,12 @@
   <title>Appointment — Enter Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <style>
-    /* Set the background image to the one you uploaded */
+    /* Use the uploaded image as the background */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background-image: url('/mnt/data/ha-slide1.png'); /* Your uploaded image */
+      background-image: url('images/ha-slide1.png'); /* Replace with correct image path or Base64 */
       background-size: cover;
       background-position: center;
     }
@@ -100,12 +100,29 @@
       background-color: #f44336;
       color: white;
     }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .button-group button {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- Navigation Bar -->
   <nav class="navbar">
+    <a href="https://www.gov.sz" target="_blank">Back to Website</a>
     <a href="#home">Home</a>
     <a href="#about">About Us</a>
     <a href="#services">E-Services</a>
@@ -271,6 +288,12 @@
     // Function to handle form submission and redirect to summary page
     function goToSummary(event) {
       event.preventDefault();
+      // Validate that all fields are filled
+      const form = document.getElementById('bookingForm');
+      if (!form.checkValidity()) {
+        alert('Please fill in all the required fields.');
+        return false;
+      }
       window.location.href = "summary.html"; // Adjust the URL for the summary page.
     }
   </script>
