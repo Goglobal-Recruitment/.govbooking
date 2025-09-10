@@ -5,9 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Booking Summary</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Styling for the summary page */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('images/ha-slide1.png'); /* Set your desired background image here */
+      background-size: cover;
+      background-position: center;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 40px;
+    }
+
+    .brand {
+      text-align: center;
+    }
+
+    .summary-box {
+      margin-top: 20px;
+    }
+
+    .summary-box p {
+      font-size: 1.1em;
+    }
+
+    .button-group {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .btn-auth, .btn-back {
+      padding: 10px 20px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-auth {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .btn-back {
+      background-color: #f44336;
+      color: white;
+    }
+  </style>
 </head>
 <body>
+
 <header>
   <nav class="nav-bar">
     <ul>
@@ -29,6 +84,7 @@
 
   <div class="button-group">
     <button onclick="window.print()" class="btn-auth">Print / Save</button>
+    <button onclick="window.location.href='index.html'" class="btn-back">Back to Form</button>
   </div>
 </main>
 
@@ -37,25 +93,22 @@
 </footer>
 
 <script>
-  // Retrieve booking data from localStorage
-  const data = JSON.parse(localStorage.getItem("bookingData"));
-function showSummary(booking){
-  document.getElementById("bookingSummary").innerHTML = `
-    <h3>Booking Summary</h3>
-    <p>Reference Number: ${booking.reference}</p>
-    <p>ID Number: ${booking.idNumber}</p>
-    <p>Name: ${booking.fullName}</p>
-    <p>Cellphone: ${booking.cellphone}</p>
-    <p>Email: ${booking.email}</p>
-    <p>Date: ${booking.appointmentDate}</p>
-    <p>Time: ${booking.appointmentTime}</p>
-    <p>Location: ${booking.location}</p>
-    <p>Office: ${booking.office}</p>
-    <p>Notes: ${booking.notes}</p>
-  `;
-}
+  // Retrieve booking data from sessionStorage
+  const data = {
+    id_number: sessionStorage.getItem('id_number'),
+    forenames: sessionStorage.getItem('forenames'),
+    surname: sessionStorage.getItem('surname'),
+    cellphone: sessionStorage.getItem('cellphone'),
+    email: sessionStorage.getItem('email'),
+    appointment_date: sessionStorage.getItem('appointment_date'),
+    appointment_time: sessionStorage.getItem('appointment_time'),
+    dialing_code: sessionStorage.getItem('dialing_code'),
+    location: sessionStorage.getItem('location'),
+    office: sessionStorage.getItem('office'),
+  };
 
-  if (data) {
+  // Check if data exists and show summary
+  if (data.id_number) {
     document.getElementById("summary-details").innerHTML = `
       <p><strong>ID Number:</strong> ${data.id_number}</p>
       <p><strong>Full Forenames:</strong> ${data.forenames}</p>
@@ -64,10 +117,13 @@ function showSummary(booking){
       <p><strong>Email:</strong> ${data.email || "Not provided"}</p>
       <p><strong>Appointment Date:</strong> ${data.appointment_date}</p>
       <p><strong>Appointment Time:</strong> ${data.appointment_time}</p>
+      <p><strong>Location:</strong> ${data.location}</p>
+      <p><strong>Office:</strong> ${data.office}</p>
     `;
   } else {
-    document.getElementById("summary-details").innerHTML = "<p>No booking data found.</p>";
+    document.getElementById("summary-details").innerHTML = "<p>No booking data found. Please go back and complete the form.</p>";
   }
 </script>
+
 </body>
 </html>
