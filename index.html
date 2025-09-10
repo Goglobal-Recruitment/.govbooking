@@ -140,11 +140,14 @@
       <label for="country">Country *</label>
       <select id="country" name="country" required>
         <option value="">Select Country</option>
+        <!-- Add all African countries here -->
         <option value="Eswatini">Eswatini</option>
         <option value="South Africa">South Africa</option>
         <option value="Kenya">Kenya</option>
         <option value="Ghana">Ghana</option>
         <option value="Nigeria">Nigeria</option>
+        <!-- Add more African countries -->
+        <!-- Example: <option value="Uganda">Uganda</option> -->
       </select>
     </div>
 
@@ -196,16 +199,17 @@
 </footer>
 
 <script>
-// Example country, city, and office data structure (expand it with actual data)
+// Country, Location, and Office data (including Eswatini)
+// The structure of the data for countries, locations, and offices
 const countryLocations = {
   'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
   'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
   'Kenya': ['Nairobi', 'Mombasa', 'Kisumu'],
   'Ghana': ['Accra', 'Kumasi', 'Tamale'],
-  'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt']
+  'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt'],
+  // Add more African countries and locations here
 };
 
-// Example office locations (expand it with actual offices)
 const officeLocations = {
   'Mbabane': ['Main Office', 'Regional Office 1', 'Regional Office 2'],
   'Manzini': ['Main Office', 'Branch 1', 'Branch 2'],
@@ -215,14 +219,4 @@ const officeLocations = {
   'Cape Town': ['Main Office'],
   'Nairobi': ['Main Office', 'Branch 1'],
   'Mombasa': ['Main Office'],
-  'Kisumu': ['Branch 1'],
-  'Accra': ['Main Office', 'Branch 1'],
-  'Kumasi': ['Branch 1'],
-  'Tamale': ['Branch 1'],
-  'Lagos': ['Main Office', 'Branch 1', 'Branch 2'],
-  'Abuja': ['Main Office'],
-  'Port Harcourt': ['Branch 1']
-};
-
-// Handle country change
-document.getElementById('country
+  'Kisumu': ['Branch 
