@@ -9,15 +9,14 @@
 </head>
 <body>
 <header>
-<nav class="nav-bar">
-  <ul>
-<li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">HOME</a></li>
-<li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">ABOUT US</a></li>
-<li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">E-SERVICES</a></li>
-<li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">DOCUMENTS</a></li>
-
-   </ul>
-</nav>
+  <nav class="nav-bar">
+    <ul>
+      <li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">HOME</a></li>
+      <li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">ABOUT US</a></li>
+      <li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">E-SERVICES</a></li>
+      <li><a href="https://gov.sz/index.php?view=category&id=238" target="_blank">DOCUMENTS</a></li>
+    </ul>
+  </nav>
 </header>
 
 <main class="container">
@@ -51,6 +50,30 @@
     <label for="email">E-mail (optional)</label>
     <input id="email" name="email" type="email" />
 
+    <!-- Country Selection -->
+    <label for="country">Country *</label>
+    <select id="country" name="country" required>
+      <option value="">Select Country</option>
+      <option value="Eswatini">Eswatini</option>
+      <option value="South Africa">South Africa</option>
+      <option value="Kenya">Kenya</option>
+      <option value="Ghana">Ghana</option>
+      <option value="Nigeria">Nigeria</option>
+    </select>
+
+    <!-- Location Selection based on Country -->
+    <label>Location:</label>
+    <select id="location" name="location" required>
+      <option value="">Select Location</option>
+      <!-- Dynamic locations will be populated based on country -->
+    </select>
+
+    <label>Office:</label>
+    <select id="office" name="office" required>
+      <option value="">Select Office</option>
+      <!-- Dynamic offices will be populated based on location -->
+    </select>
+
     <!-- New Date Picker -->
     <label for="appointment_date">Appointment Date *</label>
     <input
@@ -61,27 +84,7 @@
       min="2025-10-28"
       max="2026-10-28"
     />
-<label>Location:
-  <select id="location" required>
-    <option value="">Select Location</option>
-    <option value="Pretoria">Pretoria</option>
-    <option value="Johannesburg">Johannesburg</option>
-    <option value="Cape Town">Cape Town</option>
-    <!-- Add more locations as needed -->
-  </select>
-</label>
 
-<label>Office:
-  <select id="office" required>
-    <option value="">Select Office</option>
-    <option value="Main Office">Main Office</option>
-    <option value="Branch 1">Branch 1</option>
-    <option value="Branch 2">Branch 2</option>
-    <!-- Add more offices as needed -->
-  </select>
-</label>
-
-    <!-- New Time Slot Dropdown -->
     <label for="appointment_time">Appointment Time *</label>
     <select id="appointment_time" name="appointment_time" required>
       <option value="">-- Select a time slot --</option>
@@ -104,9 +107,83 @@
   <p>&copy; Kingdom of Eswatini Government</p>
 </footer>
 
-<script src="booking.js"></script>
-</body>
-</html>
-<div id="bookingSummary"></div>
+<script>
+// Simulated stored data
+let bookedAppointments = JSON.parse(localStorage.getItem('bookedAppointments')) || [];
+let usedIdNumbers = JSON.parse(localStorage.getItem('usedIdNumbers')) || [];
 
+// Country and Location Data (replace this with your actual data)
+const countryLocations = {
+  'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
+  'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
+  'Kenya': ['Nairobi', 'Mombasa', 'Kisumu'],
+  'Ghana': ['Accra', 'Kumasi', 'Tamale'],
+  'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt']
+};
 
+// Office Data for each location (example, replace with actual data)
+const officeLocations = {
+  'Pretoria': ['Main Office', 'Branch 1', 'Branch 2'],
+  'Johannesburg': ['Main Office', 'Branch 1'],
+  'Cape Town': ['Main Office'],
+  'Nairobi': ['Main Office', 'Branch 1'],
+  'Mombasa': ['Main Office'],
+  'Kisumu': ['Branch 1'],
+  'Accra': ['Main Office', 'Branch 1'],
+  'Kumasi': ['Branch 1'],
+  'Tamale': ['Branch 1'],
+  'Lagos': ['Main Office', 'Branch 1', 'Branch 2'],
+  'Abuja': ['Main Office'],
+  'Port Harcourt': ['Branch 1']
+};
+
+document.getElementById('country').addEventListener('change', function() {
+  const country = this.value;
+  const locationSelect = document.getElementById('location');
+  const officeSelect = document.getElementById('office');
+
+  // Clear current options
+  locationSelect.innerHTML = '<option value="">Select Location</option>';
+  officeSelect.innerHTML = '<option value="">Select Office</option>';
+
+  if (country && countryLocations[country]) {
+    // Populate locations for the selected country
+    countryLocations[country].forEach(location => {
+      const option = document.createElement('option');
+      option.value = location;
+      option.textContent = location;
+      locationSelect.appendChild(option);
+    });
+  }
+});
+
+document.getElementById('location').addEventListener('change', function() {
+  const location = this.value;
+  const officeSelect = document.getElementById('office');
+
+  // Clear current office options
+  officeSelect.innerHTML = '<option value="">Select Office</option>';
+
+  if (location && officeLocations[location]) {
+    // Populate offices for the selected location
+    officeLocations[location].forEach(office => {
+      const option = document.createElement('option');
+      option.value = office;
+      option.textContent = office;
+      officeSelect.appendChild(option);
+    });
+  }
+});
+
+document.getElementById('bookingForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  // Get form values
+  const idNumber = document.getElementById('id_number').value;
+  const forenames = document.getElementById('forenames').value;
+  const surname = document.getElementById('surname').value;
+  const cellphone = document.getElementById('cellphone').value;
+  const email = document.getElementById('email').value;
+  const appointmentDate = document.getElementById('appointment_date').value;
+  const location = document.getElementById('location').value;
+  const office = document.getElement
