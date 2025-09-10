@@ -6,44 +6,28 @@
   <title>Appointment — Enter Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <style>
+    /* Set the background image to the one you uploaded */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, rgba(29, 161, 242, 1) 0%, rgba(58, 123, 213, 1) 100%);
-      background-size: 400% 400%;
-      animation: gradientBG 10s ease infinite;
+      background-image: url('data:image/png;base64,{{BASE64_ENCODED_IMAGE}}'); /* Replace this with actual base64 or path to the image */
+      background-size: cover;
+      background-position: center;
     }
 
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
+    /* Container Styling */
     .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 20px;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.9);
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       margin-top: 40px;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      color: #1d63a8;
-    }
-
-    p.subtitle {
-      color: #5c5c5c;
-    }
-
+    /* Navbar styling */
     .navbar {
       display: flex;
       justify-content: center;
@@ -65,6 +49,7 @@
       background-color: #2d85b7;
     }
 
+    /* Form and Input Styling */
     select, input, label {
       width: 100%;
       padding: 10px;
@@ -116,9 +101,6 @@
       color: white;
     }
 
-    .hidden {
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -153,6 +135,7 @@
         <input id="surname" name="surname" type="text" required />
       </div>
 
+      <!-- Country Selection -->
       <div class="form-group">
         <label for="country">Country *</label>
         <select id="country" name="country" required onchange="updateLocations()">
@@ -201,7 +184,7 @@
         </select>
       </div>
 
-      <!-- Gender Radio Buttons (Single Selection) -->
+      <!-- Gender Radio Buttons -->
       <div class="form-group">
         <label>Gender *</label>
         <div class="radio-group">
@@ -210,9 +193,10 @@
         </div>
       </div>
 
+      <!-- Submit and Back Buttons -->
       <div class="button-group">
         <button type="submit" class="btn-auth">Submit</button>
-        <button type="button" class="btn-back" onclick="window.location.href='https://your-website-url.com'">Back to Website</button>
+        <button type="button" class="btn-back" onclick="window.location.href='https://www.gov.sz'">Back to Website</button>
       </div>
     </form>
   </main>
@@ -232,4 +216,65 @@
       'Manzini': ['Main Office', 'Branch 1', 'Branch 2'],
       'Lobamba': ['Main Office'],
       'Pretoria': ['Main Office', 'Branch 1', 'Branch 2'],
-      'Johannesburg': ['Main Office
+      'Johannesburg': ['Main Office', 'Branch 1'],
+      'Cape Town': ['Main Office'],
+      'Nairobi': ['Main Office', 'Branch 1'],
+      'Mombasa': ['Main Office'],
+      'Kisumu': ['Branch 1'],
+      'Accra': ['Main Office', 'Branch 1'],
+      'Kumasi': ['Branch 1'],
+      'Tamale': ['Branch 1'],
+      'Lagos': ['Main Office', 'Branch 1', 'Branch 2'],
+      'Abuja': ['Main Office'],
+      'Port Harcourt': ['Branch 1'],
+    };
+
+    // Update locations based on selected country
+    function updateLocations() {
+      const country = document.getElementById('country').value;
+      const locationSelect = document.getElementById('location');
+      const officeSelect = document.getElementById('office');
+
+      // Clear previous options
+      locationSelect.innerHTML = '<option value="">Select Location</option>';
+      officeSelect.innerHTML = '<option value="">Select Office</option>';
+
+      if (countryLocations[country]) {
+        // Populate locations for the selected country
+        countryLocations[country].forEach(location => {
+          const option = document.createElement('option');
+          option.value = location;
+          option.textContent = location;
+          locationSelect.appendChild(option);
+        });
+      }
+    }
+
+    // Update offices based on selected location
+    function updateOffices() {
+      const location = document.getElementById('location').value;
+      const officeSelect = document.getElementById('office');
+
+      // Clear previous office options
+      officeSelect.innerHTML = '<option value="">Select Office</option>';
+
+      if (officeLocations[location]) {
+        // Populate offices for the selected location
+        officeLocations[location].forEach(office => {
+          const option = document.createElement('option');
+          option.value = office;
+          option.textContent = office;
+          officeSelect.appendChild(option);
+        });
+      }
+    }
+
+    // Function to handle form submission and redirect to summary page
+    function goToSummary(event) {
+      event.preventDefault();
+      window.location.href = "summary.html"; // Adjust the URL for the summary page.
+    }
+  </script>
+
+</body>
+</html>
