@@ -14,6 +14,7 @@
       background-size: cover;
       background-position: center;
     }
+
     .container {
       max-width: 900px;
       margin: 0 auto;
@@ -23,9 +24,19 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       margin-top: 40px;
     }
-    .brand { text-align: center; }
-    .summary-box { margin-top: 20px; }
-    .summary-box p { font-size: 1.1em; }
+
+    .brand {
+      text-align: center;
+    }
+
+    .summary-box {
+      margin-top: 20px;
+    }
+
+    .summary-box p {
+      font-size: 1.1em;
+    }
+
     .success-message {
       color: green;
       font-size: 1.2em;
@@ -34,19 +45,40 @@
       text-align: center;
       margin-bottom: 20px;
     }
-    .button-group { text-align: center; margin-top: 20px; }
+
+    .button-group {
+      text-align: center;
+      margin-top: 20px;
+    }
+
     .btn-auth, .btn-back {
       padding: 10px 20px;
       border-radius: 4px;
       border: none;
       cursor: pointer;
     }
+
     .btn-auth { background-color: #4CAF50; color: white; }
     .btn-back { background-color: #f44336; color: white; }
+
     @keyframes fadeInOut {
       0% { opacity: 0; }
       50% { opacity: 1; }
       100% { opacity: 0; }
+    }
+
+    /* custom popup style (same as index) */
+    .cg-popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 18px;
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+      font-family: 'Poppins', sans-serif;
+      z-index: 10000;
+      font-size: 15px;
     }
   </style>
 </head>
@@ -59,11 +91,12 @@
   </header>
 
   <div id="success-message" class="success-message" style="display: none;">Successful</div>
+
   <div id="summary-details" class="summary-box"></div>
 
   <div class="button-group">
     <button onclick="window.print()" class="btn-auth">Print / Save</button>
-    <button onclick="stayHere()" class="btn-back">Back</button>
+    <button onclick="preventBack()" class="btn-back">Back</button>
   </div>
 </main>
 
@@ -72,25 +105,67 @@
 </footer>
 
 <script>
-  // Prevent going back to booking form if already booked
-  function stayHere() {
-    alert("⚠️ A booking has already been made. You cannot rebook.");
-    window.location.href = "summary.html";
+  // Custom popup (replaces alert)
+  function showPopup(message, type = "warning", duration = 3000) {
+    const existing = document.querySelector('.cg-popup');
+    if (existing) existing.remove();
+
+    const popup = document.createElement('div');
+    popup.className = 'cg-popup';
+    popup.style.background = type === 'success' ? '#d4edda' : '#fff3cd';
+    popup.style.color = type === 'success' ? '#155724' : '#856404';
+    popup.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #ffeeba';
+    popup.innerHTML = `${type === 'success' ? '✅' : '⚠️'} ${message}`;
+    document.body.appendChild(popup);
+    setTimeout(() => popup.remove(), duration);
   }
 
-  // Retrieve booking data from localStorage
-  const data = {
-    id_number: localStorage.getItem('id_number'),
-    forenames: localStorage.getItem('forenames'),
-    surname: localStorage.getItem('surname'),
-    cellphone: localStorage.getItem('cellphone'),
-    email: localStorage.getItem('email'),
-    appointment_date: localStorage.getItem('appointment_date'),
-    appointment_time: localStorage.getItem('appointment_time'),
-    dialing_code: localStorage.getItem('dialing_code'),
-    location: localStorage.getItem('location'),
-    office: localStorage.getItem('office'),
-  };
+  function preventBack() {
+    // Keep user on summary; show friendly notification instead of allowing rebooking
+    showPopup("A booking has already been made. You cannot rebook.", "warning");
+    // ensure they remain on the summary page
+    setTimeout(() => {
+      window.location.href = "summary.html";
+    }, 600);
+  }
 
-  // Check if a booking exists
-  if (l
+  // Fields we saved from index (we will display whichever exist)
+  const fieldsToShow = [
+    { key: 'id_number', label: 'ID Number' },
+    { key: 'forenames', label: 'Full Forenames' },
+    { key: 'surname', label: 'Surname' },
+    { key: 'country', label: 'Country' },
+    { key: 'location', label: 'Location' },
+    { key: 'office', label: 'Office' },
+    { key: 'appointment_date', label: 'Appointment Date' },
+    { key: 'appointment_time', label: 'Appointment Time' },
+    { key: 'gender', label: 'Gender' },
+    { key: 'dialing_code', label: 'Dialing Code' },
+    { key: 'cellphone', label: 'Cellphone' },
+    { key: 'email', label: 'Email' }
+  ];
+
+  // If no booking exists, redirect back to form
+  if (localStorage.getItem("hasBooking") !== "true") {
+    showPopup("No booking found. Please complete the form first.", "warning");
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 900);
+  } else {
+    // Show success message
+    document.getElementById("success-message").style.display = "block";
+
+    // Build the summary content dynamically from localStorage
+    const details = fieldsToShow.map(f => {
+      const val = localStorage.getItem(f.key);
+      // if value is missing, display "Not provided" for optional fields, but keep it empty for date/time (you asked everything to reflect back)
+      const display = (val !== null && val !== '') ? val : "Not provided";
+      return `<p><strong>${f.label}:</strong> ${display}</p>`;
+    }).join('');
+
+    document.getElementById("summary-details").innerHTML = details;
+  }
+</script>
+
+</body>
+</html>
