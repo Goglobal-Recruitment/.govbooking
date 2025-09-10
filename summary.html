@@ -6,16 +6,14 @@
   <title>Booking Summary</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <style>
-    /* Styling for the summary page */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background-image: url('images/ha-slide1.png'); /* Set your desired background image here */
+      background-image: url('images/ha-slide1.png');
       background-size: cover;
       background-position: center;
     }
-
     .container {
       max-width: 900px;
       margin: 0 auto;
@@ -25,20 +23,9 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       margin-top: 40px;
     }
-
-    .brand {
-      text-align: center;
-    }
-
-    .summary-box {
-      margin-top: 20px;
-    }
-
-    .summary-box p {
-      font-size: 1.1em;
-    }
-
-    /* Success message styling */
+    .brand { text-align: center; }
+    .summary-box { margin-top: 20px; }
+    .summary-box p { font-size: 1.1em; }
     .success-message {
       color: green;
       font-size: 1.2em;
@@ -47,31 +34,15 @@
       text-align: center;
       margin-bottom: 20px;
     }
-
-    /* Button styling */
-    .button-group {
-      text-align: center;
-      margin-top: 20px;
-    }
-
+    .button-group { text-align: center; margin-top: 20px; }
     .btn-auth, .btn-back {
       padding: 10px 20px;
       border-radius: 4px;
       border: none;
       cursor: pointer;
     }
-
-    .btn-auth {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .btn-back {
-      background-color: #f44336;
-      color: white;
-    }
-
-    /* Animation for success message */
+    .btn-auth { background-color: #4CAF50; color: white; }
+    .btn-back { background-color: #f44336; color: white; }
     @keyframes fadeInOut {
       0% { opacity: 0; }
       50% { opacity: 1; }
@@ -87,14 +58,12 @@
     <p class="subtitle">Please confirm your details below.</p>
   </header>
 
-  <!-- Success message that will appear when the details are valid -->
   <div id="success-message" class="success-message" style="display: none;">Successful</div>
-
   <div id="summary-details" class="summary-box"></div>
 
   <div class="button-group">
     <button onclick="window.print()" class="btn-auth">Print / Save</button>
-    <button onclick="window.location.href='index.html'" class="btn-back">Back to Form</button>
+    <button onclick="stayHere()" class="btn-back">Back</button>
   </div>
 </main>
 
@@ -103,43 +72,25 @@
 </footer>
 
 <script>
-  // Retrieve booking data from sessionStorage
+  // Prevent going back to booking form if already booked
+  function stayHere() {
+    alert("⚠️ A booking has already been made. You cannot rebook.");
+    window.location.href = "summary.html";
+  }
+
+  // Retrieve booking data from localStorage
   const data = {
-    id_number: sessionStorage.getItem('id_number'),
-    forenames: sessionStorage.getItem('forenames'),
-    surname: sessionStorage.getItem('surname'),
-    cellphone: sessionStorage.getItem('cellphone'),
-    email: sessionStorage.getItem('email'),
-    appointment_date: sessionStorage.getItem('appointment_date'),
-    appointment_time: sessionStorage.getItem('appointment_time'),
-    dialing_code: sessionStorage.getItem('dialing_code'),
-    location: sessionStorage.getItem('location'),
-    office: sessionStorage.getItem('office'),
+    id_number: localStorage.getItem('id_number'),
+    forenames: localStorage.getItem('forenames'),
+    surname: localStorage.getItem('surname'),
+    cellphone: localStorage.getItem('cellphone'),
+    email: localStorage.getItem('email'),
+    appointment_date: localStorage.getItem('appointment_date'),
+    appointment_time: localStorage.getItem('appointment_time'),
+    dialing_code: localStorage.getItem('dialing_code'),
+    location: localStorage.getItem('location'),
+    office: localStorage.getItem('office'),
   };
 
-  // Check if data exists and show summary or alert if incomplete
-  if (data.id_number && data.forenames && data.surname && data.cellphone && data.appointment_date && data.appointment_time && data.location && data.office) {
-    // Show success message
-    document.getElementById("success-message").style.display = "block";
-
-    // Populate summary details
-    document.getElementById("summary-details").innerHTML = `
-      <p><strong>ID Number:</strong> ${data.id_number}</p>
-      <p><strong>Full Forenames:</strong> ${data.forenames}</p>
-      <p><strong>Surname:</strong> ${data.surname}</p>
-      <p><strong>Cellphone:</strong> ${data.dialing_code} ${data.cellphone}</p>
-      <p><strong>Email:</strong> ${data.email || "Not provided"}</p>
-      <p><strong>Appointment Date:</strong> ${data.appointment_date}</p>
-      <p><strong>Appointment Time:</strong> ${data.appointment_time}</p>
-      <p><strong>Location:</strong> ${data.location}</p>
-      <p><strong>Office:</strong> ${data.office}</p>
-    `;
-  } else {
-    // If data is missing, show the "Complete all fields" message
-    alert('Complete all fields');
-    window.location.href = 'index.html'; // Redirect back to the form
-  }
-</script>
-
-</body>
-</html>
+  // Check if a booking exists
+  if (l
