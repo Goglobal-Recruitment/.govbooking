@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Summary</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .summary {
+      margin: 20px 0;
+    }
+
+    .summary h2 {
+      margin-bottom: 15px;
+    }
+
+    .summary p {
+      margin: 5px 0;
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Booking Summary</h1>
+
+<div class="summary" id="summary">
+  <h2>Summary Details:</h2>
+  <p><strong>ID Number:</strong> <span id="summary-id_number"></span></p>
+  <p><strong>Forenames:</strong> <span id="summary-forenames"></span></p>
+  <p><strong>Surname:</strong> <span id="summary-surname"></span></p>
+  <p><strong>Cellphone:</strong> <span id="summary-cellphone"></span></p>
+  <p><strong>Email:</strong> <span id="summary-email"></span></p>
+  <p><strong>Appointment Date:</strong> <span id="summary-appointment_date"></span></p>
+  <p><strong>Appointment Time:</strong> <span id="summary-appointment_time"></span></p>
+</div>
+
+<div class="buttons">
+  <button id="downloadBtn">Download Summary</button>
+  <button onclick="window.print()">Print Summary</button>
+</div>
+
+<script>
+// On page load, pull data from localStorage and populate the summary
+window.onload = function() {
+  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+
+  if (bookingData) {
+    document.getElementById("summary-id_number").textContent = bookingData.id_number;
+    document.getElementById("summary-forenames").textContent = bookingData.forenames;
+    document.getElementById("summary-surname").textContent = bookingData.surname;
+    document.getElementById("summary-cellphone").textContent = bookingData.cellphone;
+    document.getElementById("summary-email").textContent = bookingData.email;
+    document.getElementById("summary-appointment_date").textContent = bookingData.appointment_date;
+    document.getElementById("summary-appointment_time").textContent = bookingData.appointment_time;
+  } else {
+    alert("No booking data found.");
+  }
+};
+
+// Function to download the summary as a text file
+document.getElementById("downloadBtn").addEventListener("click", function() {
+  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+
+  if (bookingData) {
+    const textContent = `
+      Booking Summary:
+      ID Number: ${bookingData.id_number}
+      Forenames: ${bookingData.forenames}
+      Surname: ${bookingData.surname}
+      Cellphone: ${bookingData.cellphone}
+      Email: ${bookingData.email}
+      Appointment Date: ${bookingData.appointment_date}
+      Appointment Time: ${bookingData.appointment_time}
+    `;
+
+    const blob = new Blob([textContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'booking_summary.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } else {
+    alert("No booking data available.");
+  }
+});
+</script>
+
+</body>
+</html>
