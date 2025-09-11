@@ -28,7 +28,6 @@
       align-items: center;
       min-height: 100vh;
       padding: 20px;
-      position: relative;
       overflow: hidden;
     }
 
@@ -39,7 +38,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-image: url('4634-coat-of-arms-of-eswatini.png'); /* Correct watermark path */
+      background-image: url('4634-coat-of-arms-of-eswatini.png');
       background-repeat: no-repeat;
       background-size: 300px;
       opacity: 0.05;
@@ -49,43 +48,87 @@
 
     .summary-container {
       background: var(--card);
-      padding: 2rem 2.5rem;
+      padding: 2rem 3rem;
       border-radius: 12px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 500px;
+      max-width: 520px;
       animation: fadeIn 0.6s ease-in-out;
       z-index: 1;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    h1 {
+    /* Header inside container for logos + title */
+    .header-logos {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      gap: 10px;
+    }
+
+    .header-logos img {
+      max-height: 80px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    /* Center title below logos */
+    .title-container {
+      width: 100%;
       text-align: center;
       margin-bottom: 1rem;
+    }
+
+    h1.main-title {
       color: var(--accent);
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    h1, h2 {
+      margin-bottom: 1rem;
     }
 
     h2 {
       font-size: 1.2rem;
       color: #333;
-      margin-bottom: 1rem;
+    }
+
+    .summary {
+      width: 100%;
     }
 
     .summary p {
       margin: 10px 0;
       font-size: 1rem;
+      word-wrap: break-word;
     }
 
     .summary p strong {
       display: inline-block;
       width: 160px;
       color: #444;
+      font-weight: 600;
     }
 
     .buttons {
       margin-top: 2rem;
       display: flex;
       justify-content: space-between;
+      width: 100%;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
@@ -99,7 +142,6 @@
       font-weight: 600;
       font-size: 1rem;
       flex: 1 1 48%;
-      margin: 5px 0;
       transition: background 0.3s ease;
     }
 
@@ -111,26 +153,40 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      .summary-container {
+        padding: 1.5rem 1.5rem;
+        max-width: 100%;
+      }
+      .header-logos img {
+        max-height: 60px;
+      }
+      .summary p strong {
+        width: 130px;
+      }
+      button {
+        flex-basis: 100%;
+      }
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- Header with logos -->
-  <header class="brand" style="position: absolute; top: 20px; left: 0; right: 0; text-align: center; z-index: 2;">
-    <!-- Eswatini Coat of Arms -->
-    <img src="4634-coat-of-arms-of-eswatini.png" alt="Eswatini Coat of Arms" style="width: 100px; margin-bottom: 10px;" />
-
-    <!-- Eswatini Flag -->
-    <img src="4635-flag-of-eswatini.png" alt="Eswatini Flag" style="width: 150px; margin-bottom: 20px;" />
-
-    <h1>Appointment Booking - Biometrics</h1>
-    <p class="subtitle">Please confirm your details as they appear on your identity document.</p>
-  </header>
-
-  <!-- Summary Card -->
   <div class="summary-container">
-    <!-- Removed the duplicated flag image here -->
+
+    <!-- Header with logos inside the card -->
+    <div class="header-logos">
+      <img src="4634-coat-of-arms-of-eswatini.png" alt="Eswatini Coat of Arms" />
+      <img src="4635-flag-of-eswatini.png" alt="Eswatini Flag" />
+    </div>
+
+    <div class="title-container">
+      <h1 class="main-title">Appointment Booking - Biometrics</h1>
+      <p class="subtitle">Please confirm your details as they appear on your identity document.</p>
+    </div>
 
     <h1>Booking Summary</h1>
 
