@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Appointment — Enter Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
   <style>
     :root {
       --primary: #0a6b3b;
@@ -216,7 +214,7 @@
 
       <div class="form-group">
         <label for="appointment_date">Appointment Date *</label>
-        <input id="appointment_date" name="appointment_date" type="text" required />
+        <input id="appointment_date" name="appointment_date" type="date" required />
       </div>
 
       <div class="form-group">
@@ -241,7 +239,6 @@
     </form>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
     const countryLocations = {
       'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
@@ -302,37 +299,28 @@
       }
     }
 
-    // Date ranges to disable
-    const disabledDateRanges = [
-      { from: "2025-09-01", to: "2025-10-16" }
-    ];
+    const appointmentInput = document.getElementById('appointment_date');
 
-    const publicHolidays = [
-      "2025-09-24",
-      "2025-10-15",
-      "2025-10-23"
-    ];
-
-    function disableDates(date) {
-      const dateStr = date.toISOString().split('T')[0];
-
-      // Disable date ranges
-      for (const range of disabledDateRanges) {
-        if (dateStr >= range.from && dateStr <= range.to) {
-          return true;
-        }
-      }
-
-      // Disable public holidays
-      return publicHolidays.includes(dateStr);
+    function isDateBlocked(date) {
+      const start = new Date('2025-09-01');
+      const end = new Date('2025-10-16');
+      return date >= start && date <= end;
     }
 
-    // Apply flatpickr to appointment_date field
-    flatpickr("#appointment_date", {
-      dateFormat: "Y-m-d",
-      minDate: "today",
-      disable: [disableDates]
+    appointmentInput.addEventListener('change', () => {
+      const selectedDate = new Date(appointmentInput.value);
+      if (isDateBlocked(selectedDate)) {
+        appointmentInput.value = '';
+      }
     });
+
+    (function setMinDate() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = (today.getMonth() + 1).toString().padStart(2, '0');
+      const dd = today.getDate().toString().padStart(2, '0');
+      appointmentInput.min = `${yyyy}-${mm}-${dd}`;
+    })();
 
     document.getElementById("bookingForm").addEventListener("submit", function (e) {
       e.preventDefault();
