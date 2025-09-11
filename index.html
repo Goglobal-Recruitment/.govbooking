@@ -129,14 +129,17 @@
           <option value="15:00-16:00">3pm - 4pm</option>
         </select>
       </div>
-<div class="button-group">
-  <button onclick="window.location.href='https://gov.sz/index.php?view=category&id=238'" type="button">
-    Back to Website
-  </button>
-  <button type="submit" class="btn-auth">Submit</button>
-</div>
-</form>
-</main>
+
+      <div class="button-group">
+        <!-- FIXED BACK BUTTON -->
+        <button type="button" class="btn-back" onclick="window.location.href='https://gov.sz/index.php?view=category&id=238'">
+          Back to Website
+        </button>
+        <button type="submit" class="btn-auth">Submit</button>
+      </div>
+    </form>
+  </main>
+
   <script>
     // Data structure to hold country, location, and office info
     const countryLocations = {
@@ -171,12 +174,10 @@
       const locationSelect = document.getElementById('location');
       const officeSelect = document.getElementById('office');
 
-      // Clear previous options
       locationSelect.innerHTML = '<option value="">Select Location</option>';
       officeSelect.innerHTML = '<option value="">Select Office</option>';
 
       if (countryLocations[country]) {
-        // Populate locations for the selected country
         countryLocations[country].forEach(location => {
           const option = document.createElement('option');
           option.value = location;
@@ -190,12 +191,9 @@
     function updateOffices() {
       const location = document.getElementById('location').value;
       const officeSelect = document.getElementById('office');
-
-      // Clear previous office options
       officeSelect.innerHTML = '<option value="">Select Office</option>';
 
       if (officeLocations[location]) {
-        // Populate offices for the selected location
         officeLocations[location].forEach(office => {
           const option = document.createElement('option');
           option.value = office;
@@ -205,11 +203,10 @@
       }
     }
 
-    // Capture form data and save to localStorage when the form is submitted
+    // Save form data and redirect to summary
     document.getElementById("bookingForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
-      // Capture form data
       const bookingData = {
         id_number: document.getElementById("id_number").value,
         forenames: document.getElementById("forenames").value,
@@ -221,15 +218,11 @@
         appointment_time: document.getElementById("appointment_time").value,
       };
 
-      // Save form data to localStorage
       localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
-      // Optionally, you can redirect to another page after saving the data
-      window.location.href = "summary.html"; // Redirect to summary page
+      window.location.href = "summary.html";
     });
   </script>
 
 </body>
 </html>
-
-
