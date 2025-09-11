@@ -38,17 +38,6 @@
       font-size: 1.1em;
     }
 
-    /* Success message styling */
-    .success-message {
-      color: green;
-      font-size: 1.2em;
-      font-weight: bold;
-      animation: fadeInOut 3s ease-in-out infinite;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    /* Button styling */
     .button-group {
       text-align: center;
       margin-top: 20px;
@@ -70,13 +59,6 @@
       background-color: #f44336;
       color: white;
     }
-
-    /* Animation for success message */
-    @keyframes fadeInOut {
-      0% { opacity: 0; }
-      50% { opacity: 1; }
-      100% { opacity: 0; }
-    }
   </style>
 </head>
 <body>
@@ -86,9 +68,6 @@
     <h1>Booking Summary</h1>
     <p class="subtitle">Please confirm your details below.</p>
   </header>
-
-  <!-- Success message that will appear when the details are valid -->
-  <div id="success-message" class="success-message" style="display: none;">Successful</div>
 
   <div id="summary-details" class="summary-box"></div>
 
@@ -119,10 +98,6 @@
 
   // Check if data exists and show summary or alert if incomplete
   if (data.id_number && data.forenames && data.surname && data.cellphone && data.appointment_date && data.appointment_time && data.location && data.office) {
-    // Show success message
-    document.getElementById("success-message").style.display = "block";
-
-    // Populate summary details
     document.getElementById("summary-details").innerHTML = `
       <p><strong>ID Number:</strong> ${data.id_number}</p>
       <p><strong>Full Forenames:</strong> ${data.forenames}</p>
