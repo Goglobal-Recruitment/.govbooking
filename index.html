@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Appointment — Enter Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <style>
     :root {
       --primary: #0a6b3b;
       --danger: #f44336;
-      --background: #e0f7fa; /* Light blue background */
+      --background: #e0f7fa;
       --card-bg: #ffffff;
       --font-family: 'Poppins', sans-serif;
       --shadow: rgba(0, 0, 0, 0.1);
@@ -35,7 +36,6 @@
       overflow-x: hidden;
     }
 
-    /* Watermark logos on left and right */
     body::before,
     body::after {
       content: '';
@@ -216,7 +216,7 @@
 
       <div class="form-group">
         <label for="appointment_date">Appointment Date *</label>
-        <input id="appointment_date" name="appointment_date" type="date" required />
+        <input id="appointment_date" name="appointment_date" type="text" required />
       </div>
 
       <div class="form-group">
@@ -241,6 +241,7 @@
     </form>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
     const countryLocations = {
       'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
@@ -301,46 +302,43 @@
       }
     }
 
-    // Block dates from 11 September to 16 October 2025 inclusive
-    const appointmentDateInput = document.getElementById('appointment_date');
+    // Date ranges to disable
+    const disabledDateRanges = [
+      { from: "2025-09-01", to: "2025-10-16" }
+    ];
 
-    appointmentDateInput.addEventListener('input', function () {
-      const selectedDate = new Date(this.value);
-      const blockStart = new Date('2025-09-11');
-      const blockEnd = new Date('2025-10-16');
+    const publicHolidays = [
+      "2025-09-24",
+      "2025-10-15",
+      "2025-10-23"
+    ];
 
-      // To compare dates only (ignore time)
-      selectedDate.setHours(0,0,0,0);
+    function disableDates(date) {
+      const dateStr = date.toISOString().split('T')[0];
 
-      if (selectedDate >= blockStart && selectedDate <= blockEnd) {
-        alert('Select a date.');
-        this.value = '';
+      // Disable date ranges
+      for (const range of disabledDateRanges) {
+        if (dateStr >= range.from && dateStr <= range.to) {
+          return true;
+        }
       }
-    });
 
-    // Set minimum date to today
-    function setMinDate() {
-      const today = new Date();
-      const yyyy = today.getFullYear();
-      const mm = (today.getMonth() + 1).toString().padStart(2, '0');
-      const dd = today.getDate().toString().padStart(2, '0');
-      appointmentDateInput.min = `${yyyy}-${mm}-${dd}`;
+      // Disable public holidays
+      return publicHolidays.includes(dateStr);
     }
 
-    setMinDate();
+    // Apply flatpickr to appointment_date field
+    flatpickr("#appointment_date", {
+      dateFormat: "Y-m-d",
+      minDate: "today",
+      disable: [disableDates]
+    });
 
-    // Form submission
     document.getElementById("bookingForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
       if (!this.checkValidity()) {
         alert('Please fill all required fields.');
-        return;
-      }
-
-      // If appointment_date is empty (or blocked), prevent submission
-      if (!appointmentDateInput.value) {
-        alert('Select a date.');
         return;
       }
 
@@ -351,7 +349,7 @@
         country: document.getElementById("country").value,
         location: document.getElementById("location").value,
         office: document.getElementById("office").value,
-        appointment_date: appointmentDateInput.value,
+        appointment_date: document.getElementById("appointment_date").value,
         appointment_time: document.getElementById("appointment_time").value,
       };
 
