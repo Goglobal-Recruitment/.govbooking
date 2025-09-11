@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Appointment — Enter Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
     :root {
       --primary: #0a6b3b;
       --danger: #f44336;
-      --background: #e0f7fa;
+      --background: #e0f7fa; /* Light blue background */
       --card-bg: #ffffff;
       --font-family: 'Poppins', sans-serif;
       --shadow: rgba(0, 0, 0, 0.1);
@@ -34,6 +35,7 @@
       overflow-x: hidden;
     }
 
+    /* Watermark logos on left and right */
     body::before,
     body::after {
       content: '';
@@ -299,34 +301,38 @@
       }
     }
 
-    const appointmentInput = document.getElementById('appointment_date');
+    const appointmentDateInput = document.getElementById('appointment_date');
 
-    function isDateInBlockedRange(date) {
-      const start = new Date('2025-09-01');
-      const end = new Date('2025-10-16');
-      return date >= start && date <= end;
-    }
-
-    appointmentInput.addEventListener('input', () => {
-      const selected = new Date(appointmentInput.value);
-      if (isDateInBlockedRange(selected)) {
-        appointmentInput.value = '';
-      }
-    });
-
+    // Set minimum date to today
     function setMinDate() {
       const today = new Date();
       const yyyy = today.getFullYear();
       const mm = (today.getMonth() + 1).toString().padStart(2, '0');
       const dd = today.getDate().toString().padStart(2, '0');
-      appointmentInput.min = `${yyyy}-${mm}-${dd}`;
+      appointmentDateInput.min = `${yyyy}-${mm}-${dd}`;
     }
 
     setMinDate();
 
+    // Block dates from 11 September to 16 October inclusive
+    appointmentDateInput.addEventListener('input', function () {
+      const selectedDate = new Date(this.value);
+      const blockStart = new Date('2025-09-11');
+      const blockEnd = new Date('2025-10-16');
+
+      if (selectedDate >= blockStart && selectedDate <= blockEnd) {
+        alert('Select a date.');
+        this.value = ''; // clear invalid date
+      }
+    });
+
     document.getElementById("bookingForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!this.checkValidity()) return;
+
+      if (!this.checkValidity()) {
+        alert('Please fill all required fields.');
+        return;
+      }
 
       const bookingData = {
         id_number: document.getElementById("id_number").value,
