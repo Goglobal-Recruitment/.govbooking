@@ -39,23 +39,13 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-image: url('emblem.png'); /* Swazi emblem */
+      background-image: url('images/4634-coat-of-arms-of-eswatini.png'); /* Correct watermark path */
       background-repeat: no-repeat;
       background-size: 300px;
       opacity: 0.05;
       z-index: 0;
       pointer-events: none;
     }
-<header class="brand">
-  <!-- Eswatini Coat of Arms -->
-  <img src="images/4634-coat-of-arms-of-eswatini.png" alt="Eswatini Coat of Arms" style="width: 120px; display: block; margin: 0 auto 10px;" />
-
-  <!-- Eswatini Flag -->
-  <img src="images/4635-flag-of-eswatini.png" alt="Eswatini Flag" style="width: 150px; display: block; margin: 0 auto 20px;" />
-
-  <h1>Appointment Booking - Biometrics</h1>
-  <p class="subtitle">Please capture your details as they appear on your identity document.</p>
-</header>
 
     .summary-container {
       background: var(--card);
@@ -75,7 +65,7 @@
     }
 
     .logo img {
-      width: 120px;
+      width: 150px;
       height: auto;
     }
 
@@ -133,11 +123,25 @@
     }
   </style>
 </head>
+
 <body>
 
+  <!-- Header with logos -->
+  <header class="brand" style="position: absolute; top: 20px; left: 0; right: 0; text-align: center; z-index: 2;">
+    <!-- Eswatini Coat of Arms -->
+    <img src="images/4634-coat-of-arms-of-eswatini.png" alt="Eswatini Coat of Arms" style="width: 100px; margin-bottom: 10px;" />
+
+    <!-- Eswatini Flag -->
+    <img src="images/4635-flag-of-eswatini.png" alt="Eswatini Flag" style="width: 150px; margin-bottom: 20px;" />
+
+    <h1>Appointment Booking - Biometrics</h1>
+    <p class="subtitle">Please confirm your details as they appear on your identity document.</p>
+  </header>
+
+  <!-- Summary Card -->
   <div class="summary-container">
     <div class="logo">
-      <img src="flag.png" alt="Eswatini Flag">
+      <img src="images/4635-flag-of-eswatini.png" alt="Eswatini Flag">
     </div>
 
     <h1>Booking Summary</h1>
@@ -159,6 +163,7 @@
     </div>
   </div>
 
+  <!-- JS to populate booking data -->
   <script>
     // On page load, pull data from localStorage and populate the summary
     window.onload = function () {
@@ -168,8 +173,8 @@
         document.getElementById("summary-id_number").textContent = bookingData.id_number;
         document.getElementById("summary-forenames").textContent = bookingData.forenames;
         document.getElementById("summary-surname").textContent = bookingData.surname;
-        document.getElementById("summary-cellphone").textContent = bookingData.cellphone;
-        document.getElementById("summary-email").textContent = bookingData.email;
+        document.getElementById("summary-cellphone").textContent = bookingData.cellphone || "—";
+        document.getElementById("summary-email").textContent = bookingData.email || "—";
         document.getElementById("summary-appointment_date").textContent = bookingData.appointment_date;
         document.getElementById("summary-appointment_time").textContent = bookingData.appointment_time;
       } else {
@@ -187,8 +192,8 @@ Booking Summary:
 ID Number: ${bookingData.id_number}
 Forenames: ${bookingData.forenames}
 Surname: ${bookingData.surname}
-Cellphone: ${bookingData.cellphone}
-Email: ${bookingData.email}
+Cellphone: ${bookingData.cellphone || "—"}
+Email: ${bookingData.email || "—"}
 Appointment Date: ${bookingData.appointment_date}
 Appointment Time: ${bookingData.appointment_time}
         `;
