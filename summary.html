@@ -2,41 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Booking Summary</title>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
     :root {
-      --card-bg: #ffffff;
-      --background: #e6f0ff; /* Light blue background */
-      --text-primary: #1a2e35;
-      --text-muted: #666666;
+      --card: #ffffff;
+      --muted: #6b7a8a;
       --accent: #0a6b3b;
-      --accent-hover: #2a8a55;
-      --border: #c4d1e0;
+      --accent-2: #2a8a55;
       --font-primary: 'Poppins', sans-serif;
-      --shadow: rgba(0, 0, 0, 0.1);
+      --border-light: #dce3ea;
+      --line-height: 1.6;
       --radius: 12px;
+      --shadow: rgba(0, 0, 0, 0.1);
     }
 
-    /* Reset and base */
-    *, *::before, *::after {
+    * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: var(--font-primary), Arial, sans-serif;
-      background-color: var(--background);
-      color: var(--text-primary);
+      background-color: #f0f2f5;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       padding: 20px;
-      overflow-x: hidden;
+      overflow: hidden;
+      color: #344050;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -50,8 +49,8 @@
       transform: translate(-50%, -50%);
       background-image: url('4634-coat-of-arms-of-eswatini.png');
       background-repeat: no-repeat;
-      background-size: 280px;
-      opacity: 0.04;
+      background-size: 300px;
+      opacity: 0.05;
       z-index: 0;
       pointer-events: none;
       user-select: none;
@@ -59,95 +58,102 @@
     }
 
     .summary-container {
-      background: var(--card-bg);
-      padding: 2.5rem 3rem 3rem;
+      background: var(--card);
+      padding: 3rem 3.5rem;
       border-radius: var(--radius);
-      box-shadow: 0 12px 28px var(--shadow);
+      box-shadow: 0 8px 24px var(--shadow);
       width: 100%;
       max-width: 520px;
-      position: relative;
+      animation: fadeIn 0.6s ease-in-out;
       z-index: 1;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: left;
+      user-select: none;
     }
 
-    /* Logos and title header */
+    /* Header with logos */
     .header-logos {
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
-      gap: 10px;
+      margin-bottom: 1.5rem;
+      gap: 12px;
     }
 
     .header-logos img {
       max-height: 85px;
       object-fit: contain;
       flex-shrink: 0;
-      filter: drop-shadow(0 1px 1px rgba(0,0,0,0.05));
       border-radius: 8px;
       background: #f9fafb;
       padding: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
 
+    /* Title section */
     .title-container {
       width: 100%;
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     h1.main-title {
       color: var(--accent);
       font-weight: 700;
       font-size: 2rem;
-      letter-spacing: 1.2px;
-      margin-bottom: 0.15rem;
-      user-select: none;
+      letter-spacing: 1.1px;
+      margin-bottom: 0.3rem;
     }
 
-    h1.booking-summary {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--text-primary);
-      margin-bottom: 1.5rem;
-      text-align: center;
-      user-select: none;
-      border-bottom: 2px solid var(--accent);
-      padding-bottom: 0.3rem;
-    }
-
-    .subtitle {
-      color: var(--text-muted);
+    h1.main-title + p.subtitle {
+      color: var(--muted);
       font-size: 1rem;
       font-weight: 500;
-      margin-top: -0.25rem;
-      user-select: none;
+      margin-top: 0;
     }
 
-    /* Summary details */
+    /* Main Booking Summary heading */
+    h1.booking-summary {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: #2e3a59;
+      margin-bottom: 2rem;
+      user-select: none;
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 0.4rem;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Summary block */
     .summary {
       width: 100%;
+      background-color: #f8fbff;
+      border: 1.8px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 2rem 2.5rem;
+      box-shadow: inset 0 0 10px rgba(10, 107, 59, 0.06);
+      margin-bottom: 3rem;
     }
 
     .summary h2 {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       color: var(--accent);
       font-weight: 600;
-      margin-bottom: 1rem;
-      border-bottom: 1.5px solid var(--border);
-      padding-bottom: 0.4rem;
+      margin-bottom: 1.8rem;
       user-select: none;
     }
 
     .summary p {
-      margin: 10px 0;
-      font-size: 1.05rem;
-      line-height: 1.5;
+      margin: 12px 0;
+      font-size: 1.1rem;
+      line-height: var(--line-height);
       word-wrap: break-word;
-      color: var(--text-primary);
+      color: #344050;
     }
 
     .summary p strong {
@@ -157,9 +163,9 @@
       color: #3b3b3b;
     }
 
-    /* Buttons */
+    /* Buttons container */
     .buttons {
-      margin-top: 2.5rem;
+      margin-top: 1rem;
       display: flex;
       justify-content: space-between;
       width: 100%;
@@ -172,19 +178,22 @@
       background-color: var(--accent);
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      font-weight: 600;
-      font-size: 1.1rem;
+      font-weight: 700;
+      font-size: 1.15rem;
       flex: 1 1 48%;
-      transition: background-color 0.3s ease, box-shadow 0.25s ease;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.12);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
       user-select: none;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
-    button:hover, button:focus {
-      background-color: var(--accent-hover);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+    button:hover,
+    button:focus {
+      background-color: var(--accent-2);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
       outline: none;
     }
 
@@ -194,14 +203,19 @@
       transition: none;
     }
 
-    /* Responsive */
-    @media (max-width: 520px) {
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
       .summary-container {
-        padding: 1.8rem 1.8rem 2rem;
+        padding: 2rem 2rem 2.5rem;
         max-width: 100%;
       }
       .header-logos img {
-        max-height: 70px;
+        max-height: 65px;
         padding: 4px;
       }
       .summary p strong {
@@ -211,27 +225,28 @@
         flex-basis: 100%;
       }
     }
-
   </style>
 </head>
 
 <body>
 
-  <div class="summary-container" role="main" aria-label="Booking Summary">
+  <main class="summary-container" role="main" aria-label="Booking Summary">
 
-    <!-- Header with logos inside the card -->
-    <div class="header-logos" aria-label="Logos">
+    <!-- Header with logos -->
+    <section class="header-logos" aria-label="Organization logos">
       <img src="4634-coat-of-arms-of-eswatini.png" alt="Eswatini Coat of Arms" />
       <img src="4635-flag-of-eswatini.png" alt="Eswatini Flag" />
-    </div>
+    </section>
 
-    <div class="title-container">
+    <!-- Title -->
+    <section class="title-container">
       <h1 class="main-title">Appointment Booking - Biometrics</h1>
-    </div>
+    </section>
 
     <h1 class="booking-summary">Booking Summary</h1>
 
-    <div class="summary" id="summary" aria-live="polite">
+    <!-- Summary details -->
+    <section class="summary" id="summary" aria-live="polite">
       <h2>Summary Details:</h2>
       <p><strong>ID Number:</strong> <span id="summary-id_number"></span></p>
       <p><strong>Forenames:</strong> <span id="summary-forenames"></span></p>
@@ -240,15 +255,16 @@
       <p><strong>Email:</strong> <span id="summary-email"></span></p>
       <p><strong>Appointment Date:</strong> <span id="summary-appointment_date"></span></p>
       <p><strong>Appointment Time:</strong> <span id="summary-appointment_time"></span></p>
-    </div>
+    </section>
 
-    <div class="buttons">
+    <!-- Action buttons -->
+    <section class="buttons">
       <button id="downloadBtn" type="button" aria-label="Download booking summary">Download Summary</button>
       <button type="button" onclick="window.print()" aria-label="Print booking summary">Print Summary</button>
-    </div>
+    </section>
+  </main>
 
-  </div>
-
+  <!-- JS to populate booking data -->
   <script>
     // On page load, pull data from localStorage and populate the summary
     window.onload = function () {
