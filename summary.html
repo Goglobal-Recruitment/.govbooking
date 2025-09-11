@@ -13,7 +13,8 @@
       --muted: #6b7a8a;
       --accent: #0a6b3b;
       --accent-2: #2a8a55;
-      --font-primary: 'Poppins', sans-serif;
+      --background: #e0f7fa;
+      --font-family: 'Poppins', sans-serif;
       --border-light: #dce3ea;
       --line-height: 1.6;
       --radius: 12px;
@@ -27,109 +28,73 @@
     }
 
     body {
-      font-family: var(--font-primary), Arial, sans-serif;
-      background-color: #f0f2f5;
+      font-family: var(--font-family);
+      background-color: var(--background);
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      overflow: hidden;
-      color: #344050;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Watermark */
-    body::before {
-      content: "";
+    /* Background watermark images on both sides */
+    body::before,
+    body::after {
+      content: '';
       position: fixed;
       top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-image: url('4634-coat-of-arms-of-eswatini.png');
+      width: 300px;
+      height: 300px;
+      background-size: contain;
       background-repeat: no-repeat;
-      background-size: 300px;
       opacity: 0.05;
+      transform: translateY(-50%);
       z-index: 0;
       pointer-events: none;
-      user-select: none;
-      filter: grayscale(100%);
     }
 
-    .summary-container {
-      background: var(--card);
-      padding: 3rem 3.5rem;
-      border-radius: var(--radius);
-      box-shadow: 0 8px 24px var(--shadow);
+    body::before {
+      left: 0;
+      background-image: url('4634-coat-of-arms-of-eswatini.png');
+    }
+
+    body::after {
+      right: 0;
+      background-image: url('4635-flag-of-eswatini.png');
+    }
+
+    main.summary-container {
       width: 100%;
-      max-width: 520px;
-      animation: fadeIn 0.6s ease-in-out;
-      z-index: 1;
+      max-width: 800px;
+      padding: 2.5rem 3rem;
+      background-color: var(--card);
+      box-shadow: 0 8px 20px var(--shadow);
+      border-radius: var(--radius);
       position: relative;
+      z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: left;
-      user-select: none;
     }
 
-    /* Header with logos */
-    .header-logos {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      gap: 12px;
-    }
-
-    .header-logos img {
-      max-height: 85px;
-      object-fit: contain;
-      flex-shrink: 0;
-      border-radius: 8px;
-      background: #f9fafb;
-      padding: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-    }
-
-    /* Title section */
-    .title-container {
-      width: 100%;
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-
-    h1.main-title {
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 2rem;
-      letter-spacing: 1.1px;
-      margin-bottom: 0.3rem;
-    }
-
-    h1.main-title + p.subtitle {
-      color: var(--muted);
-      font-size: 1rem;
-      font-weight: 500;
-      margin-top: 0;
-    }
-
-    /* Main Booking Summary heading */
     h1.booking-summary {
+      font-size: 2rem;
       font-weight: 700;
-      font-size: 1.6rem;
-      color: #2e3a59;
-      margin-bottom: 2rem;
-      user-select: none;
-      border-bottom: 3px solid var(--accent);
-      padding-bottom: 0.4rem;
-      width: 100%;
+      color: var(--accent);
       text-align: center;
+      margin-bottom: 1rem;
     }
 
-    /* Summary block */
+    .subtitle {
+      text-align: center;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
     .summary {
       width: 100%;
       background-color: #f8fbff;
@@ -137,20 +102,12 @@
       border-radius: var(--radius);
       padding: 2rem 2.5rem;
       box-shadow: inset 0 0 10px rgba(10, 107, 59, 0.06);
-      margin-bottom: 3rem;
-    }
-
-    .summary h2 {
-      font-size: 1.4rem;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 1.8rem;
-      user-select: none;
+      margin-bottom: 2rem;
     }
 
     .summary p {
       margin: 12px 0;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       line-height: var(--line-height);
       word-wrap: break-word;
       color: #344050;
@@ -163,110 +120,81 @@
       color: #3b3b3b;
     }
 
-    /* Buttons container */
     .buttons {
-      margin-top: 1rem;
       display: flex;
       justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
       width: 100%;
-      gap: 16px;
       flex-wrap: wrap;
     }
 
-    button {
-      padding: 14px 0;
+    .buttons button {
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      flex: 1 1 48%;
+      transition: background 0.3s ease;
       background-color: var(--accent);
       color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 1.15rem;
-      flex: 1 1 48%;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
-      user-select: none;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
     }
 
-    button:hover,
-    button:focus {
+    .buttons button:hover {
       background-color: var(--accent-2);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
-      outline: none;
     }
 
-    button:active {
-      background-color: #065024;
-      box-shadow: none;
-      transition: none;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Responsive tweaks */
-    @media (max-width: 480px) {
-      .summary-container {
-        padding: 2rem 2rem 2.5rem;
-        max-width: 100%;
+    @media (max-width: 768px) {
+      body::before,
+      body::after {
+        display: none;
       }
-      .header-logos img {
-        max-height: 65px;
-        padding: 4px;
+
+      main.summary-container {
+        padding: 2rem 1.5rem;
       }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .buttons button {
+        width: 100%;
+      }
+
       .summary p strong {
         width: 130px;
-      }
-      button {
-        flex-basis: 100%;
       }
     }
   </style>
 </head>
 
 <body>
-
   <main class="summary-container" role="main" aria-label="Booking Summary">
 
-    <!-- Header with logos -->
-    <section class="header-logos" aria-label="Organization logos">
-      <img src="4634-coat-of-arms-of-eswatini.png" alt="Eswatini Coat of Arms" />
-      <img src="4635-flag-of-eswatini.png" alt="Eswatini Flag" />
-    </section>
-
-    <!-- Title -->
-    <section class="title-container">
-      <h1 class="main-title">Biometrics Appointment</h1>
-    </section>
-
     <h1 class="booking-summary">Booking Summary</h1>
+    <p class="subtitle">Review your appointment details below</p>
 
-    <!-- Summary details -->
     <section class="summary" id="summary" aria-live="polite">
-      <h2>Summary Details:</h2>
-      <p><strong>ID Number:</strong> <span id="summary-id_number"></span></p>
-      <p><strong>Forenames:</strong> <span id="summary-forenames"></span></p>
-      <p><strong>Surname:</strong> <span id="summary-surname"></span></p>
-      <p><strong>Cellphone:</strong> <span id="summary-cellphone"></span></p>
-      <p><strong>Email:</strong> <span id="summary-email"></span></p>
-      <p><strong>Appointment Date:</strong> <span id="summary-appointment_date"></span></p>
-      <p><strong>Appointment Time:</strong> <span id="summary-appointment_time"></span></p>
+      <p><strong>ID Number:</strong> <span id="summary-id_number">—</span></p>
+      <p><strong>Forenames:</strong> <span id="summary-forenames">—</span></p>
+      <p><strong>Surname:</strong> <span id="summary-surname">—</span></p>
+      <p><strong>Cellphone:</strong> <span id="summary-cellphone">—</span></p>
+      <p><strong>Email:</strong> <span id="summary-email">—</span></p>
+      <p><strong>Appointment Date:</strong> <span id="summary-appointment_date">—</span></p>
+      <p><strong>Appointment Time:</strong> <span id="summary-appointment_time">—</span></p>
     </section>
 
-    <!-- Action buttons -->
     <section class="buttons">
-      <button id="downloadBtn" type="button" aria-label="Download booking summary">Download Summary</button>
-      <button type="button" onclick="window.print()" aria-label="Print booking summary">Print Summary</button>
+      <button id="downloadBtn" type="button">Download Summary</button>
+      <button id="printBtn" type="button" onclick="window.print()">Print Summary</button>
     </section>
   </main>
 
-  <!-- JS to populate booking data -->
   <script>
-    // On page load, pull data from localStorage and populate the summary
+    // Populate data on load
     window.onload = function () {
       const bookingData = JSON.parse(localStorage.getItem("bookingData"));
 
@@ -283,7 +211,7 @@
       }
     };
 
-    // Download Summary
+    // Download functionality
     document.getElementById("downloadBtn").addEventListener("click", function () {
       const bookingData = JSON.parse(localStorage.getItem("bookingData"));
 
@@ -313,6 +241,5 @@ Appointment Time: ${bookingData.appointment_time || "—"}
       }
     });
   </script>
-
 </body>
 </html>
