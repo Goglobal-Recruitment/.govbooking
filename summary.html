@@ -28,6 +28,23 @@
       align-items: center;
       min-height: 100vh;
       padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Watermark */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-image: url('emblem.png'); /* Swazi emblem */
+      background-repeat: no-repeat;
+      background-size: 300px;
+      opacity: 0.05;
+      z-index: 0;
+      pointer-events: none;
     }
 
     .summary-container {
@@ -38,6 +55,18 @@
       width: 100%;
       max-width: 500px;
       animation: fadeIn 0.6s ease-in-out;
+      z-index: 1;
+      position: relative;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .logo img {
+      width: 120px;
+      height: auto;
     }
 
     h1 {
@@ -97,6 +126,10 @@
 <body>
 
   <div class="summary-container">
+    <div class="logo">
+      <img src="flag.png" alt="Eswatini Flag">
+    </div>
+
     <h1>Booking Summary</h1>
 
     <div class="summary" id="summary">
@@ -118,7 +151,7 @@
 
   <script>
     // On page load, pull data from localStorage and populate the summary
-    window.onload = function() {
+    window.onload = function () {
       const bookingData = JSON.parse(localStorage.getItem("bookingData"));
 
       if (bookingData) {
@@ -134,7 +167,7 @@
       }
     };
 
-    // Function to download the summary as a text file
+    // Download Summary
     document.getElementById("downloadBtn").addEventListener("click", function () {
       const bookingData = JSON.parse(localStorage.getItem("bookingData"));
 
