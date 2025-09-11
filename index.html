@@ -301,7 +301,22 @@
       }
     }
 
+    // Block dates from 11 September to 16 October 2025 inclusive
     const appointmentDateInput = document.getElementById('appointment_date');
+
+    appointmentDateInput.addEventListener('input', function () {
+      const selectedDate = new Date(this.value);
+      const blockStart = new Date('2025-09-11');
+      const blockEnd = new Date('2025-10-16');
+
+      // To compare dates only (ignore time)
+      selectedDate.setHours(0,0,0,0);
+
+      if (selectedDate >= blockStart && selectedDate <= blockEnd) {
+        alert('Select a date.');
+        this.value = '';
+      }
+    });
 
     // Set minimum date to today
     function setMinDate() {
@@ -314,23 +329,18 @@
 
     setMinDate();
 
-    // Block dates from 11 September to 16 October inclusive
-    appointmentDateInput.addEventListener('input', function () {
-      const selectedDate = new Date(this.value);
-      const blockStart = new Date('2025-09-11');
-      const blockEnd = new Date('2025-10-16');
-
-      if (selectedDate >= blockStart && selectedDate <= blockEnd) {
-        alert('Select a date.');
-        this.value = ''; // clear invalid date
-      }
-    });
-
+    // Form submission
     document.getElementById("bookingForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
       if (!this.checkValidity()) {
         alert('Please fill all required fields.');
+        return;
+      }
+
+      // If appointment_date is empty (or blocked), prevent submission
+      if (!appointmentDateInput.value) {
+        alert('Select a date.');
         return;
       }
 
@@ -341,7 +351,7 @@
         country: document.getElementById("country").value,
         location: document.getElementById("location").value,
         office: document.getElementById("office").value,
-        appointment_date: document.getElementById("appointment_date").value,
+        appointment_date: appointmentDateInput.value,
         appointment_time: document.getElementById("appointment_time").value,
       };
 
