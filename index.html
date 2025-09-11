@@ -301,34 +301,32 @@
 
     const appointmentInput = document.getElementById('appointment_date');
 
-    function isDateBlocked(date) {
+    function isDateInBlockedRange(date) {
       const start = new Date('2025-09-01');
       const end = new Date('2025-10-16');
       return date >= start && date <= end;
     }
 
-    appointmentInput.addEventListener('change', () => {
-      const selectedDate = new Date(appointmentInput.value);
-      if (isDateBlocked(selectedDate)) {
+    appointmentInput.addEventListener('input', () => {
+      const selected = new Date(appointmentInput.value);
+      if (isDateInBlockedRange(selected)) {
         appointmentInput.value = '';
       }
     });
 
-    (function setMinDate() {
+    function setMinDate() {
       const today = new Date();
       const yyyy = today.getFullYear();
       const mm = (today.getMonth() + 1).toString().padStart(2, '0');
       const dd = today.getDate().toString().padStart(2, '0');
       appointmentInput.min = `${yyyy}-${mm}-${dd}`;
-    })();
+    }
+
+    setMinDate();
 
     document.getElementById("bookingForm").addEventListener("submit", function (e) {
       e.preventDefault();
-
-      if (!this.checkValidity()) {
-        alert('Please fill all required fields.');
-        return;
-      }
+      if (!this.checkValidity()) return;
 
       const bookingData = {
         id_number: document.getElementById("id_number").value,
