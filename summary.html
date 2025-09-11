@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Booking Summary</title>
 
   <style>
     :root {
       --card: #ffffff;
+      --muted: #666;
       --accent: #0a6b3b;
       --accent-2: #2a8a55;
       --font-primary: 'Poppins', sans-serif;
@@ -38,7 +39,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-image: url('4634-coat-of-arms-of-eswatini.png');
+      background-image: url('4634-coat-of-arms-of-eswatini.png'); /* Correct watermark path */
       background-repeat: no-repeat;
       background-size: 300px;
       opacity: 0.05;
@@ -58,41 +59,14 @@
       position: relative;
     }
 
-    /* Header flex container */
-    header.brand {
-      position: absolute;
-      top: 20px;
-      left: 0;
-      right: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 0 10px;
-      z-index: 2;
-    }
-
-    header.brand img {
-      height: 70px;
-      width: auto;
-    }
-
-    header.brand .title-container {
-      flex-grow: 1;
+    .logo {
       text-align: center;
-      color: var(--accent);
+      margin-bottom: 1rem;
     }
 
-    header.brand h1 {
-      margin-bottom: 0.25rem;
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    header.brand p.subtitle {
-      font-size: 0.9rem;
-      color: #333;
+    .logo img {
+      width: 150px;
+      height: auto;
     }
 
     h1 {
@@ -152,25 +126,22 @@
 
 <body>
 
-  <!-- Header with images on left & right, text centered -->
-  <header class="brand">
-    <!-- Left: Coat of Arms -->
-    <img src="4634-coat-of-arms-of-eswatini.png" alt="Eswatini Coat of Arms" />
+  <!-- Header with logos -->
+  <header class="brand" style="position: absolute; top: 20px; left: 0; right: 0; text-align: center; z-index: 2;">
+    <!-- Eswatini Coat of Arms -->
+    <img src="4634-coat-of-arms-of-eswatini.png" alt="Eswatini Coat of Arms" style="width: 100px; margin-bottom: 10px;" />
 
-    <!-- Center: Title and subtitle -->
-    <div class="title-container">
-      <h1>Appointment Booking - Biometrics</h1>
-      <p class="subtitle">Confirmed Details.</p>
-    </div>
+    <!-- Eswatini Flag -->
+    <img src="4635-flag-of-eswatini.png" alt="Eswatini Flag" style="width: 150px; margin-bottom: 20px;" />
 
-    <!-- Right: Flag -->
-    <img src="4635-flag-of-eswatini.png" alt="Eswatini Flag" />
+    <h1>Appointment Booking - Biometrics</h1>
+    <p class="subtitle">Please confirm your details as they appear on your identity document.</p>
   </header>
 
   <!-- Summary Card -->
   <div class="summary-container">
-    <div class="logo" style="text-align:center; margin-bottom:1rem;">
-      <img src="4635-flag-of-eswatini.png" alt="Eswatini Flag" style="width:150px; height:auto;">
+    <div class="logo">
+      <img src="4635-flag-of-eswatini.png" alt="Eswatini Flag">
     </div>
 
     <h1>Booking Summary</h1>
@@ -192,7 +163,9 @@
     </div>
   </div>
 
+  <!-- JS to populate booking data -->
   <script>
+    // On page load, pull data from localStorage and populate the summary
     window.onload = function () {
       const bookingData = JSON.parse(localStorage.getItem("bookingData"));
 
@@ -209,6 +182,7 @@
       }
     };
 
+    // Download Summary
     document.getElementById("downloadBtn").addEventListener("click", function () {
       const bookingData = JSON.parse(localStorage.getItem("bookingData"));
 
@@ -238,5 +212,6 @@ Appointment Time: ${bookingData.appointment_time}
       }
     });
   </script>
+
 </body>
 </html>
