@@ -204,6 +204,29 @@
         });
       }
     }
+
+    // Capture form data and save to localStorage when the form is submitted
+    document.getElementById("bookingForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Capture form data
+      const bookingData = {
+        id_number: document.getElementById("id_number").value,
+        forenames: document.getElementById("forenames").value,
+        surname: document.getElementById("surname").value,
+        country: document.getElementById("country").value,
+        location: document.getElementById("location").value,
+        office: document.getElementById("office").value,
+        appointment_date: document.getElementById("appointment_date").value,
+        appointment_time: document.getElementById("appointment_time").value,
+      };
+
+      // Save form data to localStorage
+      localStorage.setItem("bookingData", JSON.stringify(bookingData));
+
+      // Optionally, you can redirect to another page after saving the data
+      window.location.href = "summary.html"; // Redirect to summary page
+    });
   </script>
 
 </body>
