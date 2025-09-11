@@ -235,7 +235,6 @@
       'Port Harcourt': ['Branch 1'],
     };
 
-    // Function to update locations based on selected country
     function updateLocations() {
       const country = document.getElementById('country').value;
       const locationSelect = document.getElementById('location');
@@ -248,4 +247,59 @@
         countryLocations[country].forEach(location => {
           const option = document.createElement('option');
           option.value = location;
-          option.text
+          option.textContent = location;
+          locationSelect.appendChild(option);
+        });
+      }
+    }
+
+    function updateOffices() {
+      const location = document.getElementById('location').value;
+      const officeSelect = document.getElementById('office');
+      officeSelect.innerHTML = '<option value="">Select Office</option>';
+
+      if (officeLocations[location]) {
+        officeLocations[location].forEach(office => {
+          const option = document.createElement('option');
+          option.value = office;
+          option.textContent = office;
+          officeSelect.appendChild(option);
+        });
+      }
+    }
+
+    function goToSummary(event) {
+      event.preventDefault();
+      const form = document.getElementById('bookingForm');
+      let allValid = true;
+
+      // Check required inputs and selects
+      form.querySelectorAll('input[required], select[required]').forEach(el => {
+        el.style.borderColor = '#ccc'; // reset
+        if (el.type === 'radio') {
+          const radios = form.querySelectorAll(`input[name="${el.name}"]`);
+          const checked = Array.from(radios).some(r => r.checked);
+          if (!checked) {
+            radios.forEach(r => r.parentElement.style.color = 'red');
+            allValid = false;
+          } else {
+            radios.forEach(r => r.parentElement.style.color = 'black');
+          }
+        } else {
+          if (!el.value) {
+            el.style.borderColor = 'red';
+            allValid = false;
+          }
+        }
+      });
+
+      if (!allValid) {
+        alert('⚠️ Complete all fields.');
+        return false;
+      }
+
+      window.location.href = 'summary.html';
+    }
+  </script>
+</body>
+</html>
