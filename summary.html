@@ -1,115 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Booking Summary</title>
+
   <style>
+    :root {
+      --card: #ffffff;
+      --muted: #666;
+      --accent: #0a6b3b;
+      --accent-2: #2a8a55;
+      --font-primary: 'Poppins', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: var(--font-primary), Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
       padding: 20px;
-      line-height: 1.6;
     }
 
-    .summary {
-      margin: 20px 0;
+    .summary-container {
+      background: var(--card);
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      animation: fadeIn 0.6s ease-in-out;
     }
 
-    .summary h2 {
-      margin-bottom: 15px;
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      color: #333;
+      margin-bottom: 1rem;
     }
 
     .summary p {
-      margin: 5px 0;
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+
+    .summary p strong {
+      display: inline-block;
+      width: 160px;
+      color: #444;
     }
 
     .buttons {
-      margin-top: 20px;
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
+      padding: 12px 20px;
+      background-color: var(--accent);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      margin: 5px;
+      font-weight: 600;
+      font-size: 1rem;
+      flex: 1 1 48%;
+      margin: 5px 0;
+      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #45a049;
+      background-color: var(--accent-2);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-<h1>Booking Summary</h1>
+  <div class="summary-container">
+    <h1>Booking Summary</h1>
 
-<div class="summary" id="summary">
-  <h2>Summary Details:</h2>
-  <p><strong>ID Number:</strong> <span id="summary-id_number"></span></p>
-  <p><strong>Forenames:</strong> <span id="summary-forenames"></span></p>
-  <p><strong>Surname:</strong> <span id="summary-surname"></span></p>
-  <p><strong>Cellphone:</strong> <span id="summary-cellphone"></span></p>
-  <p><strong>Email:</strong> <span id="summary-email"></span></p>
-  <p><strong>Appointment Date:</strong> <span id="summary-appointment_date"></span></p>
-  <p><strong>Appointment Time:</strong> <span id="summary-appointment_time"></span></p>
-</div>
+    <div class="summary" id="summary">
+      <h2>Summary Details:</h2>
+      <p><strong>ID Number:</strong> <span id="summary-id_number"></span></p>
+      <p><strong>Forenames:</strong> <span id="summary-forenames"></span></p>
+      <p><strong>Surname:</strong> <span id="summary-surname"></span></p>
+      <p><strong>Cellphone:</strong> <span id="summary-cellphone"></span></p>
+      <p><strong>Email:</strong> <span id="summary-email"></span></p>
+      <p><strong>Appointment Date:</strong> <span id="summary-appointment_date"></span></p>
+      <p><strong>Appointment Time:</strong> <span id="summary-appointment_time"></span></p>
+    </div>
 
-<div class="buttons">
-  <button id="downloadBtn">Download Summary</button>
-  <button onclick="window.print()">Print Summary</button>
-</div>
+    <div class="buttons">
+      <button id="downloadBtn">Download Summary</button>
+      <button onclick="window.print()">Print Summary</button>
+    </div>
+  </div>
 
-<script>
-// On page load, pull data from localStorage and populate the summary
-window.onload = function() {
-  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+  <script>
+    // On page load, pull data from localStorage and populate the summary
+    window.onload = function() {
+      const bookingData = JSON.parse(localStorage.getItem("bookingData"));
 
-  if (bookingData) {
-    document.getElementById("summary-id_number").textContent = bookingData.id_number;
-    document.getElementById("summary-forenames").textContent = bookingData.forenames;
-    document.getElementById("summary-surname").textContent = bookingData.surname;
-    document.getElementById("summary-cellphone").textContent = bookingData.cellphone;
-    document.getElementById("summary-email").textContent = bookingData.email;
-    document.getElementById("summary-appointment_date").textContent = bookingData.appointment_date;
-    document.getElementById("summary-appointment_time").textContent = bookingData.appointment_time;
-  } else {
-    alert("No booking data found.");
-  }
-};
+      if (bookingData) {
+        document.getElementById("summary-id_number").textContent = bookingData.id_number;
+        document.getElementById("summary-forenames").textContent = bookingData.forenames;
+        document.getElementById("summary-surname").textContent = bookingData.surname;
+        document.getElementById("summary-cellphone").textContent = bookingData.cellphone;
+        document.getElementById("summary-email").textContent = bookingData.email;
+        document.getElementById("summary-appointment_date").textContent = bookingData.appointment_date;
+        document.getElementById("summary-appointment_time").textContent = bookingData.appointment_time;
+      } else {
+        alert("No booking data found.");
+      }
+    };
 
-// Function to download the summary as a text file
-document.getElementById("downloadBtn").addEventListener("click", function() {
-  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+    // Function to download the summary as a text file
+    document.getElementById("downloadBtn").addEventListener("click", function () {
+      const bookingData = JSON.parse(localStorage.getItem("bookingData"));
 
-  if (bookingData) {
-    const textContent = `
-      Booking Summary:
-      ID Number: ${bookingData.id_number}
-      Forenames: ${bookingData.forenames}
-      Surname: ${bookingData.surname}
-      Cellphone: ${bookingData.cellphone}
-      Email: ${bookingData.email}
-      Appointment Date: ${bookingData.appointment_date}
-      Appointment Time: ${bookingData.appointment_time}
-    `;
+      if (bookingData) {
+        const textContent = `
+Booking Summary:
+ID Number: ${bookingData.id_number}
+Forenames: ${bookingData.forenames}
+Surname: ${bookingData.surname}
+Cellphone: ${bookingData.cellphone}
+Email: ${bookingData.email}
+Appointment Date: ${bookingData.appointment_date}
+Appointment Time: ${bookingData.appointment_time}
+        `;
 
-    const blob = new Blob([textContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'booking_summary.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  } else {
-    alert("No booking data available.");
-  }
-});
-</script>
+        const blob = new Blob([textContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'booking_summary.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } else {
+        alert("No booking data available.");
+      }
+    });
+  </script>
 
 </body>
 </html>
