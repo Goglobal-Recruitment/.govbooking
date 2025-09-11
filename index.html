@@ -160,46 +160,44 @@
       }
     }
 
-    function goToSummary(event) {
-      event.preventDefault();
-      const form = document.getElementById('bookingForm');
-      let allValid = true;
-      const formData = {};
+   function goToSummary(event) {
+  event.preventDefault();
+  const form = document.getElementById('bookingForm');
+  let allValid = true;
 
-      // Collect form data
-      form.querySelectorAll('input[required], select[required]').forEach(el => {
-        el.style.borderColor = '#ccc'; // reset
-        if (el.type === 'radio') {
-          const radios = form.querySelectorAll(`input[name="${el.name}"]`);
-          const checked = Array.from(radios).some(r => r.checked);
-          if (!checked) {
-            radios.forEach(r => r.parentElement.style.color = 'red');
-            allValid = false;
-          } else {
-            radios.forEach(r => r.parentElement.style.color = 'black');
-            formData[el.name] = Array.from(radios).find(r => r.checked).value;
-          }
-        } else {
-          if (!el.value) {
-            el.style.borderColor = 'red';
-            allValid = false;
-          } else {
-            formData[el.name] = el.value;
-          }
-        }
-      });
-
-      if (!allValid) {
-        // Skip the alert and just return if the form is not valid
-        return false;
+  // Check required inputs and selects
+  form.querySelectorAll('input[required], select[required]').forEach(el => {
+    el.style.borderColor = '#ccc'; // reset
+    if (el.type === 'radio') {
+      const radios = form.querySelectorAll(`input[name="${el.name}"]`);
+      const checked = Array.from(radios).some(r => r.checked);
+      if (!checked) {
+        radios.forEach(r => r.parentElement.style.color = 'red');
+        allValid = false;
+      } else {
+        radios.forEach(r => r.parentElement.style.color = 'black');
       }
-
-      // Store the form data in sessionStorage
-      sessionStorage.setItem('appointmentData', JSON.stringify(formData));
-
-      // Redirect to the summary page
-      window.location.href = 'summary.html';
+    } else {
+      if (!el.value) {
+        el.style.borderColor = 'red';
+        allValid = false;
+      }
     }
-  </script>
-</body>
-</html>
+  });
+
+  // If the form is valid, push data to sessionStorage and go to summary
+  if (allValid) {
+    // Save data to sessionStorage before redirecting
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    sessionStorage.setItem('formData', JSON.stringify(data));
+
+    // Redirect to the summary page
+    window.location.href = 'summary.html';
+  }
+}
+
+
