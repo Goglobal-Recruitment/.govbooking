@@ -31,21 +31,35 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    /* Top header bar with images */
-    .header-bar {
-      width: 100%;
-      max-width: 800px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+    /* Watermark logos on left and right */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      top: 50%;
+      width: 300px;
+      height: 300px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.07;
+      transform: translateY(-50%);
+      z-index: 0;
+      pointer-events: none;
+      filter: grayscale(100%) brightness(150%);
     }
 
-    .header-bar img {
-      height: 80px;
-      object-fit: contain;
+    body::before {
+      left: 0;
+      background-image: url('4634-coat-of-arms-of-eswatini.png');
+    }
+
+    body::after {
+      right: 0;
+      background-image: url('4635-flag-of-eswatini.png');
     }
 
     .container {
@@ -90,6 +104,13 @@
       border: 1px solid #ccc;
       font-size: 1rem;
       background-color: #fafafa;
+    }
+
+    select:disabled,
+    input:disabled {
+      background-color: #eee;
+      color: #999;
+      cursor: not-allowed;
     }
 
     .button-group {
@@ -140,27 +161,12 @@
       .button-group button {
         width: 100%;
       }
-
-      .header-bar {
-        flex-direction: row;
-        justify-content: space-between;
-      }
-
-      .header-bar img {
-        height: 60px;
-      }
     }
   </style>
 </head>
 
 <body>
-  <!-- Top bar with emblem (left) and flag (right) -->
-  <div class="header-bar">
-    <img src="4634-coat-of-arms-of-eswatini.png" alt="Eswatini Emblem" />
-    <img src="4635-flag-of-eswatini.png" alt="Eswatini Flag" />
-  </div>
-
-  <main class="container">
+  <main class="container" role="main">
     <header>
       <h1>Appointment Booking - Biometrics</h1>
       <p class="subtitle">Please capture your details as they appear on your identity document.</p>
@@ -295,8 +301,70 @@
       }
     }
 
+    // List of public holidays YYYY-MM-DD (add your own dates)
+    const publicHolidays = [
+      '2025-09-24',
+      '2025-10-15',
+      '2025-10-23',
+      // Add more public holidays here
+    ];
+
+    const appointmentInput = document.getElementById('appointment_date');
+
+    function isDateDisabled(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // 1-based
+      const day = date.getDate();
+
+      const dateString = date.toISOString().slice(0, 10); // YYYY-MM-DD
+
+      // Disable all days in September (month 9)
+      if (month === 9) {
+        return true;
+      }
+
+      // Disable all days from October 1 to October 10 inclusive
+      if (month === 10 && day >= 1 && day <= 10) {
+        return true;
+      }
+
+      // Disable all public holidays
+      if (publicHolidays.includes(dateString)) {
+        return true;
+      }
+
+      return false;
+    }
+
+    // Set min date to today to prevent past dates before today entirely
+    function setMinDate() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = (today.getMonth() + 1).toString().padStart(2, '0');
+      const dd = today.getDate().toString().padStart(2, '0');
+      appointmentInput.min = `${yyyy}-${mm}-${dd}`;
+    }
+
+    setMinDate();
+
+    // On date change, check if selected date is disabled
+    appointmentInput.addEventListener('input', () => {
+      const selectedDate = new Date(appointmentInput.value);
+      if (isDateDisabled(selectedDate)) {
+        alert('The selected date is not available. Please choose a different date.');
+        appointmentInput.value = '';
+      }
+    });
+
+    // --- Your form submit handler ---
     document.getElementById("bookingForm").addEventListener("submit", function (e) {
       e.preventDefault();
+
+      // validate required fields
+      if (!this.checkValidity()) {
+        alert('Please fill all required fields.');
+        return;
+      }
 
       const bookingData = {
         id_number: document.getElementById("id_number").value,
