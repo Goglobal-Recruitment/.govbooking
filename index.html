@@ -57,7 +57,7 @@
       color: white;
     }
 
-    /* Style for the logo */
+    /* Add a class for the logo image */
     .brand img {
       width: 150px;  /* Adjust logo size */
       height: auto;
@@ -71,8 +71,8 @@
   <main class="container">
     <header class="brand">
       <!-- Add the logo image here -->
-      <img src="/.govbooking/images/logo.png" alt="Logo" class="site-logo"> <!-- Adjust path if needed -->
-      <h1>Appointment Booking -Biometics</h1>
+      <img src="/Image.jpg" alt="Logo" class="site-logo"> <!-- Ensure this path is correct -->
+      <h1>Appointment Booking - Biometics</h1>
       <p class="subtitle">Please capture your details as they appear on your identity document.</p>
     </header>
 
@@ -221,4 +221,18 @@
         id_number: document.getElementById("id_number").value,
         forenames: document.getElementById("forenames").value,
         surname: document.getElementById("surname").value,
-        country: document.getElementBy
+        country: document.getElementById("country").value,
+        location: document.getElementById("location").value,
+        office: document.getElementById("office").value,
+        appointment_date: document.getElementById("appointment_date").value,
+        appointment_time: document.getElementById("appointment_time").value,
+      };
+
+      localStorage.setItem("bookingData", JSON.stringify(bookingData));
+
+      window.location.href = "summary.html";
+    });
+  </script>
+
+</body>
+</html>
