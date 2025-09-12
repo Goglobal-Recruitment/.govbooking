@@ -32,6 +32,27 @@ body {
   overflow-x: hidden;
 }
 
+/* ✅ Watermark: Your image on both left and right sides like summary page */
+body::before {
+  content: "";
+  background: url('3cefcf5c-4f19-4126-9ae7-3d62ea7b60d6.png') no-repeat left center,
+              url('3cefcf5c-4f19-4126-9ae7-3d62ea7b60d6.png') no-repeat right center;
+  background-size: 200px auto;
+  opacity: 0.08;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ✅ Removed old header watermark */
+header::after {
+  display: none;
+}
+
 .container {
   width: 100%;
   max-width: 800px;
@@ -60,31 +81,6 @@ select:disabled, input:disabled { background-color: #eee; color: #999; cursor: n
 .btn-auth:hover { background-color: #2a8a55; }
 .btn-back { background-color: var(--danger); color: white; }
 .btn-back:hover { background-color: #d32f2f; }
-
-/* Watermarks: Coat of Arms left, Flag right */
-body::before {
-  content: "";
-  background: url('4634-coat-of-arms-of-eswatini.png') no-repeat left center, url('4635-flag-of-eswatini.png') no-repeat right center;
-  background-size: 100px auto;
-  opacity: 0.15;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 0;
-}
-
-header::after {
-  content: "";
-  background: url('4634-coat-of-arms-of-eswatini.png') no-repeat top right;
-  background-size: 80px;
-  width: 80px;
-  height: 80px;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
 
 @media (max-width: 768px) {
   .container { padding: 2rem 1.5rem; }
@@ -192,7 +188,6 @@ const officeLocations = {
   "Gauteng":["Pretoria Home Affairs","Johannesburg Home Affairs","Soweto Regional Office"],
   "Western Cape":["Cape Town Home Affairs","Stellenbosch Branch"],
   "KwaZulu-Natal":["Durban Home Affairs","Pietermaritzburg Branch"]
-  // Add more global provinces/states and offices as needed
 };
 
 function updateLocations() {
@@ -223,7 +218,6 @@ function updateOffices(){
       officeSelect.appendChild(opt);
     });
   } else {
-    // fallback Home Affairs if nothing defined
     const opt=document.createElement('option');
     opt.value=loc+" Home Affairs";
     opt.textContent=loc+" Home Affairs";
