@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Visa Application</title>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
     :root {
       --card: #ffffff;
       --muted: #6b7a8a;
@@ -14,9 +16,11 @@
       --background: #e0f7fa;
       --font-family: 'Poppins', sans-serif;
       --border-light: #dce3ea;
+      --line-height: 1.6;
       --radius: 12px;
       --shadow: rgba(0, 0, 0, 0.1);
     }
+
     body {
       font-family: var(--font-family);
       background-color: var(--background);
@@ -24,8 +28,9 @@
       padding: 20px;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
     }
+
     main.visa-container {
       max-width: 900px;
       width: 100%;
@@ -34,18 +39,27 @@
       border-radius: var(--radius);
       box-shadow: 0 8px 20px var(--shadow);
     }
-    h1 {
+
+    h1, h2 {
       color: var(--accent);
       font-weight: 700;
-      font-size: 2rem;
       margin-bottom: 1rem;
-      text-align: center;
     }
-    form { display: flex; flex-direction: column; gap: 1.25rem; }
-    fieldset { border: 1px solid var(--border-light); border-radius: 10px; padding: 1rem; }
-    legend { font-weight: 600; color: var(--accent); }
-    label { font-weight: 600; color: #3b3b3b; margin-top: 6px; }
-    input, select, textarea {
+
+    h1 { text-align: center; }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    label {
+      font-weight: 600;
+      color: #3b3b3b;
+    }
+
+    input, textarea, select {
       padding: 0.6rem 1rem;
       border-radius: 8px;
       border: 1.8px solid var(--border-light);
@@ -53,232 +67,255 @@
       font-family: var(--font-family);
       resize: vertical;
       transition: border-color 0.3s ease;
-      width: 100%;
     }
+
     input:focus, textarea:focus, select:focus {
-      outline: none; border-color: var(--accent); box-shadow: 0 0 5px var(--accent);
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 5px var(--accent);
     }
+
     button {
-      margin-top: 2rem; background-color: var(--accent); color: white;
-      padding: 14px; font-size: 1.1rem; font-weight: 700;
-      border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s ease;
+      margin-top: 2rem;
+      background-color: var(--accent);
+      color: white;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
-    button:hover { background-color: var(--accent-2); }
+
+    button:hover {
+      background-color: var(--accent-2);
+    }
+
     .hidden { display: none; }
-    .feedback { font-size: 0.9rem; margin-top: 0.5rem; }
-    .error { color: red; }
-    .success { color: green; }
+
+    @media (max-width: 768px) {
+      main.visa-container { padding: 2rem 1.5rem; }
+    }
   </style>
 </head>
 <body>
-  <main class="visa-container" role="main" aria-label="Visa Application Form">
+  <main class="visa-container">
     <h1>Visa Application</h1>
-    <form id="visaForm" enctype="multipart/form-data">
+    <form id="visaForm">
 
-      <fieldset>
-        <legend>Personal & Appointment Details</legend>
-        <label for="id_number">ID Number</label>
-        <input type="text" id="id_number" name="id_number" readonly />
-        <label for="forenames">Forenames</label>
-        <input type="text" id="forenames" name="forenames" readonly />
-        <label for="surname">Surname</label>
-        <input type="text" id="surname" name="surname" readonly />
-        <label for="cellphone">Cellphone</label>
-        <input type="tel" id="cellphone" name="cellphone" readonly />
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" readonly />
-        <label for="appointment_date">Appointment Date</label>
-        <input type="text" id="appointment_date" name="appointment_date" readonly />
-        <label for="appointment_time">Appointment Time</label>
-        <input type="text" id="appointment_time" name="appointment_time" readonly />
-      </fieldset>
+      <!-- Booking Reference -->
+      <label for="booking_reference">Booking Reference</label>
+      <input type="text" id="booking_reference" name="booking_reference" readonly />
 
-      <fieldset>
-        <legend>Extended Details</legend>
-        <label>Street Address</label>
-        <input type="text" name="street" required>
-        <label>City</label>
-        <input type="text" name="city" required>
-        <label>Postal Code</label>
-        <input type="text" name="postal" required>
-        <label>Accommodation Address</label>
-        <input type="text" name="accomAddress">
-        <label>Upload Accommodation Proof</label>
-        <input type="file" name="accomProof" accept="application/pdf,image/*">
-      </fieldset>
+      <!-- Personal Info -->
+      <label for="id_number">ID Number</label>
+      <input type="text" id="id_number" name="id_number" readonly />
 
-      <fieldset>
-        <legend>Passport Handling</legend>
-        <label><input type="checkbox" id="noPassport" name="noPassport"> I do not have a passport / Applying for one</label>
-        <div id="passportFields">
-          <label>Passport Number</label>
-          <input type="text" name="passportNumber">
-          <label>Expiry Date</label>
-          <input type="date" name="passportExpiry">
-          <label>Upload Passport Copy</label>
-          <input type="file" name="passportScan" accept="application/pdf,image/*">
-        </div>
-        <div id="newPassportFields" class="hidden">
-          <label>Intended Issue Date</label>
-          <input type="date" name="intendedIssue">
-          <label>Upload Proof of Application</label>
-          <input type="file" name="newPassportProof" accept="application/pdf,image/*">
-        </div>
-      </fieldset>
+      <label for="forenames">Forenames</label>
+      <input type="text" id="forenames" name="forenames" readonly />
 
-      <fieldset>
-        <legend>Visa Type & Documents</legend>
-        <label>Visa Type</label>
-        <select name="visaType" required>
-          <option value="">Select</option>
-          <option>Relocation</option>
-          <option>Sponsorship</option>
-          <option>Work Visa</option>
+      <label for="surname">Surname</label>
+      <input type="text" id="surname" name="surname" readonly />
+
+      <!-- Contact Number with Country Code -->
+      <label for="contact">Contact Number</label>
+      <div style="display:flex; gap:10px;">
+        <select id="country_code" name="country_code">
+          <option value="+27">+27 (ZA)</option>
+          <option value="+44">+44 (UK)</option>
+          <option value="+61">+61 (AU)</option>
+          <option value="+1">+1 (US)</option>
         </select>
-        <label>Proof of Booking</label>
-        <input type="file" name="bookingProof" accept="application/pdf,image/*" required>
-        <label>Flight Number</label>
-        <input type="text" name="flightNumber">
-        <label>Travel Insurance</label>
-        <input type="file" name="insurance" accept="application/pdf,image/*" required>
-        <label>Police Clearance</label>
-        <input type="file" name="policeClearance" accept="application/pdf,image/*" required>
-        <label>Medical Records</label>
-        <input type="file" name="medicalRecords" accept="application/pdf,image/*" required>
-        <label>Language Test Results</label>
-        <input type="file" name="languageTest" accept="application/pdf,image/*">
-        <label>Psychological Evaluation</label>
-        <input type="text" name="psychDoctor" placeholder="Doctor's name & practice no.">
-        <input type="file" name="psychProof" accept="application/pdf,image/*">
-      </fieldset>
+        <input type="tel" id="contact" name="contact" />
+      </div>
 
-      <fieldset>
-        <legend>Spouse & Children</legend>
-        <label><input type="checkbox" id="includeSpouse"> Include Spouse</label>
-        <div id="spouseSection" class="hidden">
-          <label>Spouse Full Name</label>
-          <input type="text" name="spouseName">
-          <label>Spouse ID/Passport</label>
-          <input type="text" name="spouseID">
-          <label>Spouse Medical Records</label>
-          <input type="file" name="spouseMedical" accept="application/pdf,image/*">
-        </div>
-        <label><input type="checkbox" id="includeChildren"> Include Children</label>
-        <div id="childrenSection" class="hidden">
-          <label>Number of Children</label>
-          <select id="childrenCount" name="childrenCount">
-            <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-            <option value="3">3</option><option value="4">4</option><option value="5">5</option>
-          </select>
-          <div id="childrenContainer"></div>
-        </div>
-      </fieldset>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
 
-      <fieldset>
-        <legend>Submission</legend>
-        <label>Booking Reference</label>
-        <input type="text" id="bookingRef" name="bookingRef" required>
-        <div id="formFeedback" class="feedback"></div>
-        <button type="submit" id="submitBtn">Submit Visa Application</button>
-      </fieldset>
+      <!-- Relocation Country & Accommodation Details -->
+      <h2>Relocation Country & Accommodation Details</h2>
+      <label for="address">Street Address</label>
+      <input type="text" id="address" name="address" required />
 
+      <label for="city">City</label>
+      <select id="city" name="city">
+        <option value="">Select City</option>
+        <option value="Johannesburg">Johannesburg</option>
+        <option value="Cape Town">Cape Town</option>
+        <option value="Durban">Durban</option>
+      </select>
+
+      <label for="postal">Postal Code</label>
+      <select id="postal" name="postal">
+        <option value="">Select Postal Code</option>
+        <option value="2000">2000</option>
+        <option value="8000">8000</option>
+        <option value="4001">4001</option>
+      </select>
+
+      <label for="province">Province</label>
+      <input type="text" id="province" name="province" />
+
+      <label for="country">Country</label>
+      <input type="text" id="country" name="country" />
+
+      <!-- Passport Details -->
+      <h2>Passport Details</h2>
+      <label>Do you have a passport?</label>
+      <div>
+        <input type="radio" name="passport_status" value="yes" /> Yes
+        <input type="radio" name="passport_status" value="no" /> No
+      </div>
+
+      <div id="passport-extra" class="hidden">
+        <label for="passport_issue">Intended Issue Date</label>
+        <input type="date" id="passport_issue" name="passport_issue" />
+        <label for="passport_proof">Upload Proof</label>
+        <input type="file" id="passport_proof" name="passport_proof" />
+      </div>
+
+      <!-- Visa Type -->
+      <label for="visa_type">Visa Type</label>
+      <select id="visa_type" name="visa_type">
+        <option value="Relocation">Relocation</option>
+        <option value="Sponsorship">Sponsorship</option>
+        <option value="Work Visa">Work Visa</option>
+      </select>
+
+      <!-- Document Uploads -->
+      <h2>Required Documents</h2>
+      <label>Proof of Booking</label><input type="file" name="booking_proof" />
+      <label>Travel Insurance</label><input type="file" name="insurance" />
+      <label>Police Clearance</label><input type="file" name="police" />
+      <label>Medical Records</label><input type="file" name="medical" />
+      <label>Language Test Results</label><input type="file" name="language" />
+      <label>Psychological Evaluation</label><input type="file" name="psych" />
+
+      <!-- Spouse -->
+      <h2>Spouse</h2>
+      <label>Include Spouse?</label>
+      <div>
+        <input type="radio" name="spouse_include" value="yes" /> Yes
+        <input type="radio" name="spouse_include" value="no" /> No
+      </div>
+
+      <div id="spouse-section" class="hidden">
+        <label for="spouse_name">Spouse Name</label>
+        <input type="text" id="spouse_name" name="spouse_name" />
+        <label for="spouse_age">Spouse Age</label>
+        <input type="number" id="spouse_age" name="spouse_age" />
+        <label for="spouse_docs">Spouse Documents</label>
+        <input type="file" id="spouse_docs" name="spouse_docs" />
+      </div>
+
+      <!-- Children -->
+      <h2>Children</h2>
+      <label>Include Children?</label>
+      <div>
+        <input type="radio" name="children_include" value="yes" /> Yes
+        <input type="radio" name="children_include" value="no" /> No
+      </div>
+
+      <div id="children-section" class="hidden">
+        <label for="child_count">Number of Children</label>
+        <select id="child_count">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <div id="children-details"></div>
+      </div>
+
+      <button type="submit">Submit Visa Application</button>
     </form>
   </main>
 
   <script>
-    const noPassport = document.getElementById('noPassport');
-    const passportFields = document.getElementById('passportFields');
-    const newPassportFields = document.getElementById('newPassportFields');
-    const includeSpouse = document.getElementById('includeSpouse');
-    const spouseSection = document.getElementById('spouseSection');
-    const includeChildren = document.getElementById('includeChildren');
-    const childrenSection = document.getElementById('childrenSection');
-    const childrenCount = document.getElementById('childrenCount');
-    const childrenContainer = document.getElementById('childrenContainer');
-    const feedback = document.getElementById('formFeedback');
-    const form = document.getElementById('visaForm');
-    const submitBtn = document.getElementById('submitBtn');
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
 
-    noPassport.addEventListener('change', ()=>{
-      passportFields.classList.toggle('hidden', noPassport.checked);
-      newPassportFields.classList.toggle('hidden', !noPassport.checked);
-    });
-    includeSpouse.addEventListener('change', ()=>{
-      spouseSection.classList.toggle('hidden', !includeSpouse.checked);
-    });
-    includeChildren.addEventListener('change', ()=>{
-      childrenSection.classList.toggle('hidden', !includeChildren.checked);
-      childrenContainer.innerHTML = '';
-      childrenCount.value = '0';
-    });
-    childrenCount.addEventListener('change', ()=>{
-      childrenContainer.innerHTML = '';
-      for(let i=1;i<=childrenCount.value;i++){
-        const fs = document.createElement('fieldset');
-        fs.innerHTML = `
-          <legend>Child ${i}</legend>
-          <label>Name</label>
-          <input type="text" name="child_${i}_name" required>
-          <label>ID/Passport</label>
-          <input type="text" name="child_${i}_id" required>
-          <label>Medical Records</label>
-          <input type="file" name="child_${i}_medical" accept="application/pdf,image/*" required>
-          <label>School Acceptance Letter</label>
-          <input type="file" name="child_${i}_school" accept="application/pdf,image/*">
+    function renderChildren(count) {
+      const container = document.getElementById('children-details');
+      container.innerHTML = '';
+      for (let i=1; i<=count; i++) {
+        const div = document.createElement('div');
+        div.innerHTML = `
+          <h3>Child ${i}</h3>
+          <label>Name</label><input type="text" name="child_${i}_name" required />
+          <label>Age</label><input type="number" name="child_${i}_age" required />
+          <label>ID</label><input type="text" name="child_${i}_id" />
+          <label>Medical Records</label><input type="file" name="child_${i}_medical" />
+          <div class="school-field hidden">
+            <label>School Acceptance Letter</label><input type="file" name="child_${i}_school" />
+          </div>
         `;
-        childrenContainer.appendChild(fs);
-      }
-    });
-
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      feedback.textContent = '';
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
-      try {
-        const fd = new FormData(form);
-        const resp = await fetch('/api/submit', { method: 'POST', body: fd });
-        if(resp.ok){
-          const json = await resp.json();
-          if(json.status === 'accepted'){
-            feedback.textContent = 'Application accepted. Reference: '+json.reference;
-            feedback.className = 'success feedback';
-            form.reset();
-            spouseSection.classList.add('hidden');
-            childrenSection.classList.add('hidden');
-            childrenContainer.innerHTML = '';
+        container.appendChild(div);
+        div.querySelector(`input[name=child_${i}_age]`).addEventListener('input', (e)=>{
+          const age = parseInt(e.target.value,10);
+          const schoolField = div.querySelector('.school-field');
+          if (age > 5 && age <= 18) {
+            schoolField.classList.remove('hidden');
           } else {
-            feedback.textContent = 'Application rejected: '+(json.message || 'Unknown');
-            feedback.className = 'error feedback';
+            schoolField.classList.add('hidden');
           }
-        } else {
-          feedback.textContent = 'Server error.';
-          feedback.className = 'error feedback';
-        }
-      } catch(err){
-        feedback.textContent = 'Network error: '+err.message;
-        feedback.className = 'error feedback';
+        });
       }
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Submit Visa Application';
-    });
+    }
 
-    // Prefill bookingData from localStorage
-    window.onload = ()=>{
+    window.onload = function() {
       const bookingData = JSON.parse(localStorage.getItem('bookingData'));
       if (bookingData) {
         document.getElementById('id_number').value = bookingData.id_number || '';
         document.getElementById('forenames').value = bookingData.forenames || '';
         document.getElementById('surname').value = bookingData.surname || '';
-        document.getElementById('cellphone').value = bookingData.cellphone || '';
+        document.getElementById('contact').value = bookingData.contact || '';
         document.getElementById('email').value = bookingData.email || '';
-        document.getElementById('appointment_date').value = bookingData.appointment_date || '';
-        document.getElementById('appointment_time').value = bookingData.appointment_time || '';
-      } else {
-        alert('No booking data found. Please complete the booking first.');
-        window.location.href = 'summary.html';
+        document.getElementById('booking_reference').value = bookingData.booking_reference || '';
       }
-    }
+
+      document.querySelectorAll('input[name=passport_status]').forEach(el => {
+        el.addEventListener('change', () => {
+          document.getElementById('passport-extra').classList.toggle('hidden', el.value !== 'no' || !el.checked);
+        });
+      });
+
+      document.querySelectorAll('input[name=spouse_include]').forEach(el => {
+        el.addEventListener('change', () => {
+          document.getElementById('spouse-section').classList.toggle('hidden', el.value !== 'yes' || !el.checked);
+        });
+      });
+
+      document.querySelectorAll('input[name=children_include]').forEach(el => {
+        el.addEventListener('change', () => {
+          document.getElementById('children-section').classList.toggle('hidden', el.value !== 'yes' || !el.checked);
+        });
+      });
+
+      document.getElementById('child_count').addEventListener('change', (e)=>{
+        renderChildren(parseInt(e.target.value,10));
+      });
+
+      document.getElementById('visaForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const email = document.getElementById('email').value;
+        if (!validateEmail(email)) {
+          alert('Invalid email address.');
+          return;
+        }
+
+        const formData = new FormData(this);
+        let applicationData = {};
+        formData.forEach((val,key)=>{ applicationData[key]=val; });
+        localStorage.setItem('visaApplication', JSON.stringify(applicationData));
+        window.location.href = 'visa-summary.html';
+      });
+    };
   </script>
 </body>
 </html>
