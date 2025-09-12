@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Appointment — Enter Details</title>
+  <title>Visa Application - Appointment Booking</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
@@ -64,7 +64,7 @@
 
     .container {
       width: 100%;
-      max-width: 800px;
+      max-width: 900px;
       padding: 2.5rem 3rem;
       background-color: var(--card-bg);
       box-shadow: 0 8px 20px var(--shadow);
@@ -108,8 +108,7 @@
     }
 
     select:disabled,
-    input:disabled,
-    textarea:disabled {
+    input:disabled {
       background-color: #eee;
       color: #999;
       cursor: not-allowed;
@@ -117,6 +116,19 @@
 
     textarea {
       resize: vertical;
+      min-height: 60px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .checkbox-group label {
+      margin-left: 8px;
+      font-weight: 600;
+      color: #333;
     }
 
     .button-group {
@@ -124,6 +136,7 @@
       justify-content: space-between;
       gap: 1rem;
       margin-top: 30px;
+      flex-wrap: wrap;
     }
 
     .button-group button {
@@ -134,6 +147,7 @@
       border-radius: 8px;
       cursor: pointer;
       flex: 1;
+      min-width: 140px;
       transition: background 0.3s ease;
     }
 
@@ -155,54 +169,7 @@
       background-color: #d32f2f;
     }
 
-    hr {
-      margin: 2rem 0;
-      border: none;
-      border-top: 1px solid #ddd;
-    }
-
-    small {
-      display: block;
-      margin-top: -14px;
-      margin-bottom: 14px;
-      font-size: 0.85rem;
-      color: #666;
-    }
-
-    /* Tooltip styling */
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      border-bottom: 1px dotted black;
-      cursor: help;
-      color: var(--primary);
-      font-weight: 700;
-    }
-
-    .tooltip .tooltiptext {
-      visibility: hidden;
-      width: 280px;
-      background-color: var(--primary);
-      color: #fff;
-      text-align: left;
-      border-radius: 6px;
-      padding: 10px;
-      position: absolute;
-      z-index: 10;
-      bottom: 125%;
-      left: 50%;
-      margin-left: -140px;
-      opacity: 0;
-      transition: opacity 0.3s;
-      font-weight: 400;
-      font-size: 0.85rem;
-    }
-
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
-      opacity: 1;
-    }
-
+    /* Responsive tweaks */
     @media (max-width: 768px) {
       .container {
         padding: 2rem 1.5rem;
@@ -222,15 +189,30 @@
 <body>
   <main class="container" role="main">
     <header>
-      <h1>Appointment Booking - Biometrics</h1>
-      <p class="subtitle">Please capture your details as they appear on your identity document.</p>
+      <h1>Visa Application - Appointment Booking</h1>
+      <p class="subtitle">Please fill in the details and upload required documentation.</p>
     </header>
 
-    <form id="bookingForm" novalidate>
-      <!-- Basic Info -->
+    <form id="bookingForm" novalidate enctype="multipart/form-data">
+      <!-- Identity and Address -->
       <div class="form-group">
         <label for="id_number">ID Number *</label>
         <input id="id_number" name="id_number" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="passport_number">Passport Number *</label>
+        <input id="passport_number" name="passport_number" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="passport_expiry">Passport Expiry Date *</label>
+        <input id="passport_expiry" name="passport_expiry" type="date" required />
+      </div>
+
+      <div class="form-group">
+        <label for="passport_photo">Upload Recent Passport Photo *</label>
+        <input id="passport_photo" name="passport_photo" type="file" accept="image/*" required />
       </div>
 
       <div class="form-group">
@@ -243,6 +225,7 @@
         <input id="surname" name="surname" type="text" required />
       </div>
 
+      <!-- Address -->
       <div class="form-group">
         <label for="street_address">Street Address *</label>
         <input id="street_address" name="street_address" type="text" required />
@@ -253,10 +236,9 @@
         <input id="postal_code" name="postal_code" type="text" required />
       </div>
 
-      <!-- Upload Proof of Residence -->
       <div class="form-group">
         <label for="proof_residence">Upload Proof of Residence *</label>
-        <input id="proof_residence" name="proof_residence" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+        <input id="proof_residence" name="proof_residence" type="file" accept=".pdf,image/*" required />
       </div>
 
       <!-- Country, Location, Office -->
@@ -274,19 +256,18 @@
 
       <div class="form-group">
         <label for="location">Location *</label>
-        <select id="location" name="location" required onchange="updateOffices()">
+        <select id="location" name="location" required onchange="updateOffices()" disabled>
           <option value="">Select Location</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="office">Office *</label>
-        <select id="office" name="office" required>
+        <select id="office" name="office" required disabled>
           <option value="">Select Office</option>
         </select>
       </div>
 
-      <!-- Appointment date/time -->
       <div class="form-group">
         <label for="appointment_date">Appointment Date *</label>
         <input id="appointment_date" name="appointment_date" type="text" required />
@@ -305,45 +286,79 @@
         </select>
       </div>
 
-      <!-- Visa Application Details -->
-      <hr />
-      <h2>Visa Application Details</h2>
+      <!-- Visa Subclass -->
+      <div class="form-group">
+        <label for="visa_subclass">Visa Subclass *</label>
+        <select id="visa_subclass" name="visa_subclass" required>
+          <option value="">Select Visa Subclass</option>
+          <option value="visitor">Visitor Visa - for tourism or visiting family/friends</option>
+          <option value="business">Business Visa - for attending business meetings or conferences</option>
+          <option value="work">Work Visa - for employment in Australia</option>
+          <option value="study">Student Visa - for educational purposes</option>
+          <option value="partner">Partner Visa - for spouses or de facto partners</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
 
-      <!-- Passport Details -->
-      <label for="passport_number">Passport Number *</label>
-      <input id="passport_number" name="passport_number" type="text" required />
+      <!-- Passport assistance -->
+      <div class="checkbox-group">
+        <input type="checkbox" id="passport_assistance" name="passport_assistance" />
+        <label for="passport_assistance">Passport Assistance Required</label>
+      </div>
 
-      <label for="passport_expiry">Passport Expiry Date *</label>
-      <input id="passport_expiry" name="passport_expiry" type="date" required />
+      <!-- Proof of financial capacity -->
+      <div class="form-group">
+        <label for="financial_proof">Proof of Financial Capacity *</label>
+        <input id="financial_proof" name="financial_proof" type="file" accept=".pdf,image/*" required />
+      </div>
 
-      <!-- Passport Photo -->
-      <label for="passport_photo">Upload Passport Photo (JPG/PNG) *</label>
-      <input id="passport_photo" name="passport_photo" type="file" accept=".jpg,.jpeg,.png" required />
-      <small>Must meet Australian visa photo size (35mm x 45mm)</small>
+      <!-- Employment / Income status -->
+      <div class="form-group">
+        <label for="employment_status">Employment Status *</label>
+        <select id="employment_status" name="employment_status" required>
+          <option value="">Select Employment Status</option>
+          <option value="employed">Employed</option>
+          <option value="self-employed">Self-employed</option>
+          <option value="unemployed">Unemployed</option>
+          <option value="student">Student</option>
+          <option value="retired">Retired</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
 
-      <!-- Proof of Financial Capacity -->
-      <label for="bank_statement">Upload Recent Bank Statements *</label>
-      <input id="bank_statement" name="bank_statement" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+      <div class="form-group">
+        <label for="monthly_income">Monthly Income (optional)</label>
+        <input id="monthly_income" name="monthly_income" type="number" min="0" step="any" placeholder="e.g., 5000" />
+      </div>
 
-      <label for="employment_letter">Upload Employment or Sponsorship Letter *</label>
-      <input id="employment_letter" name="employment_letter" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+      <!-- Flight proof and itinerary -->
+      <div class="form-group">
+        <label for="flight_proof">Proof of Flight / Itinerary *</label>
+        <input id="flight_proof" name="flight_proof" type="file" accept=".pdf,image/*" required />
+      </div>
 
-      <!-- Visa Sponsorship / Employment -->
-      <label for="sponsor_name">Employer or Sponsor Name *</label>
-      <input id="sponsor_name" name="sponsor_name" type="text" required />
+      <div class="form-group">
+        <label for="itinerary_description">Itinerary Description (optional)</label>
+        <textarea id="itinerary_description" name="itinerary_description" placeholder="Provide details if no upload"></textarea>
+      </div>
 
-      <label for="monthly_income">Monthly Income (optional)</label>
-      <input id="monthly_income" name="monthly_income" type="number" placeholder="e.g. 7500" />
+      <!-- Reasons to return home -->
+      <div class="form-group">
+        <label for="employment_letter">Employment Letter (upload or leave blank)</label>
+        <input id="employment_letter" name="employment_letter" type="file" accept=".pdf,image/*" />
+      </div>
 
-      <label for="sponsor_proof">Upload Sponsorship / Employment Contract</label>
-      <input id="sponsor_proof" name="sponsor_proof" type="file" accept=".pdf,.jpg,.jpeg,.png" />
+      <div class="form-group">
+        <label for="family_proof">Proof of Property / Family Ties (upload or description)</label>
+        <input id="family_proof" name="family_proof" type="file" accept=".pdf,image/*" />
+      </div>
 
-      <!-- Flight Booking & Itinerary -->
-      <label for="flight_proof">Upload Proof of Flight Booking *</label>
-      <input id="flight_proof" name="flight_proof" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+      <div class="form-group">
+        <label for="family_proof_description">Description (optional)</label>
+        <textarea id="family_proof_description" name="family_proof_description" placeholder="Describe your family ties or property"></textarea>
+      </div>
 
-      <label for="itinerary">Travel Itinerary (optional)</label>
-      <textarea id="itinerary" name="itinerary" rows="4" placeholder="e.g. Sydney (Oct 3-7), Brisbane (Oct 8-10)"></textarea>
-
-      <!-- Return Home Proof -->
-      <label for="return_proof">Upload Proof of Ties to Home (family, job, property) *</label>
+      <!-- Health & Character -->
+      <div class="form-group">
+        <label for="police_clearance">Upload Police Clearance</label>
+        <input id="police_clearance" name="police_clearance" type="file" accept=".pdf,image/*"
