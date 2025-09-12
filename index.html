@@ -6,102 +6,30 @@
 <title>Appointment Booking</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
 <style>
-:root {
-  --primary: #0a6b3b;
-  --danger: #f44336;
-  --background: #e0f7fa;
-  --card-bg: #ffffff;
-  --font-family: 'Poppins', sans-serif;
-  --shadow: rgba(0, 0, 0, 0.1);
-}
-
-body {
-  font-family: var(--font-family);
-  background-color: var(--background);
-  min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.container {
-  width: 100%;
-  max-width: 800px;
-  padding: 2.5rem 3rem;
-  background-color: var(--card-bg);
-  box-shadow: 0 8px 20px var(--shadow);
-  border-radius: 12px;
-}
-
-h1 { text-align: center; color: var(--primary); }
-.subtitle { text-align: center; color: #666; margin-bottom: 2rem; }
-
-label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; }
-select, input {
-  width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 18px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  background-color: #fafafa;
-}
-
-input.invalid, select.invalid {
-  border-color: red;
-}
-
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 30px;
-}
-
-.button-group button {
-  padding: 14px;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  flex: 1;
-  transition: background 0.3s ease;
-}
-
-.btn-auth { background-color: var(--primary); color: white; }
-.btn-auth:hover { background-color: #2a8a55; }
-.btn-back { background-color: var(--danger); color: white; }
-.btn-back:hover { background-color: #d32f2f; }
+body{font-family:'Poppins',sans-serif;background:#e0f7fa;padding:20px;display:flex;justify-content:center}
+.container{width:100%;max-width:800px;background:#fff;padding:2.5rem 3rem;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.1)}
+h1{text-align:center;color:#0a6b3b;margin-bottom:0.5rem}
+.subtitle{text-align:center;color:#666;margin-bottom:2rem}
+label{display:block;margin-bottom:6px;font-weight:600;color:#333}
+input,select{width:100%;padding:12px 14px;margin-bottom:18px;border-radius:8px;border:1px solid #ccc;background:#fafafa;font-size:1rem}
+input.invalid, select.invalid{border-color:red}
+.button-group{display:flex;justify-content:space-between;gap:1rem;margin-top:30px}
+.button-group button{padding:14px;font-size:1rem;font-weight:600;border:none;border-radius:8px;cursor:pointer;flex:1;transition:background 0.3s}
+.btn-auth{background:#0a6b3b;color:#fff}.btn-auth:hover{background:#2a8a55}
+.btn-back{background:#f44336;color:#fff}.btn-back:hover{background:#d32f2f}
 </style>
 </head>
-
 <body>
 <main class="container">
   <h1>Biometrics Appointment Booking</h1>
   <p class="subtitle">Please capture your details as they appear on your identity document.</p>
-
-  <form id="bookingForm">
+  <form id="bookingForm" novalidate>
+    <div class="form-group"><label>ID Number *</label><input id="id_number" name="id_number" type="text" required></div>
+    <div class="form-group"><label>Full Forenames *</label><input id="forenames" name="forenames" type="text" required></div>
+    <div class="form-group"><label>Surname *</label><input id="surname" name="surname" type="text" required></div>
     <div class="form-group">
-      <label for="id_number">ID Number *</label>
-      <input id="id_number" name="id_number" type="text" required />
-    </div>
-
-    <div class="form-group">
-      <label for="forenames">Full Forenames *</label>
-      <input id="forenames" name="forenames" type="text" required />
-    </div>
-
-    <div class="form-group">
-      <label for="surname">Surname *</label>
-      <input id="surname" name="surname" type="text" required />
-    </div>
-
-    <div class="form-group">
-      <label for="country">Country *</label>
+      <label>Country *</label>
       <select id="country" name="country" required onchange="updateLocations()">
         <option value="">Select Country</option>
         <option value="Eswatini">Eswatini</option>
@@ -111,28 +39,17 @@ input.invalid, select.invalid {
         <option value="Nigeria">Nigeria</option>
       </select>
     </div>
-
     <div class="form-group">
-      <label for="location">Location *</label>
-      <select id="location" name="location" required onchange="updateOffices()">
-        <option value="">Select Location</option>
-      </select>
+      <label>Location *</label>
+      <select id="location" name="location" required onchange="updateOffices()"><option value="">Select Location</option></select>
     </div>
-
     <div class="form-group">
-      <label for="office">Office *</label>
-      <select id="office" name="office" required>
-        <option value="">Select Office</option>
-      </select>
+      <label>Office *</label>
+      <select id="office" name="office" required><option value="">Select Office</option></select>
     </div>
-
+    <div class="form-group"><label>Appointment Date *</label><input id="appointment_date" name="appointment_date" type="text" required></div>
     <div class="form-group">
-      <label for="appointment_date">Appointment Date *</label>
-      <input id="appointment_date" name="appointment_date" type="text" required />
-    </div>
-
-    <div class="form-group">
-      <label for="appointment_time">Appointment Time *</label>
+      <label>Appointment Time *</label>
       <select id="appointment_time" name="appointment_time" required>
         <option value="">-- Select a time slot --</option>
         <option value="08:00-09:00">8am - 9am</option>
@@ -143,94 +60,77 @@ input.invalid, select.invalid {
         <option value="15:00-16:00">3pm - 4pm</option>
       </select>
     </div>
-
     <div class="button-group">
       <button type="button" class="btn-back" onclick="window.location.href='https://gov.sz/index.php?view=category&id=238'">Back to Website</button>
       <button type="submit" class="btn-auth">Submit</button>
     </div>
   </form>
 </main>
-
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-const countryLocations = {
-  'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
-  'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
-  'Kenya': ['Nairobi', 'Mombasa', 'Kisumu'],
-  'Ghana': ['Accra', 'Kumasi', 'Tamale'],
-  'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt'],
+document.addEventListener("DOMContentLoaded",function(){
+
+const countryLocations={
+'Eswatini':['Mbabane','Manzini','Lobamba'],
+'South Africa':['Pretoria','Johannesburg','Cape Town'],
+'Kenya':['Nairobi','Mombasa','Kisumu'],
+'Ghana':['Accra','Kumasi','Tamale'],
+'Nigeria':['Lagos','Abuja','Port Harcourt']
 };
 
-const officeLocations = {
-  'Mbabane': ['Main Office', 'Regional Office 1', 'Regional Office 2'],
-  'Manzini': ['Main Office', 'Branch 1', 'Branch 2'],
-  'Lobamba': ['Main Office'],
-  'Pretoria': ['Main Office', 'Branch 1', 'Branch 2'],
-  'Johannesburg': ['Main Office', 'Branch 1'],
-  'Cape Town': ['Main Office'],
-  'Nairobi': ['Main Office', 'Branch 1'],
-  'Mombasa': ['Main Office'],
-  'Kisumu': ['Branch 1'],
-  'Accra': ['Main Office', 'Branch 1'],
-  'Kumasi': ['Branch 1'],
-  'Tamale': ['Branch 1'],
-  'Lagos': ['Main Office', 'Branch 1', 'Branch 2'],
-  'Abuja': ['Main Office'],
-  'Port Harcourt': ['Branch 1'],
+const officeLocations={
+'Mbabane':['Main Office','Regional Office 1','Regional Office 2'],
+'Manzini':['Main Office','Branch 1','Branch 2'],
+'Lobamba':['Main Office'],
+'Pretoria':['Main Office','Branch 1','Branch 2'],
+'Johannesburg':['Main Office','Branch 1'],
+'Cape Town':['Main Office'],
+'Nairobi':['Main Office','Branch 1'],
+'Mombasa':['Main Office'],
+'Kisumu':['Branch 1'],
+'Accra':['Main Office','Branch 1'],
+'Kumasi':['Branch 1'],
+'Tamale':['Branch 1'],
+'Lagos':['Main Office','Branch 1','Branch 2'],
+'Abuja':['Main Office'],
+'Port Harcourt':['Branch 1']
 };
 
-function updateLocations() {
-  const country = document.getElementById('country').value;
-  const locationSelect = document.getElementById('location');
-  const officeSelect = document.getElementById('office');
-  locationSelect.innerHTML = '<option value="">Select Location</option>';
-  officeSelect.innerHTML = '<option value="">Select Office</option>';
-  if(countryLocations[country]) {
+window.updateLocations=function(){
+  const country=document.getElementById('country').value;
+  const locSelect=document.getElementById('location');
+  const officeSelect=document.getElementById('office');
+  locSelect.innerHTML='<option value="">Select Location</option>';
+  officeSelect.innerHTML='<option value="">Select Office</option>';
+  if(countryLocations[country]){
     countryLocations[country].forEach(loc=>{
-      const opt=document.createElement('option');
-      opt.value=loc;
-      opt.textContent=loc;
-      locationSelect.appendChild(opt);
+      const opt=document.createElement('option'); opt.value=loc; opt.textContent=loc; locSelect.appendChild(opt);
     });
   }
-}
+};
 
-function updateOffices() {
-  const location = document.getElementById('location').value;
-  const officeSelect = document.getElementById('office');
-  officeSelect.innerHTML = '<option value="">Select Office</option>';
-  if(officeLocations[location]) {
-    officeLocations[location].forEach(off=>{
-      const opt=document.createElement('option');
-      opt.value=off;
-      opt.textContent=off;
-      officeSelect.appendChild(opt);
+window.updateOffices=function(){
+  const loc=document.getElementById('location').value;
+  const officeSelect=document.getElementById('office');
+  officeSelect.innerHTML='<option value="">Select Office</option>';
+  if(officeLocations[loc]){
+    officeLocations[loc].forEach(off=>{
+      const opt=document.createElement('option'); opt.value=off; opt.textContent=off; officeSelect.appendChild(opt);
     });
   }
-}
+};
 
-flatpickr("#appointment_date", {
-  dateFormat: "Y-m-d",
-  minDate: "today"
-});
+flatpickr("#appointment_date",{dateFormat:"Y-m-d",minDate:"today"});
 
-document.getElementById("bookingForm").addEventListener("submit", function(e){
+document.getElementById("bookingForm").addEventListener("submit",function(e){
   e.preventDefault();
-  let isValid = true;
-  // Check required fields
+  let isValid=true;
   this.querySelectorAll('[required]').forEach(input=>{
-    if(!input.value.trim()){
-      input.classList.add('invalid');
-      isValid = false;
-    } else {
-      input.classList.remove('invalid');
-    }
+    if(!input.value.trim()){ input.classList.add('invalid'); isValid=false; } else { input.classList.remove('invalid'); }
   });
-
   if(!isValid) return;
 
-  // Save data
-  const bookingData = {
+  const bookingData={
     id_number: document.getElementById("id_number").value,
     forenames: document.getElementById("forenames").value,
     surname: document.getElementById("surname").value,
@@ -240,8 +140,10 @@ document.getElementById("bookingForm").addEventListener("submit", function(e){
     appointment_date: document.getElementById("appointment_date").value,
     appointment_time: document.getElementById("appointment_time").value,
   };
-  localStorage.setItem("bookingData", JSON.stringify(bookingData));
-  window.location.href = "summary.html";
+  localStorage.setItem("bookingData",JSON.stringify(bookingData));
+  window.location.href="summary.html";
+});
+
 });
 </script>
 </body>
