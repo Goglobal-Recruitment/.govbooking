@@ -17,11 +17,7 @@
       --shadow: rgba(0, 0, 0, 0.1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: var(--font-family);
@@ -52,15 +48,8 @@
       filter: grayscale(100%) brightness(150%);
     }
 
-    body::before {
-      left: 0;
-      background-image: url('4634-coat-of-arms-of-eswatini.png');
-    }
-
-    body::after {
-      right: 0;
-      background-image: url('4635-flag-of-eswatini.png');
-    }
+    body::before { left: 0; background-image: url('4634-coat-of-arms-of-eswatini.png'); }
+    body::after  { right: 0; background-image: url('4635-flag-of-eswatini.png'); }
 
     .container {
       width: 100%;
@@ -96,7 +85,8 @@
     }
 
     select,
-    input {
+    input,
+    textarea {
       width: 100%;
       padding: 12px 14px;
       margin-bottom: 18px;
@@ -104,13 +94,6 @@
       border: 1px solid #ccc;
       font-size: 1rem;
       background-color: #fafafa;
-    }
-
-    select:disabled,
-    input:disabled {
-      background-color: #eee;
-      color: #999;
-      cursor: not-allowed;
     }
 
     .button-group {
@@ -131,36 +114,15 @@
       transition: background 0.3s ease;
     }
 
-    .btn-auth {
-      background-color: var(--primary);
-      color: white;
-    }
-
-    .btn-auth:hover {
-      background-color: #2a8a55;
-    }
-
-    .btn-back {
-      background-color: var(--danger);
-      color: white;
-    }
-
-    .btn-back:hover {
-      background-color: #d32f2f;
-    }
+    .btn-auth { background-color: var(--primary); color: white; }
+    .btn-auth:hover { background-color: #2a8a55; }
+    .btn-back { background-color: var(--danger); color: white; }
+    .btn-back:hover { background-color: #d32f2f; }
 
     @media (max-width: 768px) {
-      .container {
-        padding: 2rem 1.5rem;
-      }
-
-      .button-group {
-        flex-direction: column;
-      }
-
-      .button-group button {
-        width: 100%;
-      }
+      .container { padding: 2rem 1.5rem; }
+      .button-group { flex-direction: column; }
+      .button-group button { width: 100%; }
     }
   </style>
 </head>
@@ -179,6 +141,11 @@
       </div>
 
       <div class="form-group">
+        <label for="id_document">Upload Identity Document *</label>
+        <input id="id_document" name="id_document" type="file" accept=".pdf,.jpg,.png" required />
+      </div>
+
+      <div class="form-group">
         <label for="forenames">Full Forenames *</label>
         <input id="forenames" name="forenames" type="text" required />
       </div>
@@ -186,6 +153,21 @@
       <div class="form-group">
         <label for="surname">Surname *</label>
         <input id="surname" name="surname" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="street_address">Street Address *</label>
+        <input id="street_address" name="street_address" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="postal_code">Postal Code *</label>
+        <input id="postal_code" name="postal_code" type="text" required />
+      </div>
+
+      <div class="form-group">
+        <label for="proof_residence">Upload Proof of Residence *</label>
+        <input id="proof_residence" name="proof_residence" type="file" accept=".pdf,.jpg,.png" required />
       </div>
 
       <div class="form-group">
@@ -232,130 +214,17 @@
         </select>
       </div>
 
-      <div class="button-group">
-        <button type="button" class="btn-back" onclick="window.location.href='https://gov.sz/index.php?view=category&id=238'">
-          Back to Website
-        </button>
-        <button type="submit" class="btn-auth">Submit</button>
+      <div class="form-group">
+        <label>Visa Application Type *</label>
+        <label><input type="radio" name="visa_type" value="standard" checked> Standard Visa (up to 3 months)</label><br />
+        <label><input type="radio" name="visa_type" value="priority"> Priority Visa (up to 6 weeks)</label>
       </div>
-    </form>
-  </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script>
-    const countryLocations = {
-      'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
-      'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
-      'Kenya': ['Nairobi', 'Mombasa', 'Kisumu'],
-      'Ghana': ['Accra', 'Kumasi', 'Tamale'],
-      'Nigeria': ['Lagos', 'Abuja', 'Port Harcourt'],
-    };
+      <div id="priorityFields" style="display: none;">
+        <div class="form-group">
+          <label for="proof_flight">Upload Proof of Flight *</label>
+          <input id="proof_flight" name="proof_flight" type="file" accept=".pdf,.jpg,.png" />
+        </div>
 
-    const officeLocations = {
-      'Mbabane': ['Main Office', 'Regional Office 1', 'Regional Office 2'],
-      'Manzini': ['Main Office', 'Branch 1', 'Branch 2'],
-      'Lobamba': ['Main Office'],
-      'Pretoria': ['Main Office', 'Branch 1', 'Branch 2'],
-      'Johannesburg': ['Main Office', 'Branch 1'],
-      'Cape Town': ['Main Office'],
-      'Nairobi': ['Main Office', 'Branch 1'],
-      'Mombasa': ['Main Office'],
-      'Kisumu': ['Branch 1'],
-      'Accra': ['Main Office', 'Branch 1'],
-      'Kumasi': ['Branch 1'],
-      'Tamale': ['Branch 1'],
-      'Lagos': ['Main Office', 'Branch 1', 'Branch 2'],
-      'Abuja': ['Main Office'],
-      'Port Harcourt': ['Branch 1'],
-    };
-
-    function updateLocations() {
-      const country = document.getElementById('country').value;
-      const locationSelect = document.getElementById('location');
-      const officeSelect = document.getElementById('office');
-
-      locationSelect.innerHTML = '<option value="">Select Location</option>';
-      officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-      if (countryLocations[country]) {
-        countryLocations[country].forEach(location => {
-          const option = document.createElement('option');
-          option.value = location;
-          option.textContent = location;
-          locationSelect.appendChild(option);
-        });
-      }
-    }
-
-    function updateOffices() {
-      const location = document.getElementById('location').value;
-      const officeSelect = document.getElementById('office');
-      officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-      if (officeLocations[location]) {
-        officeLocations[location].forEach(office => {
-          const option = document.createElement('option');
-          option.value = office;
-          option.textContent = office;
-          officeSelect.appendChild(option);
-        });
-      }
-    }
-
-    // Date ranges to disable
-    const disabledDateRanges = [
-      { from: "2025-09-01", to: "2025-10-16" }
-    ];
-
-    const publicHolidays = [
-      "2025-09-24",
-      "2025-10-15",
-      "2025-10-23"
-    ];
-
-    function disableDates(date) {
-      const dateStr = date.toISOString().split('T')[0];
-
-      // Disable date ranges
-      for (const range of disabledDateRanges) {
-        if (dateStr >= range.from && dateStr <= range.to) {
-          return true;
-        }
-      }
-
-      // Disable public holidays
-      return publicHolidays.includes(dateStr);
-    }
-
-    // Apply flatpickr to appointment_date field
-    flatpickr("#appointment_date", {
-      dateFormat: "Y-m-d",
-      minDate: "today",
-      disable: [disableDates]
-    });
-
-    document.getElementById("bookingForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      if (!this.checkValidity()) {
-        alert('Please fill all required fields.');
-        return;
-      }
-
-      const bookingData = {
-        id_number: document.getElementById("id_number").value,
-        forenames: document.getElementById("forenames").value,
-        surname: document.getElementById("surname").value,
-        country: document.getElementById("country").value,
-        location: document.getElementById("location").value,
-        office: document.getElementById("office").value,
-        appointment_date: document.getElementById("appointment_date").value,
-        appointment_time: document.getElementById("appointment_time").value,
-      };
-
-      localStorage.setItem("bookingData", JSON.stringify(bookingData));
-      window.location.href = "summary.html";
-    });
-  </script>
-</body>
-</html>
+        <div class="form-group">
+          <label for="proof_overseas_residence">
