@@ -16,9 +16,8 @@
       --background: #e0f7fa;
       --font-family: 'Poppins', sans-serif;
       --border-light: #dce3ea;
-      --line-height: 1.6;
       --radius: 12px;
-      --shadow: rgba(0, 0, 0, 0.1);
+      --shadow: rgba(0,0,0,0.1);
     }
 
     body {
@@ -28,7 +27,7 @@
       padding: 20px;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
     }
 
     main.visa-container {
@@ -40,41 +39,23 @@
       box-shadow: 0 8px 20px var(--shadow);
     }
 
-    h1, h2 {
-      color: var(--accent);
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
+    h1, h2, h3 { color: var(--accent); font-weight: 700; margin-bottom: 1rem; }
     h1 { text-align: center; }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    label {
-      font-weight: 600;
-      color: #3b3b3b;
-    }
-
-    input, textarea, select {
+    form { display: flex; flex-direction: column; gap: 1.25rem; }
+    label { font-weight: 600; color: #3b3b3b; }
+    input, select, textarea {
       padding: 0.6rem 1rem;
       border-radius: 8px;
       border: 1.8px solid var(--border-light);
       font-size: 1rem;
       font-family: var(--font-family);
-      resize: vertical;
       transition: border-color 0.3s ease;
     }
-
-    input:focus, textarea:focus, select:focus {
+    input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 5px var(--accent);
     }
-
     button {
       margin-top: 2rem;
       background-color: var(--accent);
@@ -87,16 +68,10 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
-
-    button:hover {
-      background-color: var(--accent-2);
-    }
-
+    button:hover { background-color: var(--accent-2); }
     .hidden { display: none; }
 
-    @media (max-width: 768px) {
-      main.visa-container { padding: 2rem 1.5rem; }
-    }
+    @media (max-width:768px) { main.visa-container{padding:2rem 1.5rem;} }
   </style>
 </head>
 <body>
@@ -111,14 +86,12 @@
       <!-- Personal Info -->
       <label for="id_number">ID Number</label>
       <input type="text" id="id_number" name="id_number" readonly />
-
       <label for="forenames">Forenames</label>
       <input type="text" id="forenames" name="forenames" readonly />
-
       <label for="surname">Surname</label>
       <input type="text" id="surname" name="surname" readonly />
 
-      <!-- Contact Number with Country Code -->
+      <!-- Contact -->
       <label for="contact">Contact Number</label>
       <div style="display:flex; gap:10px;">
         <select id="country_code" name="country_code">
@@ -127,40 +100,29 @@
           <option value="+61">+61 (AU)</option>
           <option value="+1">+1 (US)</option>
         </select>
-        <input type="tel" id="contact" name="contact" />
+        <input type="tel" id="contact" name="contact" required />
       </div>
 
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required />
 
-      <!-- Relocation Country & Accommodation Details -->
+      <!-- Relocation & Accommodation -->
       <h2>Relocation Country & Accommodation Details</h2>
       <label for="address">Street Address</label>
       <input type="text" id="address" name="address" required />
 
       <label for="city">City</label>
-      <select id="city" name="city">
-        <option value="">Select City</option>
-        <option value="Johannesburg">Johannesburg</option>
-        <option value="Cape Town">Cape Town</option>
-        <option value="Durban">Durban</option>
-      </select>
+      <select id="city" name="city" required></select>
 
       <label for="postal">Postal Code</label>
-      <select id="postal" name="postal">
-        <option value="">Select Postal Code</option>
-        <option value="2000">2000</option>
-        <option value="8000">8000</option>
-        <option value="4001">4001</option>
-      </select>
+      <select id="postal" name="postal" required></select>
 
       <label for="province">Province</label>
-      <input type="text" id="province" name="province" />
-
+      <input type="text" id="province" name="province" required />
       <label for="country">Country</label>
-      <input type="text" id="country" name="country" />
+      <input type="text" id="country" name="country" required />
 
-      <!-- Passport Details -->
+      <!-- Passport -->
       <h2>Passport Details</h2>
       <label>Do you have a passport?</label>
       <div>
@@ -177,13 +139,13 @@
 
       <!-- Visa Type -->
       <label for="visa_type">Visa Type</label>
-      <select id="visa_type" name="visa_type">
+      <select id="visa_type" name="visa_type" required>
         <option value="Relocation">Relocation</option>
         <option value="Sponsorship">Sponsorship</option>
         <option value="Work Visa">Work Visa</option>
       </select>
 
-      <!-- Document Uploads -->
+      <!-- Documents -->
       <h2>Required Documents</h2>
       <label>Proof of Booking</label><input type="file" name="booking_proof" />
       <label>Travel Insurance</label><input type="file" name="insurance" />
@@ -199,7 +161,6 @@
         <input type="radio" name="spouse_include" value="yes" /> Yes
         <input type="radio" name="spouse_include" value="no" /> No
       </div>
-
       <div id="spouse-section" class="hidden">
         <label for="spouse_name">Spouse Name</label>
         <input type="text" id="spouse_name" name="spouse_name" />
@@ -216,7 +177,6 @@
         <input type="radio" name="children_include" value="yes" /> Yes
         <input type="radio" name="children_include" value="no" /> No
       </div>
-
       <div id="children-section" class="hidden">
         <label for="child_count">Number of Children</label>
         <select id="child_count">
@@ -230,20 +190,56 @@
         <div id="children-details"></div>
       </div>
 
+      <!-- Adult Dependents -->
+      <h2>Adult Dependents</h2>
+      <div id="adult-section"></div>
+
       <button type="submit">Submit Visa Application</button>
     </form>
   </main>
 
   <script>
-    function validateEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(email);
-    }
+    // City & Postal Logic
+    const cityPostal = {
+      'Johannesburg': ['2000', '2021'],
+      'Cape Town': ['8000', '8001'],
+      'Durban': ['4001', '4002']
+    };
 
-    function renderChildren(count) {
+    const citySelect = document.getElementById('city');
+    const postalSelect = document.getElementById('postal');
+
+    document.getElementById('address').addEventListener('input',()=>{
+      citySelect.innerHTML = '<option value="">Select City</option>';
+      postalSelect.innerHTML = '<option value="">Select Postal</option>';
+      Object.keys(cityPostal).forEach(city=>{
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        citySelect.appendChild(option);
+      });
+    });
+
+    citySelect.addEventListener('change',()=>{
+      postalSelect.innerHTML = '<option value="">Select Postal</option>';
+      if(cityPostal[citySelect.value]){
+        cityPostal[citySelect.value].forEach(pc=>{
+          const option = document.createElement('option');
+          option.value = pc;
+          option.textContent = pc;
+          postalSelect.appendChild(option);
+        });
+      }
+    });
+
+    function validateEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+
+    function renderChildren(count){
       const container = document.getElementById('children-details');
+      const adultContainer = document.getElementById('adult-section');
       container.innerHTML = '';
-      for (let i=1; i<=count; i++) {
+      adultContainer.innerHTML = '';
+      for(let i=1;i<=count;i++){
         const div = document.createElement('div');
         div.innerHTML = `
           <h3>Child ${i}</h3>
@@ -256,63 +252,80 @@
           </div>
         `;
         container.appendChild(div);
-        div.querySelector(`input[name=child_${i}_age]`).addEventListener('input', (e)=>{
+        const ageInput = div.querySelector(`input[name=child_${i}_age]`);
+        ageInput.addEventListener('input',e=>{
           const age = parseInt(e.target.value,10);
           const schoolField = div.querySelector('.school-field');
-          if (age > 5 && age <= 18) {
+          if(age>5 && age<=18){
             schoolField.classList.remove('hidden');
-          } else {
+          }else{
             schoolField.classList.add('hidden');
+          }
+          // Move 18+ to adult section
+          if(age>18){
+            div.remove();
+            const adultDiv = document.createElement('div');
+            adultDiv.innerHTML = `
+              <h3>Adult Dependent ${i}</h3>
+              <label>Name</label><input type="text" name="adult_${i}_name" value="${div.querySelector('input[name=child_'+i+'_name]').value}" required/>
+              <label>Age</label><input type="number" name="adult_${i}_age" value="${age}" required/>
+              <label>ID</label><input type="text" name="adult_${i}_id" />
+              <label>Documents</label><input type="file" name="adult_${i}_docs" />
+            `;
+            adultContainer.appendChild(adultDiv);
           }
         });
       }
     }
 
-    window.onload = function() {
+    window.onload = function(){
       const bookingData = JSON.parse(localStorage.getItem('bookingData'));
-      if (bookingData) {
-        document.getElementById('id_number').value = bookingData.id_number || '';
-        document.getElementById('forenames').value = bookingData.forenames || '';
-        document.getElementById('surname').value = bookingData.surname || '';
-        document.getElementById('contact').value = bookingData.contact || '';
-        document.getElementById('email').value = bookingData.email || '';
-        document.getElementById('booking_reference').value = bookingData.booking_reference || '';
+      if(bookingData){
+        document.getElementById('id_number').value = bookingData.id_number||'';
+        document.getElementById('forenames').value = bookingData.forenames||'';
+        document.getElementById('surname').value = bookingData.surname||'';
+        document.getElementById('contact').value = bookingData.contact||'';
+        document.getElementById('email').value = bookingData.email||'';
+        document.getElementById('booking_reference').value = bookingData.booking_reference||'';
       }
 
-      document.querySelectorAll('input[name=passport_status]').forEach(el => {
-        el.addEventListener('change', () => {
-          document.getElementById('passport-extra').classList.toggle('hidden', el.value !== 'no' || !el.checked);
+      document.querySelectorAll('input[name=passport_status]').forEach(el=>{
+        el.addEventListener('change',()=>{
+          document.getElementById('passport-extra').classList.toggle('hidden', el.value!=='no' || !el.checked);
         });
       });
 
-      document.querySelectorAll('input[name=spouse_include]').forEach(el => {
-        el.addEventListener('change', () => {
-          document.getElementById('spouse-section').classList.toggle('hidden', el.value !== 'yes' || !el.checked);
+      document.querySelectorAll('input[name=spouse_include]').forEach(el=>{
+        el.addEventListener('change',()=>{
+          document.getElementById('spouse-section').classList.toggle('hidden', el.value!=='yes' || !el.checked);
         });
       });
 
-      document.querySelectorAll('input[name=children_include]').forEach(el => {
-        el.addEventListener('change', () => {
-          document.getElementById('children-section').classList.toggle('hidden', el.value !== 'yes' || !el.checked);
+      document.querySelectorAll('input[name=children_include]').forEach(el=>{
+        el.addEventListener('change',()=>{
+          document.getElementById('children-section').classList.toggle('hidden', el.value!=='yes' || !el.checked);
         });
       });
 
-      document.getElementById('child_count').addEventListener('change', (e)=>{
+      document.getElementById('child_count').addEventListener('change',e=>{
         renderChildren(parseInt(e.target.value,10));
       });
 
-      document.getElementById('visaForm').addEventListener('submit', function(event) {
+      document.getElementById('visaForm').addEventListener('submit',function(event){
         event.preventDefault();
+        if(!this.checkValidity()){
+          alert('Complete all fields.');
+          return;
+        }
         const email = document.getElementById('email').value;
-        if (!validateEmail(email)) {
+        if(!validateEmail(email)){
           alert('Invalid email address.');
           return;
         }
-
         const formData = new FormData(this);
         let applicationData = {};
         formData.forEach((val,key)=>{ applicationData[key]=val; });
-        localStorage.setItem('visaApplication', JSON.stringify(applicationData));
+        localStorage.setItem('visaApplication',JSON.stringify(applicationData));
         window.location.href = 'visa-summary.html';
       });
     };
