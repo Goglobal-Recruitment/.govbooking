@@ -32,7 +32,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Container */
 .container {
   width: 100%;
   max-width: 800px;
@@ -62,12 +61,11 @@ select:disabled, input:disabled { background-color: #eee; color: #999; cursor: n
 .btn-back { background-color: var(--danger); color: white; }
 .btn-back:hover { background-color: #d32f2f; }
 
-/* Watermarks: Coat of Arms left, Flag right */
 body::before {
   content: "";
   background: url('coat_of_arms.png') no-repeat left center, url('flag.png') no-repeat right center;
   background-size: 100px auto;
-  opacity: 0.08;
+  opacity: 0.15;
   position: fixed;
   top: 0;
   left: 0;
@@ -76,7 +74,6 @@ body::before {
   z-index: 0;
 }
 
-/* Emblem top-right (optional) */
 header::after {
   content: "";
   background: url('coat_of_arms.png') no-repeat top right;
@@ -168,7 +165,7 @@ header::after {
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
 // --- Global Countries ---
-const countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo","Costa Rica","Croatia","Cuba","Cyprus","Czechia","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","UAE","UK","USA","Uruguay","Uzbekistan","Vanuatu","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];
+const countries = ["South Africa","USA","Australia","Canada","UK","India","Kenya","Nigeria","Ghana","Eswatini"]; // Expand as needed
 
 const countrySelect = document.getElementById('country');
 countries.forEach(c => {
@@ -178,53 +175,75 @@ countries.forEach(c => {
   countrySelect.appendChild(opt);
 });
 
-// --- Provinces/States (partial dataset for example, expandable) ---
+// --- Provinces/States per country (expandable) ---
 const countryLocations = {
   "South Africa":["Gauteng","Western Cape","KwaZulu-Natal","Eastern Cape","Limpopo","Mpumalanga","Northern Cape","North West","Free State"],
-  "USA":["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana"],
+  "USA":["California","New York","Texas","Florida","Illinois","Pennsylvania","Ohio","Georgia"],
   "Australia":["New South Wales","Victoria","Queensland","South Australia","Western Australia","Tasmania","Northern Territory","ACT"],
-  "Canada":["Alberta","British Columbia","Manitoba","New Brunswick","Newfoundland and Labrador","Nova Scotia","Ontario","Prince Edward Island","Quebec","Saskatchewan"]
-  // Expand for all countries as needed
+  "Canada":["Ontario","Quebec","British Columbia","Alberta","Manitoba"],
+  "UK":["England","Scotland","Wales","Northern Ireland"],
+  "India":["Maharashtra","Delhi","Karnataka","Tamil Nadu","West Bengal","Gujarat","Rajasthan"],
+  "Kenya":["Nairobi","Mombasa","Kisumu","Nakuru","Eldoret"],
+  "Nigeria":["Lagos","Abuja","Port Harcourt","Kano","Ibadan"],
+  "Ghana":["Accra","Kumasi","Tamale"],
+  "Eswatini":["Mbabane","Manzini","Lobamba"]
 };
 
-// --- Offices per province/state ---
+// --- Offices per province/state (expandable) ---
 const officeLocations = {
-  "Gauteng":["Pretoria Main Office","Johannesburg Branch","Soweto Regional Office"],
+  "Gauteng":["Pretoria Main Passport Office","Johannesburg Branch","Soweto Regional Office"],
   "Western Cape":["Cape Town Main Office","Stellenbosch Branch"],
   "KwaZulu-Natal":["Durban Main Office","Pietermaritzburg Branch"],
-  "California":["Los Angeles Office","San Francisco Office"],
+  "California":["Los Angeles Passport Agency","San Francisco Passport Agency"],
   "New South Wales":["Sydney Main Office","Newcastle Office"],
-  "Ontario":["Toronto Main Office","Ottawa Branch"]
+  "Ontario":["Toronto Main Office","Ottawa Branch"],
+  "England":["London Passport Office","Manchester Branch"],
+  "Maharashtra":["Mumbai Passport Office","Pune Branch"],
+  "Nairobi":["Nairobi Main Passport Office"],
+  "Lagos":["Lagos Passport Office","Ikeja Branch"],
+  "Accra":["Accra Passport Office"]
   // Expand globally as needed
 };
 
-function updateLocations(){
+function updateLocations() {
   const country = countrySelect.value;
   const locSelect = document.getElementById('location');
   const officeSelect = document.getElementById('office');
-  locSelect.innerHTML='<option value="">Select Location</option>';
-  officeSelect.innerHTML='<option value="">Select Office</option>';
-  if(countryLocations[country]){
-    countryLocations[country].forEach(loc=>{
-      const opt=document.createElement('option');
-      opt.value=loc;
-      opt.textContent=loc;
+  locSelect.innerHTML = '<option value="">Select Location</option>';
+  officeSelect.innerHTML = '<option value="">Select Office</option>';
+
+  if (countryLocations[country]) {
+    countryLocations[country].forEach(loc => {
+      const opt = document.createElement('option');
+      opt.value = loc;
+      opt.textContent = loc;
       locSelect.appendChild(opt);
     });
+  } else {
+    const opt = document.createElement('option');
+    opt.value = "";
+    opt.textContent = "No provinces/states available";
+    locSelect.appendChild(opt);
   }
 }
 
-function updateOffices(){
+function updateOffices() {
   const loc = document.getElementById('location').value;
   const officeSelect = document.getElementById('office');
-  officeSelect.innerHTML='<option value="">Select Office</option>';
-  if(officeLocations[loc]){
-    officeLocations[loc].forEach(off=>{
-      const opt=document.createElement('option');
-      opt.value=off;
-      opt.textContent=off;
+  officeSelect.innerHTML = '<option value="">Select Office</option>';
+
+  if (officeLocations[loc]) {
+    officeLocations[loc].forEach(off => {
+      const opt = document.createElement('option');
+      opt.value = off;
+      opt.textContent = off;
       officeSelect.appendChild(opt);
     });
+  } else {
+    const opt = document.createElement('option');
+    opt.value = "";
+    opt.textContent = "No offices available";
+    officeSelect.appendChild(opt);
   }
 }
 
