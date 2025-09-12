@@ -1,54 +1,158 @@
-<script>
-const bookingForm = document.getElementById("bookingForm");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Appointment Booking</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-// Function to validate fields
-function validateForm() {
-  let valid = true;
-
-  // Check all required input/select fields
-  const requiredFields = bookingForm.querySelectorAll("[required]");
-  requiredFields.forEach(field => {
-    if (!field.value.trim()) {
-      field.style.border = "2px solid red";
-      valid = false;
-    } else {
-      field.style.border = "1px solid #ccc";
-    }
-  });
-
-  return valid;
+<style>
+:root {
+  --primary: #0a6b3b;
+  --danger: #f44336;
+  --background: #e0f7fa;
+  --card-bg: #ffffff;
+  --font-family: 'Poppins', sans-serif;
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
-// Handle form submission
-bookingForm.addEventListener("submit", function(e) {
-  e.preventDefault();
+body {
+  font-family: var(--font-family);
+  background-color: var(--background);
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  if (validateForm()) {
-    // Gather booking data
-    const bookingData = {
-      id_number: document.getElementById("id_number").value,
-      forenames: document.getElementById("forenames").value,
-      surname: document.getElementById("surname").value,
-      country: document.getElementById("country").value,
-      location: document.getElementById("location").value,
-      office: document.getElementById("office").value,
-      appointment_date: document.getElementById("appointment_date").value,
-      appointment_time: document.getElementById("appointment_time").value,
-    };
+.container {
+  width: 100%;
+  max-width: 800px;
+  padding: 2.5rem 3rem;
+  background-color: var(--card-bg);
+  box-shadow: 0 8px 20px var(--shadow);
+  border-radius: 12px;
+}
 
-    // Save to localStorage
-    localStorage.setItem("bookingData", JSON.stringify(bookingData));
+h1 { text-align: center; color: var(--primary); }
+.subtitle { text-align: center; color: #666; margin-bottom: 2rem; }
 
-    // Redirect to summary page
-    window.location.href = "summary.html";
-  } else {
-    // Scroll to first invalid field
-    const firstInvalid = bookingForm.querySelector("input[style*='red'], select[style*='red']");
-    firstInvalid?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-});
+label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; }
+select, input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: #fafafa;
+}
 
-// Keep your location/office dropdown logic intact
+input.invalid, select.invalid {
+  border-color: red;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 30px;
+}
+
+.button-group button {
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  flex: 1;
+  transition: background 0.3s ease;
+}
+
+.btn-auth { background-color: var(--primary); color: white; }
+.btn-auth:hover { background-color: #2a8a55; }
+.btn-back { background-color: var(--danger); color: white; }
+.btn-back:hover { background-color: #d32f2f; }
+</style>
+</head>
+
+<body>
+<main class="container">
+  <h1>Biometrics Appointment Booking</h1>
+  <p class="subtitle">Please capture your details as they appear on your identity document.</p>
+
+  <form id="bookingForm">
+    <div class="form-group">
+      <label for="id_number">ID Number *</label>
+      <input id="id_number" name="id_number" type="text" required />
+    </div>
+
+    <div class="form-group">
+      <label for="forenames">Full Forenames *</label>
+      <input id="forenames" name="forenames" type="text" required />
+    </div>
+
+    <div class="form-group">
+      <label for="surname">Surname *</label>
+      <input id="surname" name="surname" type="text" required />
+    </div>
+
+    <div class="form-group">
+      <label for="country">Country *</label>
+      <select id="country" name="country" required onchange="updateLocations()">
+        <option value="">Select Country</option>
+        <option value="Eswatini">Eswatini</option>
+        <option value="South Africa">South Africa</option>
+        <option value="Kenya">Kenya</option>
+        <option value="Ghana">Ghana</option>
+        <option value="Nigeria">Nigeria</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="location">Location *</label>
+      <select id="location" name="location" required onchange="updateOffices()">
+        <option value="">Select Location</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="office">Office *</label>
+      <select id="office" name="office" required>
+        <option value="">Select Office</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="appointment_date">Appointment Date *</label>
+      <input id="appointment_date" name="appointment_date" type="text" required />
+    </div>
+
+    <div class="form-group">
+      <label for="appointment_time">Appointment Time *</label>
+      <select id="appointment_time" name="appointment_time" required>
+        <option value="">-- Select a time slot --</option>
+        <option value="08:00-09:00">8am - 9am</option>
+        <option value="10:00-11:00">10am - 11am</option>
+        <option value="12:00-13:00">12pm - 1pm</option>
+        <option value="13:00-14:00">1pm - 2pm</option>
+        <option value="14:00-15:00">2pm - 3pm</option>
+        <option value="15:00-16:00">3pm - 4pm</option>
+      </select>
+    </div>
+
+    <div class="button-group">
+      <button type="button" class="btn-back" onclick="window.location.href='https://gov.sz/index.php?view=category&id=238'">Back to Website</button>
+      <button type="submit" class="btn-auth">Submit</button>
+    </div>
+  </form>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
 const countryLocations = {
   'Eswatini': ['Mbabane', 'Manzini', 'Lobamba'],
   'South Africa': ['Pretoria', 'Johannesburg', 'Cape Town'],
@@ -79,16 +183,14 @@ function updateLocations() {
   const country = document.getElementById('country').value;
   const locationSelect = document.getElementById('location');
   const officeSelect = document.getElementById('office');
-
   locationSelect.innerHTML = '<option value="">Select Location</option>';
   officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-  if (countryLocations[country]) {
-    countryLocations[country].forEach(location => {
-      const option = document.createElement('option');
-      option.value = location;
-      option.textContent = location;
-      locationSelect.appendChild(option);
+  if(countryLocations[country]) {
+    countryLocations[country].forEach(loc=>{
+      const opt=document.createElement('option');
+      opt.value=loc;
+      opt.textContent=loc;
+      locationSelect.appendChild(opt);
     });
   }
 }
@@ -97,32 +199,50 @@ function updateOffices() {
   const location = document.getElementById('location').value;
   const officeSelect = document.getElementById('office');
   officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-  if (officeLocations[location]) {
-    officeLocations[location].forEach(office => {
-      const option = document.createElement('option');
-      option.value = office;
-      option.textContent = office;
-      officeSelect.appendChild(option);
+  if(officeLocations[location]) {
+    officeLocations[location].forEach(off=>{
+      const opt=document.createElement('option');
+      opt.value=off;
+      opt.textContent=off;
+      officeSelect.appendChild(opt);
     });
   }
 }
 
-// Flatpickr datepicker
 flatpickr("#appointment_date", {
   dateFormat: "Y-m-d",
-  minDate: "today",
-  disable: [
-    function(date) {
-      const dateStr = date.toISOString().split('T')[0];
-      const disabledRanges = [{ from: "2025-09-01", to: "2025-10-16" }];
-      const holidays = ["2025-09-24","2025-10-15","2025-10-23"];
+  minDate: "today"
+});
 
-      for (const range of disabledRanges) {
-        if (dateStr >= range.from && dateStr <= range.to) return true;
-      }
-      return holidays.includes(dateStr);
+document.getElementById("bookingForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  let isValid = true;
+  // Check required fields
+  this.querySelectorAll('[required]').forEach(input=>{
+    if(!input.value.trim()){
+      input.classList.add('invalid');
+      isValid = false;
+    } else {
+      input.classList.remove('invalid');
     }
-  ]
+  });
+
+  if(!isValid) return;
+
+  // Save data
+  const bookingData = {
+    id_number: document.getElementById("id_number").value,
+    forenames: document.getElementById("forenames").value,
+    surname: document.getElementById("surname").value,
+    country: document.getElementById("country").value,
+    location: document.getElementById("location").value,
+    office: document.getElementById("office").value,
+    appointment_date: document.getElementById("appointment_date").value,
+    appointment_time: document.getElementById("appointment_time").value,
+  };
+  localStorage.setItem("bookingData", JSON.stringify(bookingData));
+  window.location.href = "summary.html";
 });
 </script>
+</body>
+</html>
