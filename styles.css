@@ -43,25 +43,35 @@ body {
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 0;
-  pointer-events: none;
-  animation: fadeIn 1s ease-in-out;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 250px;       /* watermark width */
+  height: 300px;      /* watermark height */
+  opacity: 0.1;       /* subtle transparency */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none; /* so watermark doesn't block clicks */
+  z-index: 0;         /* behind content */
+  background-image: url('4634-coat-of-arms-of-eswatini.png'); /* left watermark */
 }
 
-/* Watermark */
 body::after {
   content: "";
   position: fixed;
-  inset: 0;
-  background-image: url('swazi-coat.png');
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 250px;       /* watermark width */
+  height: 300px;      /* watermark height */
+  opacity: 0.1;       /* subtle transparency */
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 300px 300px;
-  opacity: 0.06;
-  pointer-events: none;
-  z-index: 0;
+  background-size: contain;
+  pointer-events: none; /* so watermark doesn't block clicks */
+  z-index: 0;         /* behind content */
+  background-image: url('4635-flag-of-eswatini.png'); /* right watermark */
 }
 
 /* Layout Wrappers */
