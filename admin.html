@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visa Applications Admin</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; background: #f0f4f8; }
+  h1 { color: #0a6b3b; text-align: center; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+  th { background-color: #0a6b3b; color: white; }
+  tr:nth-child(even) { background-color: #f9f9f9; }
+  button { padding: 10px 20px; margin-top: 15px; cursor: pointer; border: none; border-radius: 5px; background-color: #0a6b3b; color: white; }
+  button:hover { background-color: #2a8a55; }
+  .field-checkboxes { display: flex; flex-wrap: wrap; gap: 10px; }
+</style>
+</head>
+<body>
+  <h1>Visa Applications Review</h1>
+  <table id="submissions-table">
+    <thead>
+      <tr>
+        <th>Booking Ref</th>
+        <th>Applicant Name</th>
+        <th>Status</th>
+        <th>Review Fields</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+<script>
+const API_URL = 'http://localhost:3000'; // Replace with your backend URL if deployed
+
+// Load all submissions
+async function loadSubmissions() {
+  const res = await fetch(`${API_URL}/submissions`);
+  const data = await res.json();
+  const tbody = document.querySelector('#submissions-table tbody');
+  tbody.innerHTML = '';
+
+  data.forEach(sub => {
+    const tr = document.createElement('tr');
+
+    // Booking Ref
+    const br = document.createElement('td');
+    br.textContent = sub.booking_reference || '';
+    tr.appendChild(br);
+
+    // Name
+    const name = document.createElement('td');
+    name.textContent = `${sub.forenames || ''} ${sub.surname || ''}`;
+    tr.appendChild(name);
+
+    // Status
+    const status = document.createElement('td');
+    status.textContent = sub.status || 'Pending';
+    tr.appendChild(status);
+
+    // Fields Review
+    const fieldsTd = document.createElement('td');
+    const fieldsDiv = document.createElement('div');
+    fieldsDiv.className = 'field-checkboxes';
+
+    // List all keys from submission for review
+    Object.keys(sub).forEach(key => {
+      if(['id','booking_reference','status','rejected_fields'].includes(key)) return;
+      const label = document.createElement('label');
+      label.style.marginRight = '10px';
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = key;
+      checkbox.checked = !sub.rejected_fields?.includes(key);
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(key));
+      fieldsDiv.appendChild(label);
+    });
+    fieldsTd.appendChild(fieldsDiv);
+    tr.appendChild(fieldsTd);
+
+    // Action Button
+    const actionTd = document.createElement('td');
+    const btn = document.createElement('button');
+    btn.textContent = 'Submit Review';
+    btn.onclick = async () => {
+      const rejected = [];
+      fieldsDiv.querySelectorAll('input[type=checkbox]').forEach(cb => {
+        if(!cb.checked) rejected.push(cb.value);
+      });
+      const newStatus = rejected.length === 0 ? 'Accepted' : 'Rejected';
+      const resp = await fetch(`${API_URL}/review/${sub.id}`, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ status: newStatus, rejected_fields: rejected })
+      });
+      const result = await resp.json();
+      alert(`Submission ${sub.booking_reference} updated.\nStatus: ${newStatus}\nRejected Fields: ${rejected.join(', ') || 'None'}`);
+      loadSubmissions();
+    };
+    actionTd.appendChild(btn);
+    tr.appendChild(actionTd);
+
+    tbody.appendChild(tr);
+  });
+}
+
+// Initial load
+loadSubmissions();
+</script>
+</body>
+</html>
