@@ -17,7 +17,11 @@
       --shadow: rgba(0, 0, 0, 0.1);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: var(--font-family);
@@ -48,8 +52,15 @@
       filter: grayscale(100%) brightness(150%);
     }
 
-    body::before { left: 0; background-image: url('4634-coat-of-arms-of-eswatini.png'); }
-    body::after  { right: 0; background-image: url('4635-flag-of-eswatini.png'); }
+    body::before {
+      left: 0;
+      background-image: url('4634-coat-of-arms-of-eswatini.png');
+    }
+
+    body::after {
+      right: 0;
+      background-image: url('4635-flag-of-eswatini.png');
+    }
 
     .container {
       width: 100%;
@@ -96,6 +107,18 @@
       background-color: #fafafa;
     }
 
+    select:disabled,
+    input:disabled,
+    textarea:disabled {
+      background-color: #eee;
+      color: #999;
+      cursor: not-allowed;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
     .button-group {
       display: flex;
       justify-content: space-between;
@@ -114,15 +137,84 @@
       transition: background 0.3s ease;
     }
 
-    .btn-auth { background-color: var(--primary); color: white; }
-    .btn-auth:hover { background-color: #2a8a55; }
-    .btn-back { background-color: var(--danger); color: white; }
-    .btn-back:hover { background-color: #d32f2f; }
+    .btn-auth {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-auth:hover {
+      background-color: #2a8a55;
+    }
+
+    .btn-back {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn-back:hover {
+      background-color: #d32f2f;
+    }
+
+    hr {
+      margin: 2rem 0;
+      border: none;
+      border-top: 1px solid #ddd;
+    }
+
+    small {
+      display: block;
+      margin-top: -14px;
+      margin-bottom: 14px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* Tooltip styling */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      border-bottom: 1px dotted black;
+      cursor: help;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 280px;
+      background-color: var(--primary);
+      color: #fff;
+      text-align: left;
+      border-radius: 6px;
+      padding: 10px;
+      position: absolute;
+      z-index: 10;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -140px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-weight: 400;
+      font-size: 0.85rem;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
 
     @media (max-width: 768px) {
-      .container { padding: 2rem 1.5rem; }
-      .button-group { flex-direction: column; }
-      .button-group button { width: 100%; }
+      .container {
+        padding: 2rem 1.5rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .button-group button {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -135,14 +227,10 @@
     </header>
 
     <form id="bookingForm" novalidate>
+      <!-- Basic Info -->
       <div class="form-group">
         <label for="id_number">ID Number *</label>
         <input id="id_number" name="id_number" type="text" required />
-      </div>
-
-      <div class="form-group">
-        <label for="id_document">Upload Identity Document *</label>
-        <input id="id_document" name="id_document" type="file" accept=".pdf,.jpg,.png" required />
       </div>
 
       <div class="form-group">
@@ -165,11 +253,13 @@
         <input id="postal_code" name="postal_code" type="text" required />
       </div>
 
+      <!-- Upload Proof of Residence -->
       <div class="form-group">
         <label for="proof_residence">Upload Proof of Residence *</label>
-        <input id="proof_residence" name="proof_residence" type="file" accept=".pdf,.jpg,.png" required />
+        <input id="proof_residence" name="proof_residence" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
       </div>
 
+      <!-- Country, Location, Office -->
       <div class="form-group">
         <label for="country">Country *</label>
         <select id="country" name="country" required onchange="updateLocations()">
@@ -196,6 +286,7 @@
         </select>
       </div>
 
+      <!-- Appointment date/time -->
       <div class="form-group">
         <label for="appointment_date">Appointment Date *</label>
         <input id="appointment_date" name="appointment_date" type="text" required />
@@ -214,17 +305,45 @@
         </select>
       </div>
 
-      <div class="form-group">
-        <label>Visa Application Type *</label>
-        <label><input type="radio" name="visa_type" value="standard" checked> Standard Visa (up to 3 months)</label><br />
-        <label><input type="radio" name="visa_type" value="priority"> Priority Visa (up to 6 weeks)</label>
-      </div>
+      <!-- Visa Application Details -->
+      <hr />
+      <h2>Visa Application Details</h2>
 
-      <div id="priorityFields" style="display: none;">
-        <div class="form-group">
-          <label for="proof_flight">Upload Proof of Flight *</label>
-          <input id="proof_flight" name="proof_flight" type="file" accept=".pdf,.jpg,.png" />
-        </div>
+      <!-- Passport Details -->
+      <label for="passport_number">Passport Number *</label>
+      <input id="passport_number" name="passport_number" type="text" required />
 
-        <div class="form-group">
-          <label for="proof_overseas_residence">
+      <label for="passport_expiry">Passport Expiry Date *</label>
+      <input id="passport_expiry" name="passport_expiry" type="date" required />
+
+      <!-- Passport Photo -->
+      <label for="passport_photo">Upload Passport Photo (JPG/PNG) *</label>
+      <input id="passport_photo" name="passport_photo" type="file" accept=".jpg,.jpeg,.png" required />
+      <small>Must meet Australian visa photo size (35mm x 45mm)</small>
+
+      <!-- Proof of Financial Capacity -->
+      <label for="bank_statement">Upload Recent Bank Statements *</label>
+      <input id="bank_statement" name="bank_statement" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+
+      <label for="employment_letter">Upload Employment or Sponsorship Letter *</label>
+      <input id="employment_letter" name="employment_letter" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+
+      <!-- Visa Sponsorship / Employment -->
+      <label for="sponsor_name">Employer or Sponsor Name *</label>
+      <input id="sponsor_name" name="sponsor_name" type="text" required />
+
+      <label for="monthly_income">Monthly Income (optional)</label>
+      <input id="monthly_income" name="monthly_income" type="number" placeholder="e.g. 7500" />
+
+      <label for="sponsor_proof">Upload Sponsorship / Employment Contract</label>
+      <input id="sponsor_proof" name="sponsor_proof" type="file" accept=".pdf,.jpg,.jpeg,.png" />
+
+      <!-- Flight Booking & Itinerary -->
+      <label for="flight_proof">Upload Proof of Flight Booking *</label>
+      <input id="flight_proof" name="flight_proof" type="file" accept=".pdf,.jpg,.jpeg,.png" required />
+
+      <label for="itinerary">Travel Itinerary (optional)</label>
+      <textarea id="itinerary" name="itinerary" rows="4" placeholder="e.g. Sydney (Oct 3-7), Brisbane (Oct 8-10)"></textarea>
+
+      <!-- Return Home Proof -->
+      <label for="return_proof">Upload Proof of Ties to Home (family, job, property) *</label>
