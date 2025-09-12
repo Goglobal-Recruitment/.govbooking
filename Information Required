@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Visa Application - Welcome</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #e0f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .welcome-container {
+      background: white;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      color: #0a6b3b;
+      margin-bottom: 1rem;
+    }
+    p {
+      margin-bottom: 2rem;
+      color: #333;
+      font-size: 1.1rem;
+    }
+    button {
+      background-color: #0a6b3b;
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2a8a55;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-container">
+    <h1>Welcome to the Visa Application</h1>
+    <p>Please proceed to fill in your appointment and visa information.</p>
+    <button id="startBtn">Proceed to Information Required</button>
+  </div>
+
+  <script>
+    document.getElementById('startBtn').addEventListener('click', () => {
+      window.location.href = 'information-required.html';
+    });
+  </script>
+</body>
+</html>
