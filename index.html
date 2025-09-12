@@ -61,9 +61,10 @@ select:disabled, input:disabled { background-color: #eee; color: #999; cursor: n
 .btn-back { background-color: var(--danger); color: white; }
 .btn-back:hover { background-color: #d32f2f; }
 
+/* Watermarks: Coat of Arms left, Flag right */
 body::before {
   content: "";
-  background: url('coat_of_arms.png') no-repeat left center, url('flag.png') no-repeat right center;
+  background: url('4634-coat-of-arms-of-eswatini.png') no-repeat left center, url('4635-flag-of-eswatini.png') no-repeat right center;
   background-size: 100px auto;
   opacity: 0.15;
   position: fixed;
@@ -76,7 +77,7 @@ body::before {
 
 header::after {
   content: "";
-  background: url('coat_of_arms.png') no-repeat top right;
+  background: url('4634-coat-of-arms-of-eswatini.png') no-repeat top right;
   background-size: 80px;
   width: 80px;
   height: 80px;
@@ -164,18 +165,12 @@ header::after {
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-// --- Global Countries ---
-const countries = ["South Africa","USA","Australia","Canada","UK","India","Kenya","Nigeria","Ghana","Eswatini"]; // Expand as needed
-
+// --- Countries ---
+const countries = ["South Africa","USA","Australia","Canada","UK","India","Kenya","Nigeria","Ghana","Eswatini"];
 const countrySelect = document.getElementById('country');
-countries.forEach(c => {
-  const opt = document.createElement('option');
-  opt.value = c;
-  opt.textContent = c;
-  countrySelect.appendChild(opt);
-});
+countries.forEach(c => { const opt=document.createElement('option'); opt.value=c; opt.textContent=c; countrySelect.appendChild(opt); });
 
-// --- Provinces/States per country (expandable) ---
+// --- Provinces/States ---
 const countryLocations = {
   "South Africa":["Gauteng","Western Cape","KwaZulu-Natal","Eastern Cape","Limpopo","Mpumalanga","Northern Cape","North West","Free State"],
   "USA":["California","New York","Texas","Florida","Illinois","Pennsylvania","Ohio","Georgia"],
@@ -189,82 +184,70 @@ const countryLocations = {
   "Eswatini":["Mbabane","Manzini","Lobamba"]
 };
 
-// --- Offices per province/state (expandable) ---
+// --- Offices per province/state including Home Affairs ---
 const officeLocations = {
-  "Gauteng":["Pretoria Main Passport Office","Johannesburg Branch","Soweto Regional Office"],
-  "Western Cape":["Cape Town Main Office","Stellenbosch Branch"],
-  "KwaZulu-Natal":["Durban Main Office","Pietermaritzburg Branch"],
-  "California":["Los Angeles Passport Agency","San Francisco Passport Agency"],
-  "New South Wales":["Sydney Main Office","Newcastle Office"],
-  "Ontario":["Toronto Main Office","Ottawa Branch"],
-  "England":["London Passport Office","Manchester Branch"],
-  "Maharashtra":["Mumbai Passport Office","Pune Branch"],
-  "Nairobi":["Nairobi Main Passport Office"],
-  "Lagos":["Lagos Passport Office","Ikeja Branch"],
-  "Accra":["Accra Passport Office"]
-  // Expand globally as needed
+  "Mbabane":["Mbabane Home Affairs","Mbabane Regional Office 1","Mbabane Regional Office 2"],
+  "Manzini":["Manzini Home Affairs","Manzini Branch 1","Manzini Branch 2"],
+  "Lobamba":["Lobamba Home Affairs"],
+  "Gauteng":["Pretoria Home Affairs","Johannesburg Home Affairs","Soweto Regional Office"],
+  "Western Cape":["Cape Town Home Affairs","Stellenbosch Branch"],
+  "KwaZulu-Natal":["Durban Home Affairs","Pietermaritzburg Branch"]
+  // Add more global provinces/states and offices as needed
 };
 
 function updateLocations() {
   const country = countrySelect.value;
   const locSelect = document.getElementById('location');
   const officeSelect = document.getElementById('office');
-  locSelect.innerHTML = '<option value="">Select Location</option>';
-  officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-  if (countryLocations[country]) {
-    countryLocations[country].forEach(loc => {
-      const opt = document.createElement('option');
-      opt.value = loc;
-      opt.textContent = loc;
+  locSelect.innerHTML='<option value="">Select Location</option>';
+  officeSelect.innerHTML='<option value="">Select Office</option>';
+  if(countryLocations[country]){
+    countryLocations[country].forEach(loc=>{
+      const opt=document.createElement('option');
+      opt.value=loc;
+      opt.textContent=loc;
       locSelect.appendChild(opt);
     });
-  } else {
-    const opt = document.createElement('option');
-    opt.value = "";
-    opt.textContent = "No provinces/states available";
-    locSelect.appendChild(opt);
   }
 }
 
-function updateOffices() {
+function updateOffices(){
   const loc = document.getElementById('location').value;
   const officeSelect = document.getElementById('office');
-  officeSelect.innerHTML = '<option value="">Select Office</option>';
-
-  if (officeLocations[loc]) {
-    officeLocations[loc].forEach(off => {
-      const opt = document.createElement('option');
-      opt.value = off;
-      opt.textContent = off;
+  officeSelect.innerHTML='<option value="">Select Office</option>';
+  if(officeLocations[loc] && officeLocations[loc].length>0){
+    officeLocations[loc].forEach(off=>{
+      const opt=document.createElement('option');
+      opt.value=off;
+      opt.textContent=off;
       officeSelect.appendChild(opt);
     });
   } else {
-    const opt = document.createElement('option');
-    opt.value = "";
-    opt.textContent = "No offices available";
+    // fallback Home Affairs if nothing defined
+    const opt=document.createElement('option');
+    opt.value=loc+" Home Affairs";
+    opt.textContent=loc+" Home Affairs";
     officeSelect.appendChild(opt);
   }
 }
 
-// Disabled dates & public holidays
-const disabledDateRanges = [{ from:"2025-09-01", to:"2025-10-16"}];
-const publicHolidays = ["2025-09-24","2025-10-15","2025-10-23"];
+// --- Datepicker ---
+const disabledDateRanges=[{from:"2025-09-01",to:"2025-10-16"}];
+const publicHolidays=["2025-09-24","2025-10-15","2025-10-23"];
 function disableDates(date){
   const d = date.toISOString().split('T')[0];
   for(const r of disabledDateRanges) if(d>=r.from && d<=r.to) return true;
   return publicHolidays.includes(d);
 }
-
 flatpickr("#appointment_date",{dateFormat:"Y-m-d", minDate:"today", disable:[disableDates]});
 
-const bookingForm = document.getElementById("bookingForm");
+// --- Form submission ---
+const bookingForm=document.getElementById("bookingForm");
 bookingForm.addEventListener("submit", function(e){
   e.preventDefault();
   let valid=true;
   bookingForm.querySelectorAll("input,select").forEach(el=>{
-    if(!el.checkValidity()){el.classList.add("invalid"); valid=false;} 
-    else el.classList.remove("invalid");
+    if(!el.checkValidity()){el.classList.add("invalid"); valid=false;} else el.classList.remove("invalid");
   });
   if(!valid) return;
   const bookingData={
@@ -277,7 +260,7 @@ bookingForm.addEventListener("submit", function(e){
     appointment_date: document.getElementById("appointment_date").value,
     appointment_time: document.getElementById("appointment_time").value
   };
-  localStorage.setItem("bookingData", JSON.stringify(bookingData));
+  localStorage.setItem("bookingData",JSON.stringify(bookingData));
   window.location.href="summary.html";
 });
 </script>
