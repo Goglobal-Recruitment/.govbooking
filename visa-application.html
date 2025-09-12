@@ -4,90 +4,96 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Visa Application</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <style>
-body {font-family: Arial,sans-serif;background:#f0f4f8;padding:20px;}
-h1,h2 {color:#0a6b3b;text-align:center;}
-form {max-width:900px;margin:0 auto;background:#fff;padding:2rem;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.1);}
-label {font-weight:600;margin-top:10px;display:block;}
-input,select {width:100%;padding:10px;margin-bottom:15px;border-radius:6px;border:1px solid #ccc;}
-button {padding:12px 20px;background:#0a6b3b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-top:15px;}
-button:hover {background:#2a8a55;}
-.hidden {display:none;}
+body{font-family:'Poppins',sans-serif;background:#f0f4f8;padding:20px;}
+h1,h2{text-align:center;color:#0a6b3b;}
+form{max-width:900px;margin:0 auto;background:#fff;padding:2rem;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.1);}
+label{display:block;margin:10px 0 5px;font-weight:600;}
+input,select{width:100%;padding:10px;margin-bottom:10px;border:1px solid #ccc;border-radius:6px;}
+input.invalid,select.invalid{border-color:red;}
+button{padding:12px 20px;background:#0a6b3b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-top:15px;}
+button:hover{background:#2a8a55;}
+.hidden{display:none;}
+.child-section{margin-bottom:20px;padding:10px;border:1px dashed #ccc;border-radius:6px;}
 </style>
 </head>
 <body>
 
 <h1>Visa Application</h1>
-<form id="visaForm">
+<form id="visaForm" novalidate>
 
-<label for="booking_reference">Booking Reference</label>
-<input type="text" id="booking_reference" readonly>
-
-<label for="id_number">ID Number</label>
+<h2>Personal Details</h2>
+<label for="id_number">ID Number *</label>
 <input type="text" id="id_number" name="id_number" required>
 
-<label for="forenames">Forenames</label>
+<label for="forenames">Forenames *</label>
 <input type="text" id="forenames" name="forenames" required>
 
-<label for="surname">Surname</label>
+<label for="surname">Surname *</label>
 <input type="text" id="surname" name="surname" required>
 
-<label for="contact">Contact Number</label>
-<div style="display:flex; gap:10px;">
-<select id="country_code">
-<option value="+27">+27 (ZA)</option>
-<option value="+44">+44 (UK)</option>
-<option value="+61">+61 (AU)</option>
-<option value="+1">+1 (US)</option>
-</select>
+<label for="contact">Contact Number *</label>
 <input type="tel" id="contact" name="contact" required>
-</div>
 
-<label for="email">Email</label>
+<label for="email">Email *</label>
 <input type="email" id="email" name="email" required>
 
 <h2>Address</h2>
-<label for="street_address">Street Address</label>
-<input type="text" id="street_address" name="street_address" required>
+<label for="street">Street *</label>
+<input type="text" id="street" name="street" required>
 
-<label for="country">Country</label>
-<select id="country" name="country" required></select>
+<label for="country">Country *</label>
+<select id="country" name="country" required onchange="updateProvinces()">
+<option value="">Select Country</option>
+<!-- Example countries -->
+<option value="Australia">Australia</option>
+<option value="United Kingdom">United Kingdom</option>
+<option value="United States">United States</option>
+<option value="South Africa">South Africa</option>
+</select>
 
-<label for="province">Province/State</label>
-<select id="province" name="province" required></select>
+<label for="province">Province/State *</label>
+<select id="province" name="province" required onchange="updateCities()">
+<option value="">Select Province/State</option>
+</select>
 
-<label for="city">City</label>
-<select id="city" name="city" required></select>
+<label for="city">City *</label>
+<select id="city" name="city" required onchange="updatePostal()">
+<option value="">Select City</option>
+</select>
 
-<label for="postal_code">Postal Code</label>
-<input type="text" id="postal_code" name="postal_code" required>
+<label for="postal">Postal Code *</label>
+<select id="postal" name="postal" required>
+<option value="">Select Postal Code</option>
+</select>
 
-<h2>Passport</h2>
-<label>Do you have a passport?</label>
+<h2>Passport Details</h2>
+<label>Do you have a passport? *</label>
 <input type="radio" name="passport_status" value="yes"> Yes
 <input type="radio" name="passport_status" value="no"> No
 
-<div id="passport-yes" class="hidden">
-<label for="passport_number">Passport Number</label>
+<div id="passport-yes-fields" class="hidden">
+<label for="passport_number">Passport Number *</label>
 <input type="text" id="passport_number" name="passport_number">
-<label for="passport_issue_date">Issue Date</label>
-<input type="date" id="passport_issue_date" name="passport_issue_date">
-<label for="passport_expiry_date">Expiry Date</label>
-<input type="date" id="passport_expiry_date" name="passport_expiry_date">
-<label for="passport_proof">Upload Passport Proof</label>
-<input type="file" id="passport_proof" name="passport_proof">
+<label for="passport_issue">Issue Date *</label>
+<input type="date" id="passport_issue" name="passport_issue">
+<label for="passport_expiry">Expiry Date *</label>
+<input type="date" id="passport_expiry" name="passport_expiry">
+<label for="passport_upload">Upload Passport *</label>
+<input type="file" id="passport_upload" name="passport_upload">
 </div>
 
-<div id="passport-no" class="hidden">
+<div id="passport-no-apply" class="hidden">
 <label>Do you want to apply for a passport?</label>
-<input type="radio" name="passport_apply" value="yes"> Yes
-<input type="radio" name="passport_apply" value="no"> No
-
-<div id="passport-apply-info" class="hidden">
-<label for="passport_apply_date">Intended Issue Date</label>
-<input type="date" id="passport_apply_date" name="passport_apply_date">
-<label for="passport_identity_upload">Upload Identity Document</label>
-<input type="file" id="passport_identity_upload" name="passport_identity_upload">
+<input type="radio" name="apply_passport" value="yes"> Yes
+<input type="radio" name="apply_passport" value="no"> No
+<div id="passport-apply-fields" class="hidden">
+<label for="intended_passport_date">Intended Issue Date *</label>
+<input type="date" id="intended_passport_date" name="intended_passport_date">
+<label for="passport_apply_upload">Upload ID for Passport *</label>
+<input type="file" id="passport_apply_upload" name="passport_apply_upload">
 </div>
 </div>
 
@@ -97,14 +103,12 @@ button:hover {background:#2a8a55;}
 <input type="radio" name="spouse_include" value="no"> No
 
 <div id="spouse-section" class="hidden">
-<label for="spouse_name">Spouse Name</label>
+<label for="spouse_name">Spouse Name *</label>
 <input type="text" id="spouse_name" name="spouse_name">
-<label for="spouse_age">Spouse Age</label>
-<input type="number" id="spouse_age" name="spouse_age">
-<label for="spouse_id_upload">Upload Identity Document</label>
-<input type="file" id="spouse_id_upload" name="spouse_id_upload">
-<label for="spouse_medical_upload">Upload Medical Records</label>
-<input type="file" id="spouse_medical_upload" name="spouse_medical_upload">
+<label for="spouse_id">Spouse ID *</label>
+<input type="text" id="spouse_id" name="spouse_id">
+<label for="spouse_medical">Upload Medical Records *</label>
+<input type="file" id="spouse_medical" name="spouse_medical">
 </div>
 
 <h2>Children</h2>
@@ -128,53 +132,133 @@ button:hover {background:#2a8a55;}
 <button type="submit">Submit Visa Application</button>
 </form>
 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-// Dynamic global countries & example provinces/cities
+// Global Countries example, can be extended
 const countriesData = {
-  'Australia': { provinces: { 'New South Wales': ['Sydney','Newcastle'], 'Victoria': ['Melbourne','Geelong'] } },
-  'United Kingdom': { provinces: { 'England': ['London','Manchester'], 'Scotland': ['Edinburgh','Glasgow'] } },
-  'United States': { provinces: { 'California': ['Los Angeles','San Francisco'], 'New York': ['New York City','Buffalo'] } },
-  'South Africa': { provinces: { 'Gauteng': ['Johannesburg','Pretoria'], 'Western Cape': ['Cape Town'] } },
-  'Canada': { provinces: { 'Ontario': ['Toronto','Ottawa'], 'Quebec': ['Montreal','Quebec City'] } }
+  'Australia': {
+    'New South Wales': {'Sydney':'2000','Newcastle':'2300','Wollongong':'2500'},
+    'Victoria': {'Melbourne':'3000','Geelong':'3220','Ballarat':'3350'},
+    'South Australia': {'Adelaide':'5000','Mount Gambier':'5290','Whyalla':'5600'}
+  },
+  'United Kingdom': {
+    'England': {'London':'E1','Manchester':'M1','Liverpool':'L1'},
+    'Scotland': {'Edinburgh':'EH1','Glasgow':'G1'}
+  },
+  'United States': {
+    'California': {'Los Angeles':'90001','San Francisco':'94101'},
+    'New York': {'New York City':'10001','Buffalo':'14201'}
+  },
+  'South Africa': {
+    'Gauteng': {'Johannesburg':'2000','Pretoria':'0001'},
+    'Western Cape': {'Cape Town':'8000','Stellenbosch':'7600'}
+  }
 };
 
-const countrySelect = document.getElementById('country');
-const provinceSelect = document.getElementById('province');
-const citySelect = document.getElementById('city');
-
-// Populate countries
-Object.keys(countriesData).forEach(c=>{
-  const opt=document.createElement('option'); opt.value=c; opt.textContent=c; countrySelect.appendChild(opt);
-});
-
-// Country -> province
-countrySelect.addEventListener('change',()=>{
+function updateProvinces(){
+  const country=document.getElementById('country').value;
+  const provinceSelect=document.getElementById('province');
   provinceSelect.innerHTML='<option value="">Select Province/State</option>';
-  citySelect.innerHTML='<option value="">Select City</option>';
-  postal_code.value='';
-  if(!countrySelect.value) return;
-  const provinces = Object.keys(countriesData[countrySelect.value].provinces);
-  provinces.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;provinceSelect.appendChild(o);});
-});
+  if(countriesData[country]){
+    Object.keys(countriesData[country]).forEach(p=>{
+      const opt=document.createElement('option'); opt.value=p; opt.textContent=p; provinceSelect.appendChild(opt);
+    });
+  }
+  updateCities();
+}
 
-// Province -> city
-provinceSelect.addEventListener('change',()=>{
+function updateCities(){
+  const country=document.getElementById('country').value;
+  const province=document.getElementById('province').value;
+  const citySelect=document.getElementById('city');
   citySelect.innerHTML='<option value="">Select City</option>';
-  postal_code.value='';
-  if(!provinceSelect.value) return;
-  const cities = countriesData[countrySelect.value].provinces[provinceSelect.value];
-  cities.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;citySelect.appendChild(o);});
-});
+  if(countriesData[country] && countriesData[country][province]){
+    Object.keys(countriesData[country][province]).forEach(c=>{
+      const opt=document.createElement('option'); opt.value=c; opt.textContent=c; citySelect.appendChild(opt);
+    });
+  }
+  updatePostal();
+}
 
-// City -> show postal code input
-citySelect.addEventListener('change',()=>{postal_code.value='';});
+function updatePostal(){
+  const country=document.getElementById('country').value;
+  const province=document.getElementById('province').value;
+  const city=document.getElementById('city').value;
+  const postalSelect=document.getElementById('postal');
+  postalSelect.innerHTML='<option value="">Select Postal Code</option>';
+  if(countriesData[country] && countriesData[country][province] && countriesData[country][province][city]){
+    const code=countriesData[country][province][city];
+    const opt=document.createElement('option'); opt.value=code; opt.textContent=code; postalSelect.appendChild(opt);
+  }
+}
 
 // Passport logic
-document.querySelectorAll('input[name="passport_status"]').forEach(input=>{
-  input.addEventListener('change',()=>{
-    passportYes.classList.toggle('hidden', input.value!=='yes');
-    passportNo.classList.toggle('hidden', input.value!=='no');
-    passportApplyInfo.classList.add('hidden');
+document.querySelectorAll('input[name="passport_status"]').forEach(el=>{
+  el.addEventListener('change',()=>{
+    document.getElementById('passport-yes-fields').classList.toggle('hidden',el.value!=='yes');
+    document.getElementById('passport-no-apply').classList.toggle('hidden',el.value!=='no');
   });
 });
-document
+document.querySelectorAll('input[name="apply_passport"]').forEach(el=>{
+  el.addEventListener('change',()=>{document.getElementById('passport-apply-fields').classList.toggle('hidden',el.value!=='yes');});
+});
+
+// Spouse logic
+document.querySelectorAll('input[name="spouse_include"]').forEach(el=>{
+  el.addEventListener('change',()=>{document.getElementById('spouse-section').classList.toggle('hidden',el.value!=='yes');});
+});
+
+// Children logic
+document.querySelectorAll('input[name="children_include"]').forEach(el=>{
+  el.addEventListener('change',()=>{document.getElementById('children-section').classList.toggle('hidden',el.value!=='yes');});
+});
+
+document.getElementById('child_count').addEventListener('change',e=>{
+  const count=parseInt(e.target.value,10);
+  const container=document.getElementById('children-details');
+  container.innerHTML='';
+  for(let i=1;i<=count;i++){
+    const div=document.createElement('div'); div.classList.add('child-section');
+    div.innerHTML=`
+      <h3>Child ${i}</h3>
+      <label>Name *</label><input type="text" name="child_${i}_name" required>
+      <label>Birth Year *</label><input type="number" min="1900" max="2025" name="child_${i}_birthyear" required>
+      <label>Birth Certificate Number *</label><input type="text" name="child_${i}_birth" required>
+      <label>Medical Records *</label><input type="file" name="child_${i}_medical" required>
+      <div class="school-fields hidden">
+        <label>Latest School Name *</label><input type="text" name="child_${i}_school">
+        <label>Upload School Records *</label><input type="file" name="child_${i}_school_upload">
+      </div>
+    `;
+    container.appendChild(div);
+
+    // Show school fields if age 5-18
+    const birthInput=div.querySelector(`input[name="child_${i}_birthyear"]`);
+    birthInput.addEventListener('input',()=>{
+      const year=parseInt(birthInput.value,10);
+      const age=2025-year; // adjust current year dynamically if needed
+      const schoolDiv=div.querySelector('.school-fields');
+      if(age>=5 && age<=18){ schoolDiv.classList.remove('hidden'); } else { schoolDiv.classList.add('hidden'); }
+    });
+  }
+});
+
+// Flatpickr
+flatpickr("input[type=date]",{dateFormat:"Y-m-d",minDate:"today"});
+
+// Form validation
+document.getElementById('visaForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  let valid=true;
+  this.querySelectorAll('input,select').forEach(el=>{
+    if(el.required && !el.value){ el.classList.add('invalid'); valid=false; } else el.classList.remove('invalid');
+  });
+  if(!valid) return;
+  const formData=new FormData(this); const obj={};
+  formData.forEach((v,k)=>obj[k]=v);
+  localStorage.setItem('visaFormData',JSON.stringify(obj));
+  window.location.href='summary.html';
+});
+</script>
+</body>
+</html>
