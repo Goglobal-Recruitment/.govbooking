@@ -3,22 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Visa Application</title>
+<title>Visa Application</title>
 <style>
-body{font-family:Arial,sans-serif;background:#f0f4f8;padding:20px}
-h1,h2{color:#0a6b3b;text-align:center;margin-bottom:10px}
-form{max-width:900px;margin:0 auto;background:#fff;padding:2rem;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.1)}
-label{font-weight:600;margin-top:10px;display:block}
-input,select{width:100%;padding:10px;margin-bottom:15px;border-radius:6px;border:1px solid #ccc}
-button{padding:12px 20px;background:#0a6b3b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-top:15px}
-button:hover{background:#2a8a55}
-.hidden{display:none}
-.child-block, .spouse-block{margin-bottom:15px;border:1px solid #ccc;padding:10px;border-radius:6px}
+body {font-family: Arial,sans-serif;background:#f0f4f8;padding:20px;}
+h1,h2 {color:#0a6b3b;text-align:center;}
+form {max-width:900px;margin:0 auto;background:#fff;padding:2rem;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.1);}
+label {font-weight:600;margin-top:10px;display:block;}
+input,select {width:100%;padding:10px;margin-bottom:15px;border-radius:6px;border:1px solid #ccc;}
+button {padding:12px 20px;background:#0a6b3b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-top:15px;}
+button:hover {background:#2a8a55;}
+.hidden {display:none;}
 </style>
 </head>
 <body>
-<h1>Global Visa Application</h1>
+
+<h1>Visa Application</h1>
 <form id="visaForm">
+
 <label for="booking_reference">Booking Reference</label>
 <input type="text" id="booking_reference" readonly>
 
@@ -38,12 +39,6 @@ button:hover{background:#2a8a55}
 <option value="+44">+44 (UK)</option>
 <option value="+61">+61 (AU)</option>
 <option value="+1">+1 (US)</option>
-<option value="+91">+91 (IN)</option>
-<option value="+49">+49 (DE)</option>
-<option value="+33">+33 (FR)</option>
-<option value="+81">+81 (JP)</option>
-<option value="+86">+86 (CN)</option>
-<option value="+7">+7 (RU)</option>
 </select>
 <input type="tel" id="contact" name="contact" required>
 </div>
@@ -51,84 +46,72 @@ button:hover{background:#2a8a55}
 <label for="email">Email</label>
 <input type="email" id="email" name="email" required>
 
-<h2>Relocation Address</h2>
+<h2>Address</h2>
 <label for="street_address">Street Address</label>
 <input type="text" id="street_address" name="street_address" required>
 
 <label for="country">Country</label>
-<select id="country" name="country" required onchange="updateProvinces()">
-<option value="">Select Country</option>
-<option value="Australia">Australia</option>
-<option value="United Kingdom">United Kingdom</option>
-<option value="United States">United States</option>
-<option value="Canada">Canada</option>
-<option value="South Africa">South Africa</option>
-<option value="India">India</option>
-<option value="Germany">Germany</option>
-<option value="France">France</option>
-<option value="Japan">Japan</option>
-<option value="China">China</option>
-<option value="Russia">Russia</option>
-</select>
+<select id="country" name="country" required></select>
 
-<label for="province">Province / State</label>
-<select id="province" name="province" required onchange="updateCities()">
-<option value="">Select Province/State</option>
-</select>
+<label for="province">Province/State</label>
+<select id="province" name="province" required></select>
 
 <label for="city">City</label>
-<select id="city" name="city" required onchange="updatePostal()">
-<option value="">Select City</option>
-</select>
+<select id="city" name="city" required></select>
 
-<label for="postal">Postal Code</label>
-<select id="postal" name="postal" required>
-<option value="">Select Postal Code</option>
-</select>
+<label for="postal_code">Postal Code</label>
+<input type="text" id="postal_code" name="postal_code" required>
 
-<h2>Passport Details</h2>
+<h2>Passport</h2>
 <label>Do you have a passport?</label>
-<div>
 <input type="radio" name="passport_status" value="yes"> Yes
 <input type="radio" name="passport_status" value="no"> No
-</div>
-<div id="passport-extra" class="hidden">
-<label for="passport_issue">Intended Issue Date</label>
-<input type="date" id="passport_issue" name="passport_issue">
+
+<div id="passport-yes" class="hidden">
+<label for="passport_number">Passport Number</label>
+<input type="text" id="passport_number" name="passport_number">
+<label for="passport_issue_date">Issue Date</label>
+<input type="date" id="passport_issue_date" name="passport_issue_date">
+<label for="passport_expiry_date">Expiry Date</label>
+<input type="date" id="passport_expiry_date" name="passport_expiry_date">
 <label for="passport_proof">Upload Passport Proof</label>
 <input type="file" id="passport_proof" name="passport_proof">
 </div>
 
-<label for="visa_type">Visa Type</label>
-<select id="visa_type" name="visa_type">
-<option value="Relocation">Relocation</option>
-<option value="Sponsorship">Sponsorship</option>
-<option value="Work Visa">Work Visa</option>
-</select>
+<div id="passport-no" class="hidden">
+<label>Do you want to apply for a passport?</label>
+<input type="radio" name="passport_apply" value="yes"> Yes
+<input type="radio" name="passport_apply" value="no"> No
+
+<div id="passport-apply-info" class="hidden">
+<label for="passport_apply_date">Intended Issue Date</label>
+<input type="date" id="passport_apply_date" name="passport_apply_date">
+<label for="passport_identity_upload">Upload Identity Document</label>
+<input type="file" id="passport_identity_upload" name="passport_identity_upload">
+</div>
+</div>
 
 <h2>Spouse</h2>
 <label>Include Spouse?</label>
-<div>
 <input type="radio" name="spouse_include" value="yes"> Yes
 <input type="radio" name="spouse_include" value="no"> No
-</div>
-<div id="spouse-section" class="hidden spouse-block">
+
+<div id="spouse-section" class="hidden">
 <label for="spouse_name">Spouse Name</label>
 <input type="text" id="spouse_name" name="spouse_name">
 <label for="spouse_age">Spouse Age</label>
 <input type="number" id="spouse_age" name="spouse_age">
-<label for="spouse_id">Spouse ID Document</label>
-<input type="file" id="spouse_id" name="spouse_id">
-<label for="spouse_medical">Spouse Medical Records</label>
-<input type="file" id="spouse_medical" name="spouse_medical">
+<label for="spouse_id_upload">Upload Identity Document</label>
+<input type="file" id="spouse_id_upload" name="spouse_id_upload">
+<label for="spouse_medical_upload">Upload Medical Records</label>
+<input type="file" id="spouse_medical_upload" name="spouse_medical_upload">
 </div>
 
 <h2>Children</h2>
 <label>Include Children?</label>
-<div>
 <input type="radio" name="children_include" value="yes"> Yes
 <input type="radio" name="children_include" value="no"> No
-</div>
+
 <div id="children-section" class="hidden">
 <label for="child_count">Number of Children</label>
 <select id="child_count">
@@ -146,88 +129,52 @@ button:hover{background:#2a8a55}
 </form>
 
 <script>
-// Example country > provinces > cities > postal
-const countryData = {
-  "Australia": { "New South Wales":["Sydney","Newcastle"],"Victoria":["Melbourne","Geelong"] },
-  "United Kingdom": { "England":["London","Manchester"],"Scotland":["Edinburgh","Glasgow"] },
-  "United States": { "California":["Los Angeles","San Francisco"],"New York":["New York","Buffalo"] },
-  "Canada": { "Ontario":["Toronto","Ottawa"],"Quebec":["Montreal","Quebec City"] },
-  "South Africa": { "Gauteng":["Johannesburg","Pretoria"],"Western Cape":["Cape Town","Stellenbosch"] }
+// Dynamic global countries & example provinces/cities
+const countriesData = {
+  'Australia': { provinces: { 'New South Wales': ['Sydney','Newcastle'], 'Victoria': ['Melbourne','Geelong'] } },
+  'United Kingdom': { provinces: { 'England': ['London','Manchester'], 'Scotland': ['Edinburgh','Glasgow'] } },
+  'United States': { provinces: { 'California': ['Los Angeles','San Francisco'], 'New York': ['New York City','Buffalo'] } },
+  'South Africa': { provinces: { 'Gauteng': ['Johannesburg','Pretoria'], 'Western Cape': ['Cape Town'] } },
+  'Canada': { provinces: { 'Ontario': ['Toronto','Ottawa'], 'Quebec': ['Montreal','Quebec City'] } }
 };
 
-const postalData = {
-  "Sydney": ["2000","2001"], "Melbourne":["3000","3001"], "London":["SW1A","EC1A"], 
-  "Manchester":["M1","M2"], "Edinburgh":["EH1","EH2"], "Glasgow":["G1","G2"],
-  "Los Angeles":["90001","90002"], "San Francisco":["94101","94102"],
-  "New York":["10001","10002"], "Buffalo":["14201","14202"],
-  "Toronto":["M5H","M4B"], "Ottawa":["K1A","K2P"], "Montreal":["H1A","H2B"], "Quebec City":["G1A","G2B"],
-  "Johannesburg":["2000","2001"], "Pretoria":["0001","0002"], "Cape Town":["8000","8001"], "Stellenbosch":["7600","7601"]
-};
+const countrySelect = document.getElementById('country');
+const provinceSelect = document.getElementById('province');
+const citySelect = document.getElementById('city');
 
-function updateProvinces() {
-  const country = document.getElementById("country").value;
-  const province = document.getElementById("province");
-  province.innerHTML = "<option value=''>Select Province/State</option>";
-  document.getElementById("city").innerHTML = "<option value=''>Select City</option>";
-  document.getElementById("postal").innerHTML = "<option value=''>Select Postal Code</option>";
-  if(countryData[country]){
-    Object.keys(countryData[country]).forEach(p=>{const o=document.createElement("option");o.value=p;o.textContent=p;province.appendChild(o);});
-  }
-}
-function updateCities(){
-  const country=document.getElementById("country").value;
-  const province=document.getElementById("province").value;
-  const city=document.getElementById("city");
-  city.innerHTML="<option value=''>Select City</option>";
-  document.getElementById("postal").innerHTML = "<option value=''>Select Postal Code</option>";
-  if(countryData[country] && countryData[country][province]){
-    countryData[country][province].forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;city.appendChild(o);});
-  }
-}
-function updatePostal(){const c=document.getElementById("city").value;const p=document.getElementById("postal");p.innerHTML="<option value=''>Select Postal Code</option>";if(postalData[c]){postalData[c].forEach(code=>{const o=document.createElement("option");o.value=code;o.textContent=code;p.appendChild(o);});}}
-
-window.onload=function(){
-  document.querySelectorAll('input[name=passport_status]').forEach(el=>el.addEventListener('change',()=>{document.getElementById('passport-extra').classList.toggle('hidden',el.value!=='yes'||!el.checked);}));
-  document.querySelectorAll('input[name=spouse_include]').forEach(el=>el.addEventListener('change',()=>{document.getElementById('spouse-section').classList.toggle('hidden',el.value!=='yes'||!el.checked);}));
-  document.querySelectorAll('input[name=children_include]').forEach(el=>el.addEventListener('change',()=>{document.getElementById('children-section').classList.toggle('hidden',el.value!=='yes'||!el.checked);}));
-  document.getElementById('child_count').addEventListener('change',e=>{renderChildren(parseInt(e.target.value));});
-
-  const bookingData=JSON.parse(localStorage.getItem('bookingData'));
-  if(bookingData){
-    document.getElementById('id_number').value=bookingData.id_number||'';
-    document.getElementById('forenames').value=bookingData.forenames||'';
-    document.getElementById('surname').value=bookingData.surname||'';
-    document.getElementById('contact').value=bookingData.contact||'';
-    document.getElementById('email').value=bookingData.email||'';
-  }
-};
-
-function renderChildren(count){
-  const container=document.getElementById('children-details');
-  container.innerHTML='';
-  for(let i=1;i<=count;i++){
-    const div=document.createElement('div');
-    div.classList.add('child-block');
-    div.innerHTML=`
-      <h3>Child ${i}</h3>
-      <label>Name</label><input type="text" name="child_${i}_name" required>
-      <label>Age</label><input type="number" name="child_${i}_age" required>
-      <label>Birth Certificate Number</label><input type="text" name="child_${i}_birth" required>
-      <label>Medical Records</label><input type="file" name="child_${i}_medical" required>
-    `;
-    container.appendChild(div);
-  }
-}
-
-document.getElementById("visaForm").addEventListener("submit",function(e){
-  e.preventDefault();
-  if(!this.checkValidity()){alert("⚠️ Complete all fields.");return;}
-  const formData=new FormData(this);
-  const appData={};
-  formData.forEach((v,k)=>appData[k]=v);
-  localStorage.setItem("visaApplication",JSON.stringify(appData));
-  alert("Application submitted successfully!");
+// Populate countries
+Object.keys(countriesData).forEach(c=>{
+  const opt=document.createElement('option'); opt.value=c; opt.textContent=c; countrySelect.appendChild(opt);
 });
-</script>
-</body>
-</html>
+
+// Country -> province
+countrySelect.addEventListener('change',()=>{
+  provinceSelect.innerHTML='<option value="">Select Province/State</option>';
+  citySelect.innerHTML='<option value="">Select City</option>';
+  postal_code.value='';
+  if(!countrySelect.value) return;
+  const provinces = Object.keys(countriesData[countrySelect.value].provinces);
+  provinces.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;provinceSelect.appendChild(o);});
+});
+
+// Province -> city
+provinceSelect.addEventListener('change',()=>{
+  citySelect.innerHTML='<option value="">Select City</option>';
+  postal_code.value='';
+  if(!provinceSelect.value) return;
+  const cities = countriesData[countrySelect.value].provinces[provinceSelect.value];
+  cities.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;citySelect.appendChild(o);});
+});
+
+// City -> show postal code input
+citySelect.addEventListener('change',()=>{postal_code.value='';});
+
+// Passport logic
+document.querySelectorAll('input[name="passport_status"]').forEach(input=>{
+  input.addEventListener('change',()=>{
+    passportYes.classList.toggle('hidden', input.value!=='yes');
+    passportNo.classList.toggle('hidden', input.value!=='no');
+    passportApplyInfo.classList.add('hidden');
+  });
+});
+document
