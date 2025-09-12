@@ -7,29 +7,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <style>
-  body::before, body::after {
-    content: "";
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 250px; /* Adjust size if needed */
-    height: 300px; /* Adjust size if needed */
-    opacity: 0.1; /* Light watermark */
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    pointer-events: none;
-    z-index: 0;
-  }
+ body::before, body::after {
+  content: "";
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 250px;     /* adjust as needed */
+  height: 300px;    /* adjust as needed */
+  opacity: 0.1;     /* subtle watermark transparency */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  pointer-events: none; /* so they don't block clicks */
+  z-index: -1;      /* behind everything */
+}
 
-  body::before {
-    left: 0;
-    background-image: url('4634-coat-of-arms-of-eswatini.png');
-  }
+body::before {
+  left: 0;
+  background-image: url('4634-coat-of-arms-of-eswatini.png');
+}
 
-  body::after {
-    right: 0;
-    background-image: url('4635-flag-of-eswatini.png');
+body::after {
+  right: 0;
+  background-image: url('4635-flag-of-eswatini.png');
+}
+
   }
 </style>
 
@@ -286,4 +288,5 @@ bookingForm.addEventListener("submit", function(e){
 </script>
 </body>
 </html>
+
 
