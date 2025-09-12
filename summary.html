@@ -39,7 +39,6 @@
       align-items: center;
     }
 
-    /* Background watermark images on both sides */
     body::before,
     body::after {
       content: '';
@@ -188,7 +187,11 @@
     </section>
 
     <section class="buttons">
-     <button id="printBtn" type="button" onclick="window.print()">Print Summary</button>
+      <!-- Print Summary Button -->
+      <button id="printBtn" type="button" onclick="window.print()">Print Summary</button>
+
+      <!-- Visa Application Button -->
+      <button type="button" onclick="location.href='required-information.html'">Visa Application</button>
     </section>
   </main>
 
@@ -209,36 +212,6 @@
         alert("No booking data found.");
       }
     };
-
-    // Download functionality
-    document.getElementById("downloadBtn").addEventListener("click", function () {
-      const bookingData = JSON.parse(localStorage.getItem("bookingData"));
-
-      if (bookingData) {
-        const textContent = `
-Booking Summary:
-ID Number: ${bookingData.id_number || "—"}
-Forenames: ${bookingData.forenames || "—"}
-Surname: ${bookingData.surname || "—"}
-Cellphone: ${bookingData.cellphone || "—"}
-Email: ${bookingData.email || "—"}
-Appointment Date: ${bookingData.appointment_date || "—"}
-Appointment Time: ${bookingData.appointment_time || "—"}
-        `;
-
-        const blob = new Blob([textContent], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'booking_summary.txt';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      } else {
-        alert("No booking data available.");
-      }
-    });
   </script>
 </body>
 </html>
