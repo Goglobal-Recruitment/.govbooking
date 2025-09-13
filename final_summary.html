@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Final Summary</title>
+<style>
+body { font-family: Arial, sans-serif; padding:20px; background:#f5f7fa; }
+.container { max-width:900px; margin:auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+h1 { text-align:center; color:#2c3e50; margin-bottom:20px; }
+table { width:100%; border-collapse:collapse; margin-top:20px; }
+th, td { padding:12px; border:1px solid #ccc; text-align:left; }
+th { background:#2c3e50; color:#fff; }
+.status-accepted { color:green; font-weight:bold; }
+.status-declined { color:red; font-weight:bold; }
+.status-pending { color:orange; font-weight:bold; }
+@media(max-width:768px){
+  table, thead, tbody, th, td, tr { display:block; }
+  th { position:absolute; top:-9999px; left:-9999px; }
+  tr { margin-bottom:15px; }
+  td { border:none; position:relative; padding-left:50%; }
+  td:before { 
+    position:absolute; left:10px; width:45%; white-space:nowrap; font-weight:bold; 
+  }
+  td:nth-of-type(1):before { content: "Type"; }
+  td:nth-of-type(2):before { content: "Full Name"; }
+  td:nth-of-type(3):before { content: "Document"; }
+  td:nth-of-type(4):before { content: "Status"; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Final Summary</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Full Name</th>
+      <th>Document</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody id="summaryTableBody">
+    <!-- Data will be injected here -->
+  </tbody>
+</table>
+</div>
+
+<script>
+// Pull all submitted data from localStorage
+const appData = JSON.parse(localStorage.getItem('visaApplication')) || [];
+
+// Example data structure (should match how you store user/spouse/children)
+const tbody = document.getElementById('summaryTableBody');
+appData.forEach(item => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${item.type}</td>
+    <td>${item.name}</td>
+    <td>${item.document}</td>
+    <td class="status-${item.status.toLowerCase()}">${item.status}</td>
+  `;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>
