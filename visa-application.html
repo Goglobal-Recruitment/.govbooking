@@ -121,6 +121,35 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
   </div>
 </div>
 
+<!-- User Passport Details -->
+<div class="section-card">
+  <h2>Your Passport Details</h2>
+  <div class="field-row">
+    <label>Do you have a passport?</label>
+    <select id="user_passport_yesno">
+      <option value="No">No</option>
+      <option value="Yes">Yes</option>
+    </select>
+  </div>
+  <div id="user_passport_yes" class="hidden">
+    <div class="field-row"><label>Passport Number</label><input id="user_passport_number"></div>
+    <div class="field-row"><label>Expiry Date</label><input type="date" id="user_passport_expiry"></div>
+    <div class="field-row"><label>Upload Passport</label><input type="file" id="user_passport_file"></div>
+  </div>
+  <div id="user_passport_no" class="hidden">
+    <div class="field-row"><label>Would you like to apply for a passport?</label>
+      <select id="user_apply_passport">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </div>
+    <div id="user_apply_fields" class="hidden">
+      <div class="field-row"><label>Intended Issue Date</label><input type="date" id="user_intended_date"></div>
+      <div class="field-row"><label>Upload Proof</label><input type="file" id="user_proof_file"></div>
+    </div>
+  </div>
+</div>
+
 <!-- Spouse Details -->
 <div class="section-card">
   <h2>Spouse Details</h2>
@@ -220,6 +249,15 @@ window.onload = function() {
     document.getElementById("appointment_time").value = data.appointment_time || "";
   }
 };
+
+// --- User passport toggles ---
+document.getElementById('user_passport_yesno').addEventListener('change', function(){
+  document.getElementById('user_passport_yes').classList.toggle('hidden', this.value!=='Yes');
+  document.getElementById('user_passport_no').classList.toggle('hidden', this.value!=='No');
+});
+document.getElementById('user_apply_passport').addEventListener('change', function(){
+  document.getElementById('user_apply_fields').classList.toggle('hidden', this.value!=='Yes');
+});
 
 // --- Spouse toggles ---
 document.getElementById('includeSpouse').addEventListener('change', function(){
