@@ -92,60 +92,69 @@ select:disabled, input:disabled { background-color: #eee; color: #999; cursor: n
   </header>
 
   <form id="bookingForm" novalidate>
-    <div class="form-group">
-      <label for="id_number">ID Number *</label>
-      <input id="id_number" name="id_number" type="text" required />
-    </div>
+    <!-- ID Number -->
+    <label for="id_number">ID Number *</label>
+    <input id="id_number" name="id_number" type="text" required />
 
-    <div class="form-group">
-      <label for="forenames">Full Forenames *</label>
-      <input id="forenames" name="forenames" type="text" required />
-    </div>
+    <!-- Forenames -->
+    <label for="forenames">Full Forenames *</label>
+    <input id="forenames" name="forenames" type="text" required />
 
-    <div class="form-group">
-      <label for="surname">Surname *</label>
-      <input id="surname" name="surname" type="text" required />
-    </div>
+    <!-- Surname -->
+    <label for="surname">Surname *</label>
+    <input id="surname" name="surname" type="text" required />
 
-    <div class="form-group">
-      <label for="country">Country *</label>
-      <select id="country" name="country" required onchange="updateLocations()">
-        <option value="">Select Country</option>
+    <!-- Email -->
+    <label for="email">Email Address *</label>
+    <input id="email" name="email" type="email" placeholder="you@example.com" required />
+
+    <!-- Cellphone Number with Country Code -->
+    <label for="cellphone">Cellphone Number *</label>
+    <div style="display:flex; gap:10px;">
+      <select id="country_code" name="country_code" required>
+        <option value="+27">+27 (ZA)</option>
+        <option value="+44">+44 (UK)</option>
+        <option value="+61">+61 (AU)</option>
+        <option value="+1">+1 (US)</option>
       </select>
+      <input id="cellphone" name="cellphone" type="tel" placeholder="123 456 7890" required />
     </div>
 
-    <div class="form-group">
-      <label for="location">Province/State *</label>
-      <select id="location" name="location" required onchange="updateOffices()">
-        <option value="">Select Location</option>
-      </select>
-    </div>
+    <!-- Country -->
+    <label for="country">Country *</label>
+    <select id="country" name="country" required onchange="updateLocations()">
+      <option value="">Select Country</option>
+    </select>
 
-    <div class="form-group">
-      <label for="office">Office *</label>
-      <select id="office" name="office" required>
-        <option value="">Select Office</option>
-      </select>
-    </div>
+    <!-- Province/State -->
+    <label for="location">Province/State *</label>
+    <select id="location" name="location" required onchange="updateOffices()">
+      <option value="">Select Location</option>
+    </select>
 
-    <div class="form-group">
-      <label for="appointment_date">Appointment Date *</label>
-      <input id="appointment_date" name="appointment_date" type="text" required />
-    </div>
+    <!-- Office -->
+    <label for="office">Office *</label>
+    <select id="office" name="office" required>
+      <option value="">Select Office</option>
+    </select>
 
-    <div class="form-group">
-      <label for="appointment_time">Appointment Time *</label>
-      <select id="appointment_time" name="appointment_time" required>
-        <option value="">-- Select a time slot --</option>
-        <option value="08:00-09:00">8am - 9am</option>
-        <option value="10:00-11:00">10am - 11am</option>
-        <option value="12:00-13:00">12pm - 1pm</option>
-        <option value="13:00-14:00">1pm - 2pm</option>
-        <option value="14:00-15:00">2pm - 3pm</option>
-        <option value="15:00-16:00">3pm - 4pm</option>
-      </select>
-    </div>
+    <!-- Appointment Date -->
+    <label for="appointment_date">Appointment Date *</label>
+    <input id="appointment_date" name="appointment_date" type="text" required />
 
+    <!-- Appointment Time -->
+    <label for="appointment_time">Appointment Time *</label>
+    <select id="appointment_time" name="appointment_time" required>
+      <option value="">-- Select a time slot --</option>
+      <option value="08:00-09:00">8am - 9am</option>
+      <option value="10:00-11:00">10am - 11am</option>
+      <option value="12:00-13:00">12pm - 1pm</option>
+      <option value="13:00-14:00">1pm - 2pm</option>
+      <option value="14:00-15:00">2pm - 3pm</option>
+      <option value="15:00-16:00">3pm - 4pm</option>
+    </select>
+
+    <!-- Buttons -->
     <div class="button-group">
       <button type="button" class="btn-back" onclick="window.location.href='https://gov.sz/index.php?view=category&id=238'">Back to Website</button>
       <button type="submit" class="btn-auth">Submit</button>
@@ -155,10 +164,12 @@ select:disabled, input:disabled { background-color: #eee; color: #999; cursor: n
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
+// --- Countries ---
 const countries = ["South Africa","USA","Australia","Canada","UK","India","Kenya","Nigeria","Ghana","Eswatini"];
 const countrySelect = document.getElementById('country');
 countries.forEach(c => { const opt=document.createElement('option'); opt.value=c; opt.textContent=c; countrySelect.appendChild(opt); });
 
+// --- Provinces/States ---
 const countryLocations = {
   "South Africa":["Gauteng","Western Cape","KwaZulu-Natal","Eastern Cape","Limpopo","Mpumalanga","Northern Cape","North West","Free State"],
   "USA":["California","New York","Texas","Florida","Illinois","Pennsylvania","Ohio","Georgia"],
@@ -172,6 +183,7 @@ const countryLocations = {
   "Eswatini":["Mbabane","Manzini","Lobamba"]
 };
 
+// --- Offices per province/state including Home Affairs ---
 const officeLocations = {
   "Mbabane":["Mbabane Home Affairs","Mbabane Regional Office 1","Mbabane Regional Office 2"],
   "Manzini":["Manzini Home Affairs","Manzini Branch 1","Manzini Branch 2"],
@@ -208,7 +220,7 @@ function updateOffices(){
       opt.textContent=off;
       officeSelect.appendChild(opt);
     });
-  } else if(loc){
+  } else {
     const opt=document.createElement('option');
     opt.value=loc+" Home Affairs";
     opt.textContent=loc+" Home Affairs";
@@ -216,7 +228,7 @@ function updateOffices(){
   }
 }
 
-// --- Flatpickr with blocked dates and holidays ---
+// --- Datepicker ---
 const disabledDateRanges=[{from:"2025-09-01",to:"2025-10-16"}];
 const publicHolidays=["2025-09-24","2025-10-15","2025-10-23"];
 function disableDates(date){
@@ -226,32 +238,38 @@ function disableDates(date){
 }
 flatpickr("#appointment_date",{dateFormat:"Y-m-d", minDate:"today", disable:[disableDates]});
 
-// --- Submit button with validation and push to next screen ---
+// --- Form submission ---
 const bookingForm=document.getElementById("bookingForm");
 bookingForm.addEventListener("submit", function(e){
   e.preventDefault();
   let valid=true;
   bookingForm.querySelectorAll("input,select").forEach(el=>{
-    if(!el.checkValidity()){ el.classList.add("invalid"); valid=false; } 
-    else el.classList.remove("invalid");
+    if(!el.checkValidity()){el.classList.add("invalid"); valid=false;} else el.classList.remove("invalid");
   });
   if(!valid) return;
-  
+
+  // --- Generate unique booking number ---
+  const bookingNumber = 'BK' + Date.now();
+
   const bookingData={
     id_number: document.getElementById("id_number").value,
     forenames: document.getElementById("forenames").value,
     surname: document.getElementById("surname").value,
+    email: document.getElementById("email").value,
+    cellphone: document.getElementById("cellphone").value,
+    country_code: document.getElementById("country_code").value,
     country: document.getElementById("country").value,
     location: document.getElementById("location").value,
     office: document.getElementById("office").value,
     appointment_date: document.getElementById("appointment_date").value,
-    appointment_time: document.getElementById("appointment_time").value
+    appointment_time: document.getElementById("appointment_time").value,
+    booking_number: bookingNumber
   };
-  
-  // Save to localStorage
+
+  // Store in localStorage
   localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
-  // Go to summary page
+  // Redirect to summary page
   window.location.href="summary.html";
 });
 </script>
