@@ -50,19 +50,29 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
   margin-bottom:20px;
 }
 
-.section-card .row {
+.field-row {
   display:flex;
+  align-items:center;
+  margin-bottom:12px;
   flex-wrap:wrap;
-  gap:20px;
 }
 
-.section-card .row > div {
-  flex:1 1 45%;
+.field-row label {
+  width:150px;
+  font-weight:600;
+  margin-right:10px;
 }
 
-label { display:block; margin-bottom:5px; font-weight:600; color:#333; }
-input, select, textarea { width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:15px; font-size:1rem; background:#fafafa; }
-input:disabled { background:#eee; color:#555; }
+.field-row input, .field-row select, .field-row textarea {
+  flex:1;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:1rem;
+  background:#fafafa;
+}
+
+.field-row input:disabled { background:#eee; color:#555; }
 
 .buttons {
   display:flex;
@@ -85,7 +95,8 @@ input:disabled { background:#eee; color:#555; }
 .buttons button:hover { background-color:var(--accent-2); }
 
 @media(max-width:768px){
-  .section-card .row > div { flex:1 1 100%; }
+  .field-row { flex-direction:column; align-items:flex-start; }
+  .field-row label { width:100%; margin-bottom:5px; }
   .buttons { flex-direction:column; }
   .buttons button{width:100%;}
 }
@@ -99,89 +110,66 @@ input:disabled { background:#eee; color:#555; }
   <!-- Personal Details -->
   <div class="section-card">
     <h2>Personal Details</h2>
-    <div class="row">
-      <div>
-        <label>Booking Number</label>
-        <input id="booking_number" disabled>
-      </div>
-      <div>
-        <label>ID Number</label>
-        <input id="id_number" disabled>
-      </div>
-      <div>
-        <label>Full Forenames</label>
-        <input id="forenames" disabled>
-      </div>
-      <div>
-        <label>Surname</label>
-        <input id="surname" disabled>
-      </div>
-      <div>
-        <label>Email</label>
-        <input id="email" disabled>
-      </div>
-      <div>
-        <label>Cellphone</label>
-        <input id="cellphone_full" disabled>
-      </div>
-      <div>
-        <label>Country</label>
-        <input id="country" disabled>
-      </div>
-      <div>
-        <label>Province/State</label>
-        <input id="location" disabled>
-      </div>
-      <div>
-        <label>Office</label>
-        <input id="office" disabled>
-      </div>
-      <div>
-        <label>Appointment Date</label>
-        <input id="appointment_date" disabled>
-      </div>
-      <div>
-        <label>Appointment Time</label>
-        <input id="appointment_time" disabled>
-      </div>
+    <div class="field-row">
+      <label>Booking Number</label><input id="booking_number" disabled>
+    </div>
+    <div class="field-row">
+      <label>ID Number</label><input id="id_number" disabled>
+    </div>
+    <div class="field-row">
+      <label>Full Forenames</label><input id="forenames" disabled>
+    </div>
+    <div class="field-row">
+      <label>Surname</label><input id="surname" disabled>
+    </div>
+    <div class="field-row">
+      <label>Email</label><input id="email" disabled>
+    </div>
+    <div class="field-row">
+      <label>Cellphone</label><input id="cellphone_full" disabled>
+    </div>
+    <div class="field-row">
+      <label>Country</label><input id="country" disabled>
+    </div>
+    <div class="field-row">
+      <label>Province/State</label><input id="location" disabled>
+    </div>
+    <div class="field-row">
+      <label>Office</label><input id="office" disabled>
+    </div>
+    <div class="field-row">
+      <label>Appointment Date</label><input id="appointment_date" disabled>
+    </div>
+    <div class="field-row">
+      <label>Appointment Time</label><input id="appointment_time" disabled>
     </div>
   </div>
 
   <!-- Spouse Details -->
   <div class="section-card">
     <h2>Spouse Details</h2>
-    <div class="row">
-      <div>
-        <label>Full Name</label>
-        <input type="text" id="spouse_name" placeholder="Enter spouse name">
-      </div>
-      <div>
-        <label>ID/Passport Number</label>
-        <input type="text" id="spouse_id" placeholder="Enter ID/Passport">
-      </div>
+    <div class="field-row">
+      <label>Full Name</label><input type="text" id="spouse_name" placeholder="Enter spouse name">
+    </div>
+    <div class="field-row">
+      <label>ID/Passport Number</label><input type="text" id="spouse_id" placeholder="Enter ID/Passport">
     </div>
   </div>
 
   <!-- Children Details -->
   <div class="section-card">
     <h2>Children Details</h2>
-    <div class="row">
-      <div>
-        <label>Child 1 Name</label>
-        <input type="text" id="child1_name" placeholder="Enter child name">
-      </div>
-      <div>
-        <label>Child 1 ID/Passport</label>
-        <input type="text" id="child1_id" placeholder="Enter ID/Passport">
-      </div>
-      <div>
-        <label>Child 2 Name</label>
-        <input type="text" id="child2_name" placeholder="Enter child name">
-      </div>
-      <div>
-        <label>Child 2 ID/Passport</label>
-        <input type="text" id="child2_id" placeholder="Enter ID/Passport">
-      </div>
+    <div class="field-row">
+      <label>Child 1 Name</label><input type="text" id="child1_name" placeholder="Enter child name">
+    </div>
+    <div class="field-row">
+      <label>Child 1 ID/Passport</label><input type="text" id="child1_id" placeholder="Enter ID/Passport">
+    </div>
+    <div class="field-row">
+      <label>Child 2 Name</label><input type="text" id="child2_name" placeholder="Enter child name">
+    </div>
+    <div class="field-row">
+      <label>Child 2 ID/Passport</label><input type="text" id="child2_id" placeholder="Enter ID/Passport">
     </div>
   </div>
 
@@ -199,19 +187,14 @@ input:disabled { background:#eee; color:#555; }
   <!-- Uploads Section -->
   <div class="section-card">
     <h2>Upload Required Documents</h2>
-    <div class="row">
-      <div>
-        <label>Passport Copy</label>
-        <input type="file" id="passport_upload">
-      </div>
-      <div>
-        <label>Visa Form</label>
-        <input type="file" id="visa_form_upload">
-      </div>
-      <div>
-        <label>Other Supporting Documents</label>
-        <input type="file" id="other_docs_upload" multiple>
-      </div>
+    <div class="field-row">
+      <label>Passport Copy</label><input type="file" id="passport_upload">
+    </div>
+    <div class="field-row">
+      <label>Visa Form</label><input type="file" id="visa_form_upload">
+    </div>
+    <div class="field-row">
+      <label>Other Supporting Documents</label><input type="file" id="other_docs_upload" multiple>
     </div>
   </div>
 
@@ -240,9 +223,33 @@ window.onload = function(){
   }
 };
 
-// Download CSV
-function downloadCSV(){
-  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
-  if(!bookingData) { alert("No booking data found."); return; }
-  let csv = "Booking Number,ID,Forenames,Surname,Email,Cellphone,Country,Location,Office,Date,Time\n";
-  csv += `${booking
+function submitVisaApplication(){
+  const visaData = {
+    booking_number: document.getElementById("booking_number").value,
+    id_number: document.getElementById("id_number").value,
+    forenames: document.getElementById("forenames").value,
+    surname: document.getElementById("surname").value,
+    email: document.getElementById("email").value,
+    cellphone: document.getElementById("cellphone_full").value,
+    country: document.getElementById("country").value,
+    location: document.getElementById("location").value,
+    office: document.getElementById("office").value,
+    appointment_date: document.getElementById("appointment_date").value,
+    appointment_time: document.getElementById("appointment_time").value,
+    spouse_name: document.getElementById("spouse_name").value,
+    spouse_id: document.getElementById("spouse_id").value,
+    child1_name: document.getElementById("child1_name").value,
+    child1_id: document.getElementById("child1_id").value,
+    child2_name: document.getElementById("child2_name").value,
+    child2_id: document.getElementById("child2_id").value
+  };
+  localStorage.setItem("visaApplicationData", JSON.stringify(visaData));
+  alert("Visa Application submitted!");
+}
+
+// Placeholder functions for downloads
+function downloadCSV(){ alert("CSV download triggered for back-end"); }
+function downloadPDF(filename){ alert(filename + " download triggered"); }
+</script>
+</body>
+</html>
