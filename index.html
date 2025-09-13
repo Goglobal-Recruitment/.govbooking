@@ -6,6 +6,7 @@
 <title>Appointment Booking</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 <style>
 :root {
   --primary: #0a6b3b;
@@ -15,7 +16,9 @@
   --font-family: 'Poppins', sans-serif;
   --shadow: rgba(0, 0, 0, 0.1);
 }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
   font-family: var(--font-family);
   background-color: var(--background);
@@ -28,6 +31,7 @@ body {
   position: relative;
   overflow-x: hidden;
 }
+
 body::before {
   content: "";
   background: url('3cefcf5c-4f19-4126-9ae7-3d62ea7b60d6.png') no-repeat left center,
@@ -42,7 +46,7 @@ body::before {
   z-index: 0;
   pointer-events: none;
 }
-header::after { display: none; }
+
 .container {
   width: 100%;
   max-width: 800px;
@@ -53,12 +57,16 @@ header::after { display: none; }
   position: relative;
   z-index: 1;
 }
+
 h1 { font-size: 2rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 0.5rem; }
 .subtitle { text-align: center; font-size: 1rem; color: #666; margin-bottom: 2rem; }
+
 label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; }
 select, input { width: 100%; padding: 12px 14px; margin-bottom: 18px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; background-color: #fafafa; }
 select:disabled, input:disabled { background-color: #eee; color: #999; cursor: not-allowed; }
+
 .invalid { border-color: var(--danger); }
+
 .button-group { display: flex; justify-content: space-between; gap: 1rem; margin-top: 30px; }
 .button-group button {
   padding: 14px; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; flex: 1; transition: background 0.3s ease;
@@ -67,6 +75,7 @@ select:disabled, input:disabled { background-color: #eee; color: #999; cursor: n
 .btn-auth:hover { background-color: #2a8a55; }
 .btn-back { background-color: var(--danger); color: white; }
 .btn-back:hover { background-color: #d32f2f; }
+
 @media (max-width: 768px) {
   .container { padding: 2rem 1.5rem; }
   .button-group { flex-direction: column; }
@@ -74,6 +83,7 @@ select:disabled, input:disabled { background-color: #eee; color: #999; cursor: n
 }
 </style>
 </head>
+
 <body>
 <main class="container" role="main">
   <header>
@@ -145,12 +155,10 @@ select:disabled, input:disabled { background-color: #eee; color: #999; cursor: n
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-// --- Countries ---
 const countries = ["South Africa","USA","Australia","Canada","UK","India","Kenya","Nigeria","Ghana","Eswatini"];
 const countrySelect = document.getElementById('country');
 countries.forEach(c => { const opt=document.createElement('option'); opt.value=c; opt.textContent=c; countrySelect.appendChild(opt); });
 
-// --- Provinces/States ---
 const countryLocations = {
   "South Africa":["Gauteng","Western Cape","KwaZulu-Natal","Eastern Cape","Limpopo","Mpumalanga","Northern Cape","North West","Free State"],
   "USA":["California","New York","Texas","Florida","Illinois","Pennsylvania","Ohio","Georgia"],
@@ -164,7 +172,6 @@ const countryLocations = {
   "Eswatini":["Mbabane","Manzini","Lobamba"]
 };
 
-// --- Offices ---
 const officeLocations = {
   "Mbabane":["Mbabane Home Affairs","Mbabane Regional Office 1","Mbabane Regional Office 2"],
   "Manzini":["Manzini Home Affairs","Manzini Branch 1","Manzini Branch 2"],
@@ -201,7 +208,7 @@ function updateOffices(){
       opt.textContent=off;
       officeSelect.appendChild(opt);
     });
-  } else if(loc) {
+  } else if(loc){
     const opt=document.createElement('option');
     opt.value=loc+" Home Affairs";
     opt.textContent=loc+" Home Affairs";
@@ -209,36 +216,29 @@ function updateOffices(){
   }
 }
 
-// --- Datepicker ---
-flatpickr("#appointment_date",{dateFormat:"Y-m-d", minDate:"today"});
+// --- Flatpickr with blocked dates and holidays ---
+const disabledDateRanges=[{from:"2025-09-01",to:"2025-10-16"}];
+const publicHolidays=["2025-09-24","2025-10-15","2025-10-23"];
+function disableDates(date){
+  const d = date.toISOString().split('T')[0];
+  for(const r of disabledDateRanges) if(d>=r.from && d<=r.to) return true;
+  return publicHolidays.includes(d);
+}
+flatpickr("#appointment_date",{dateFormat:"Y-m-d", minDate:"today", disable:[disableDates]});
 
-// --- Booking Form ---
+// --- Submit button with validation and push to next screen ---
 const bookingForm=document.getElementById("bookingForm");
 bookingForm.addEventListener("submit", function(e){
   e.preventDefault();
   let valid=true;
   bookingForm.querySelectorAll("input,select").forEach(el=>{
-    if(!el.checkValidity()){el.classList.add("invalid"); valid=false;} else el.classList.remove("invalid");
+    if(!el.checkValidity()){ el.classList.add("invalid"); valid=false; } 
+    else el.classList.remove("invalid");
   });
   if(!valid) return;
-
-  // --- Prevent duplicate bookings ---
-  const idNumber = document.getElementById("id_number").value;
-  let allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
-  let existing = allBookings.find(b=>b.id_number === idNumber);
-  if(existing){
-    alert("A booking for this ID already exists! Booking Number: " + existing.booking_number);
-    window.location.href="summary.html";
-    return;
-  }
-
-  // --- Generate Booking Number ---
-  const bookingNumber = 'BK' + Date.now();
-
-  // --- Collect Data ---
+  
   const bookingData={
-    booking_number: bookingNumber,
-    id_number: idNumber,
+    id_number: document.getElementById("id_number").value,
     forenames: document.getElementById("forenames").value,
     surname: document.getElementById("surname").value,
     country: document.getElementById("country").value,
@@ -247,12 +247,11 @@ bookingForm.addEventListener("submit", function(e){
     appointment_date: document.getElementById("appointment_date").value,
     appointment_time: document.getElementById("appointment_time").value
   };
-
-  // --- Save ---
-  allBookings.push(bookingData);
-  localStorage.setItem("allBookings", JSON.stringify(allBookings));
+  
+  // Save to localStorage
   localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
+  // Go to summary page
   window.location.href="summary.html";
 });
 </script>
