@@ -1,170 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Appointment Booking</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-<style>
-:root {
-  --primary: #0a6b3b;
-  --danger: #f44336;
-  --background: #e0f7fa;
-  --card-bg: #ffffff;
-  --font-family: 'Poppins', sans-serif;
-  --shadow: rgba(0, 0, 0, 0.1);
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: var(--font-family);
-  background-color: var(--background);
-  min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* ✅ Watermark: Your image on both left and right sides like summary page */
-body::before {
-  content: "";
-  background: url('3cefcf5c-4f19-4126-9ae7-3d62ea7b60d6.png') no-repeat left center,
-              url('3cefcf5c-4f19-4126-9ae7-3d62ea7b60d6.png') no-repeat right center;
-  background-size: 200px auto;
-  opacity: 0.08;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* ✅ Removed old header watermark */
-header::after {
-  display: none;
-}
-
-.container {
-  width: 100%;
-  max-width: 800px;
-  padding: 2.5rem 3rem;
-  background-color: var(--card-bg);
-  box-shadow: 0 8px 20px var(--shadow);
-  border-radius: 12px;
-  position: relative;
-  z-index: 1;
-}
-
-h1 { font-size: 2rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 0.5rem; }
-.subtitle { text-align: center; font-size: 1rem; color: #666; margin-bottom: 2rem; }
-
-label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; }
-select, input { width: 100%; padding: 12px 14px; margin-bottom: 18px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; background-color: #fafafa; }
-select:disabled, input:disabled { background-color: #eee; color: #999; cursor: not-allowed; }
-
-.invalid { border-color: var(--danger); }
-
-.button-group { display: flex; justify-content: space-between; gap: 1rem; margin-top: 30px; }
-.button-group button {
-  padding: 14px; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; flex: 1; transition: background 0.3s ease;
-}
-.btn-auth { background-color: var(--primary); color: white; }
-.btn-auth:hover { background-color: #2a8a55; }
-.btn-back { background-color: var(--danger); color: white; }
-.btn-back:hover { background-color: #d32f2f; }
-
-@media (max-width: 768px) {
-  .container { padding: 2rem 1.5rem; }
-  .button-group { flex-direction: column; }
-  .button-group button { width: 100%; }
-}
-</style>
-</head>
-
-<body>
-<main class="container" role="main">
-  <header>
-    <h1>Biometrics Appointment Booking</h1>
-    <p class="subtitle">Please capture your details as they appear on your identity document.</p>
-  </header>
-
-  <form id="bookingForm" novalidate>
-    <div class="form-group">
-      <label for="id_number">ID Number *</label>
-      <input id="id_number" name="id_number" type="text" required />
-    </div>
-
-    <div class="form-group">
-      <label for="forenames">Full Forenames *</label>
-      <input id="forenames" name="forenames" type="text" required />
-    </div>
-
-    <div class="form-group">
-      <label for="surname">Surname *</label>
-      <input id="surname" name="surname" type="text" required />
-    </div>
-
-    <div class="form-group">
-      <label for="country">Country *</label>
-      <select id="country" name="country" required onchange="updateLocations()">
-        <option value="">Select Country</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="location">Province/State *</label>
-      <select id="location" name="location" required onchange="updateOffices()">
-        <option value="">Select Location</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="office">Office *</label>
-      <select id="office" name="office" required>
-        <option value="">Select Office</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="appointment_date">Appointment Date *</label>
-      <input id="appointment_date" name="appointment_date" type="text" required />
-    </div>
-
-    <div class="form-group">
-      <label for="appointment_time">Appointment Time *</label>
-      <select id="appointment_time" name="appointment_time" required>
-        <option value="">-- Select a time slot --</option>
-        <option value="08:00-09:00">8am - 9am</option>
-        <option value="10:00-11:00">10am - 11am</option>
-        <option value="12:00-13:00">12pm - 1pm</option>
-        <option value="13:00-14:00">1pm - 2pm</option>
-        <option value="14:00-15:00">2pm - 3pm</option>
-        <option value="15:00-16:00">3pm - 4pm</option>
-      </select>
-    </div>
-
-    <div class="button-group">
-      <button type="button" class="btn-back" onclick="window.location.href='https://gov.sz/index.php?view=category&id=238'">Back to Website</button>
-      <button type="submit" class="btn-auth">Submit</button>
-    </div>
-  </form>
-</main>
-
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
 // --- Countries ---
 const countries = ["South Africa","USA","Australia","Canada","UK","India","Kenya","Nigeria","Ghana","Eswatini"];
 const countrySelect = document.getElementById('country');
-countries.forEach(c => { const opt=document.createElement('option'); opt.value=c; opt.textContent=c; countrySelect.appendChild(opt); });
+countries.forEach(c => { 
+  const opt=document.createElement('option'); 
+  opt.value=c; 
+  opt.textContent=c; 
+  countrySelect.appendChild(opt); 
+});
 
 // --- Provinces/States ---
 const countryLocations = {
@@ -217,7 +61,7 @@ function updateOffices(){
       opt.textContent=off;
       officeSelect.appendChild(opt);
     });
-  } else {
+  } else if(loc){
     const opt=document.createElement('option');
     opt.value=loc+" Home Affairs";
     opt.textContent=loc+" Home Affairs";
@@ -235,28 +79,66 @@ function disableDates(date){
 }
 flatpickr("#appointment_date",{dateFormat:"Y-m-d", minDate:"today", disable:[disableDates]});
 
-// --- Form submission ---
+// --- Form submission with duplicate prevention & booking number ---
 const bookingForm=document.getElementById("bookingForm");
 bookingForm.addEventListener("submit", function(e){
   e.preventDefault();
+
   let valid=true;
   bookingForm.querySelectorAll("input,select").forEach(el=>{
     if(!el.checkValidity()){el.classList.add("invalid"); valid=false;} else el.classList.remove("invalid");
   });
   if(!valid) return;
-  const bookingData={
-    id_number: document.getElementById("id_number").value,
+
+  const idNumber = document.getElementById("id_number").value.trim();
+  if(!idNumber) { alert("ID Number is required"); return; }
+
+  // --- Load all existing bookings ---
+  let allBookings = JSON.parse(localStorage.getItem("allBookings")) || {};
+
+  // --- Prevent duplicate booking ---
+  if(allBookings[idNumber]){
+    alert("Booking already exists. Redirecting to your summary page.");
+    window.location.href = `summary.html?id=${idNumber}`;
+    return;
+  }
+
+  // --- Collect booking data ---
+  const bookingData = {
+    id_number: idNumber,
     forenames: document.getElementById("forenames").value,
     surname: document.getElementById("surname").value,
     country: document.getElementById("country").value,
     location: document.getElementById("location").value,
     office: document.getElementById("office").value,
     appointment_date: document.getElementById("appointment_date").value,
-    appointment_time: document.getElementById("appointment_time").value
+    appointment_time: document.getElementById("appointment_time").value,
+    booking_reference: "GG-" + idNumber + "-" + Date.now()
   };
-  localStorage.setItem("bookingData",JSON.stringify(bookingData));
-  window.location.href="summary.html";
+
+  // --- Save booking ---
+  allBookings[idNumber] = bookingData;
+  localStorage.setItem("allBookings", JSON.stringify(allBookings));
+  localStorage.setItem("bookingData", JSON.stringify(bookingData));
+
+  // --- Redirect to summary page ---
+  window.location.href = `summary.html?id=${idNumber}`;
+});
+
+// --- Prefill visa application from ID number ---
+window.addEventListener("load", function(){
+  const urlParams = new URLSearchParams(window.location.search);
+  const idNumber = urlParams.get("id");
+  if(!idNumber) return;
+
+  const allBookings = JSON.parse(localStorage.getItem("allBookings")) || {};
+  if(allBookings[idNumber]){
+    const booking = allBookings[idNumber];
+    const visaFields = ["id_number","forenames","surname","contact","email","booking_reference"];
+    visaFields.forEach(field => {
+      const el = document.getElementById(field);
+      if(el) el.value = booking[field] || "";
+    });
+  }
 });
 </script>
-</body>
-</html>
