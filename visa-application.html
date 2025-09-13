@@ -6,7 +6,6 @@
 <title>Visa Application</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
 :root {
   --card: #ffffff;
   --muted: #6b7a8a;
@@ -18,7 +17,6 @@
   --radius: 12px;
   --shadow: rgba(0,0,0,0.1);
 }
-
 body {
   font-family: var(--font-family);
   background-color: var(--background);
@@ -28,7 +26,6 @@ body {
   justify-content:center;
   align-items:flex-start;
 }
-
 .container {
   width:100%;
   max-width:950px;
@@ -37,10 +34,8 @@ body {
   box-shadow:0 8px 20px var(--shadow);
   border-radius:var(--radius);
 }
-
 h1 { text-align:center; font-size:2rem; color:var(--accent); margin-bottom:1rem; }
 h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
-
 .section-card {
   background-color:#f8fbff;
   border:1px solid var(--border-light);
@@ -48,20 +43,17 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
   padding:20px;
   margin-bottom:20px;
 }
-
 .field-row {
   display:flex;
   align-items:center;
   margin-bottom:12px;
   flex-wrap:wrap;
 }
-
 .field-row label {
   width:150px;
   font-weight:600;
   margin-right:10px;
 }
-
 .field-row input, .field-row select, .field-row textarea {
   flex:1;
   padding:10px;
@@ -70,9 +62,7 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
   font-size:1rem;
   background:#fafafa;
 }
-
 .field-row input:disabled { background:#eee; color:#555; }
-
 .buttons {
   display:flex;
   gap:1rem;
@@ -92,13 +82,13 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
   color:white;
 }
 .buttons button:hover { background-color:var(--accent-2); }
-
 @media(max-width:768px){
   .field-row { flex-direction:column; align-items:flex-start; }
   .field-row label { width:100%; margin-bottom:5px; }
   .buttons { flex-direction:column; }
   .buttons button{width:100%;}
 }
+.hidden { display:none; }
 </style>
 </head>
 <body>
@@ -144,7 +134,8 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
   <div id="spouseFields" class="hidden">
     <div class="field-row"><label>Full Name</label><input id="spouse_name"></div>
     <div class="field-row"><label>ID/Passport Number</label><input id="spouse_id"></div>
-    <div class="field-row"><label>Do you have a passport?</label>
+    <div class="field-row">
+      <label>Do you have a passport?</label>
       <select id="spouse_passport_yesno">
         <option value="No">No</option>
         <option value="Yes">Yes</option>
@@ -212,7 +203,7 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
 </main>
 
 <script>
-// Pull summary data
+// --- Pull summary data ---
 window.onload = function() {
   const data = JSON.parse(localStorage.getItem("bookingData"));
   if(data){
@@ -230,7 +221,7 @@ window.onload = function() {
   }
 };
 
-// Toggle spouse
+// --- Spouse toggles ---
 document.getElementById('includeSpouse').addEventListener('change', function(){
   document.getElementById('spouseFields').classList.toggle('hidden', this.value!=='Yes');
 });
@@ -242,11 +233,59 @@ document.getElementById('spouse_apply_passport').addEventListener('change', func
   document.getElementById('spouse_apply_fields').classList.toggle('hidden', this.value!=='Yes');
 });
 
-// Toggle children
+// --- Children toggles ---
 document.getElementById('includeChildren').addEventListener('change', function(){
   document.getElementById('childrenFields').classList.toggle('hidden', this.value!=='Yes');
 });
+
 document.getElementById('num_children').addEventListener('change', function(){
   const container = document.getElementById('childrenContainer');
   container.innerHTML='';
-  const
+  const count = parseInt(this.value);
+  for(let i=1;i<=count;i++){
+    const childDiv = document.createElement('div');
+    childDiv.classList.add('section-card');
+    childDiv.innerHTML=`
+      <h3>Child ${i}</h3>
+      <div class="field-row"><label>Full Name</label><input id="child${i}_name"></div>
+      <div class="field-row"><label>ID/Passport Number</label><input id="child${i}_id"></div>
+      <div class="field-row">
+        <label>Do you have a passport?</label>
+        <select id="child${i}_passport_yesno">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </div>
+      <div id="child${i}_passport_yes" class="hidden">
+        <div class="field-row"><label>Passport Number</label><input id="child${i}_passport_number"></div>
+        <div class="field-row"><label>Expiry Date</label><input type="date" id="child${i}_passport_expiry"></div>
+        <div class="field-row"><label>Upload Passport</label><input type="file" id="child${i}_passport_file"></div>
+      </div>
+      <div id="child${i}_passport_no" class="hidden">
+        <div class="field-row"><label>Would you like to apply for a passport?</label>
+          <select id="child${i}_apply_passport">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div id="child${i}_apply_fields" class="hidden">
+          <div class="field-row"><label>Intended Issue Date</label><input type="date" id="child${i}_intended_date"></div>
+          <div class="field-row"><label>Upload Proof</label><input type="file" id="child${i}_proof_file"></div>
+        </div>
+      </div>
+    `;
+    container.appendChild(childDiv);
+
+    // Attach dynamic event listeners
+    document.getElementById(`child${i}_passport_yesno`).addEventListener('change', function(){
+      document.getElementById(`child${i}_passport_yes`).classList.toggle('hidden', this.value!=='Yes');
+      document.getElementById(`child${i}_passport_no`).classList.toggle('hidden', this.value!=='No');
+    });
+    document.getElementById(`child${i}_apply_passport`).addEventListener('change', function(){
+      document.getElementById(`child${i}_apply_fields`).classList.toggle('hidden', this.value!=='Yes');
+    });
+  }
+});
+</script>
+</body>
+</html>
