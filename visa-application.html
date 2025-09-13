@@ -1,235 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visa Application</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f5f7fa;
-    }
-    header {
-      background: #2c3e50;
-      color: #fff;
-      padding: 15px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    main {
-      max-width: 900px;
-      margin: 20px auto;
-      padding: 20px;
-    }
-    .section-card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .section-card h2 {
-      margin-top: 0;
-      font-size: 18px;
-      color: #2c3e50;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 8px;
-      margin-bottom: 15px;
-    }
-    .form-row {
-      display: flex;
-      align-items: center;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .form-row label {
-      flex: 1 0 200px;
-      font-weight: bold;
-    }
-    .form-row input,
-    .form-row select {
-      flex: 2 0 300px;
-      padding: 6px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    .form-row input[type="file"] {
-      padding: 3px;
-    }
-    .hidden {
-      display: none;
-    }
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    button {
-      background: #2c3e50;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 14px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #1a242f;
-    }
-    @media (max-width: 600px) {
-      .form-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .form-row label {
-        flex: unset;
-        margin-bottom: 4px;
-      }
-      .form-row input,
-      .form-row select {
-        flex: unset;
-        width: 100%;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>Visa Application Form</header>
-  <main>
-    <form id="visaApplicationForm">
+<script>
+  const form = document.getElementById('visaApplicationForm');
 
-      <!-- Personal Details -->
-      <div class="section-card">
-        <h2>Personal Details</h2>
-        <div class="form-row"><label>First Name:</label><input type="text" name="firstName" required></div>
-        <div class="form-row"><label>Surname:</label><input type="text" name="surname" required></div>
-        <div class="form-row"><label>Email:</label><input type="email" name="email" required></div>
-        <div class="form-row"><label>Cell Phone Number:</label><input type="tel" name="cellphone" required></div>
-      </div>
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-      <!-- Spouse -->
-      <div class="section-card">
-        <h2>Spouse</h2>
-        <div class="form-row">
-          <label>Include Spouse?</label>
-          <select id="includeSpouse" name="includeSpouse">
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-          </select>
-        </div>
-        <div id="spouseFields" class="hidden">
-          <div class="form-row"><label>Spouse Name:</label><input type="text" name="spouseName"></div>
-          <div class="form-row"><label>Spouse Surname:</label><input type="text" name="spouseSurname"></div>
-          <div class="form-row"><label>Spouse ID:</label><input type="text" name="spouseID"></div>
-          <div class="form-row"><label>Upload Spouse ID:</label><input type="file" name="spouseIdFile"></div>
-        </div>
-      </div>
+    // Gather all input values
+    const formData = new FormData(form);
 
-      <!-- Children -->
-      <div class="section-card">
-        <h2>Children</h2>
-        <div class="form-row">
-          <label>Include Children?</label>
-          <select id="includeChildren" name="includeChildren">
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-          </select>
-        </div>
-        <div id="childrenFields" class="hidden">
-          <p>You may add up to 5 children:</p>
-          <div id="childrenContainer"></div>
-          <button type="button" onclick="addChild()">Add Child</button>
-        </div>
-      </div>
+    const application = {
+      firstName: formData.get('firstName'),
+      surname: formData.get('surname'),
+      email: formData.get('email'),
+      cellphone: formData.get('cellphone'),
+      includeSpouse: formData.get('includeSpouse'),
+      spouseName: formData.get('spouseName') || "",
+      spouseSurname: formData.get('spouseSurname') || "",
+      spouseID: formData.get('spouseID') || "",
+      passportFile: formData.get('passportFile') ? formData.get('passportFile').name : "",
+      passportNumber: formData.get('passportNumber') || "",
+      passportExpiry: formData.get('passportExpiry') || "",
+      intendedIssueDate: formData.get('intendedIssueDate') || "",
+      passportProof: formData.get('passportProof') ? formData.get('passportProof').name : "",
+      hasPassport: formData.get('hasPassport'),
+      children: [],
+      flightInvoice: formData.get('flightInvoice') ? formData.get('flightInvoice').name : "",
+      travelItinerary: formData.get('travelItinerary') ? formData.get('travelItinerary').name : "",
+      travelInsurance: formData.get('travelInsurance') ? formData.get('travelInsurance').name : "",
+      fingerprintClearance: formData.get('fingerprintClearance') ? formData.get('fingerprintClearance').name : "",
+      medicalRecords: formData.get('medicalRecords') ? formData.get('medicalRecords').name : "",
+      submissionStatus: "Pending"
+    };
 
-      <!-- Passport -->
-      <div class="section-card">
-        <h2>Passport Details</h2>
-        <div class="form-row">
-          <label>Do you have a passport?</label>
-          <select id="hasPassport" name="hasPassport">
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-          </select>
-        </div>
-        <div id="passportYesFields" class="hidden">
-          <div class="form-row"><label>Passport Number:</label><input type="text" name="passportNumber"></div>
-          <div class="form-row"><label>Expiry Date:</label><input type="date" name="passportExpiry"></div>
-          <div class="form-row"><label>Upload Passport:</label><input type="file" name="passportFile"></div>
-        </div>
-        <div id="passportNoFields" class="hidden">
-          <p>Would you like to apply for a passport?</p>
-          <div class="form-row"><label>Intended Issue Date:</label><input type="date" name="intendedIssueDate"></div>
-          <div class="form-row"><label>Upload Proof:</label><input type="file" name="passportProof"></div>
-        </div>
-      </div>
-
-      <!-- Upload Documentation -->
-      <div class="section-card">
-        <h2>Upload Documentation</h2>
-        <div class="form-row"><label>Proof of Booking - Flight Invoice/Receipt:</label><input type="file" name="flightInvoice"></div>
-        <div class="form-row"><label>Travel Itinerary:</label><input type="file" name="travelItinerary"></div>
-        <div class="form-row"><label>Travel Insurance:</label><input type="file" name="travelInsurance"></div>
-        <div class="form-row"><label>Fingerprint Clearance (Afiswitch):</label><input type="file" name="fingerprintClearance"></div>
-        <div class="form-row"><label>Medical Records:</label><input type="file" name="medicalRecords"></div>
-      </div>
-
-      <!-- Download Documentation -->
-      <div class="section-card">
-        <h2>Download Documents</h2>
-        <div class="buttons">
-          <a href="visa.pdf" download><button type="button">Download Main Visa PDF</button></a>
-          <a href="medical.pdf" download><button type="button">Download Medical PDF</button></a>
-          <a href="home-affairs-service-charter.pdf" download><button type="button">Download Service Charter</button></a>
-        </div>
-      </div>
-
-      <!-- Submit -->
-      <div class="buttons">
-        <button type="submit">Submit Application</button>
-      </div>
-
-    </form>
-  </main>
-
-  <script>
-    // Toggle spouse
-    document.getElementById('includeSpouse').addEventListener('change', function() {
-      document.getElementById('spouseFields').classList.toggle('hidden', this.value !== 'Yes');
-    });
-
-    // Toggle children
-    document.getElementById('includeChildren').addEventListener('change', function() {
-      document.getElementById('childrenFields').classList.toggle('hidden', this.value !== 'Yes');
-    });
-
-    function addChild() {
-      const container = document.getElementById('childrenContainer');
-      if (container.children.length >= 5) {
-        alert('You can only add up to 5 children.');
-        return;
-      }
-      const childIndex = container.children.length + 1;
-      const childDiv = document.createElement('div');
-      childDiv.classList.add('section-card');
-      childDiv.innerHTML = `
-        <h3>Child ${childIndex}</h3>
-        <div class="form-row"><label>Name:</label><input type="text" name="child${childIndex}Name"></div>
-        <div class="form-row"><label>Surname:</label><input type="text" name="child${childIndex}Surname"></div>
-        <div class="form-row"><label>Upload Birth Certificate:</label><input type="file" name="child${childIndex}BirthCert"></div>
-        <div class="form-row"><label>Upload School Report (if 5 or over):</label><input type="file" name="child${childIndex}SchoolReport"></div>
-      `;
-      container.appendChild(childDiv);
+    // Gather children info if any
+    const childrenContainer = document.getElementById('childrenContainer');
+    if(childrenContainer.children.length > 0){
+      Array.from(childrenContainer.children).forEach((childDiv, index) => {
+        const childIndex = index + 1;
+        application.children.push({
+          name: formData.get(`child${childIndex}Name`) || "",
+          surname: formData.get(`child${childIndex}Surname`) || "",
+          birthCert: formData.get(`child${childIndex}BirthCert`) ? formData.get(`child${childIndex}BirthCert`).name : "",
+          schoolReport: formData.get(`child${childIndex}SchoolReport`) ? formData.get(`child${childIndex}SchoolReport`).name : ""
+        });
+      });
     }
 
-    // Toggle passport fields
-    document.getElementById('hasPassport').addEventListener('change', function() {
-      document.getElementById('passportYesFields').classList.toggle('hidden', this.value !== 'Yes');
-      document.getElementById('passportNoFields').classList.toggle('hidden', this.value !== 'No');
-    });
-  </script>
-</body>
-</html>
+    // Load existing applications from localStorage
+    let visaApplications = JSON.parse(localStorage.getItem('visaApplicationsList')) || [];
+    visaApplications.push(application);
+
+    // Save back to localStorage
+    localStorage.setItem('visaApplicationsList', JSON.stringify(visaApplications));
+
+    alert('Application submitted successfully!');
+
+    // Optionally, redirect to summary or clear form
+    // window.location.href = 'summary.html';
+    form.reset();
+    document.getElementById('spouseFields').classList.add('hidden');
+    document.getElementById('childrenFields').classList.add('hidden');
+    document.getElementById('passportYesFields').classList.add('hidden');
+    document.getElementById('passportNoFields').classList.add('hidden');
+    document.getElementById('childrenContainer').innerHTML = "";
+  });
+</script>
