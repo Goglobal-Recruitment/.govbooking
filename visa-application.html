@@ -20,7 +20,7 @@
       --shadow: rgba(0,0,0,0.1);
     }
 
-    /* ✅ Watermark: Coat of Arms (left) + Flag (right) */
+    /* ✅ Watermark */
     body::before,
     body::after {
       content: "";
@@ -35,16 +35,8 @@
       z-index: 0;
       pointer-events: none;
     }
-
-    body::before {
-      left: 0;
-      background-image: url('4634-coat-of-arms-of-eswatini.png');
-    }
-
-    body::after {
-      right: 0;
-      background-image: url('4635-flag-of-eswatini.png');
-    }
+    body::before { left: 0; background-image: url('4634-coat-of-arms-of-eswatini.png'); }
+    body::after { right: 0; background-image: url('4635-flag-of-eswatini.png'); }
 
     body {
       font-family: var(--font-family);
@@ -54,7 +46,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      position: relative; /* Needed for watermark stacking */
+      position: relative;
       z-index: 1;
       overflow-x: hidden;
     }
@@ -67,12 +59,12 @@
       border-radius: var(--radius);
       box-shadow: 0 8px 20px var(--shadow);
       position: relative;
-      z-index: 1; /* Above watermark */
+      z-index: 1;
     }
 
     h1, h2, h3 { color: var(--accent); font-weight: 700; margin-bottom: 1rem; }
     h1 { text-align: center; }
-    form { display: flex; flex-direction: column; gap: 1.25rem; }
+    form { display: flex; flex-direction: column; gap: 1.5rem; }
     label { font-weight: 600; color: #3b3b3b; }
     input, select, textarea {
       padding: 0.6rem 1rem;
@@ -88,11 +80,11 @@
       box-shadow: 0 0 5px var(--accent);
     }
     button {
-      margin-top: 2rem;
+      margin-top: 1rem;
       background-color: var(--accent);
       color: white;
-      padding: 14px;
-      font-size: 1.1rem;
+      padding: 12px 18px;
+      font-size: 1rem;
       font-weight: 700;
       border: none;
       border-radius: 8px;
@@ -101,6 +93,7 @@
     }
     button:hover { background-color: var(--accent-2); }
     .hidden { display: none; }
+    .download-section { display:flex; flex-direction:column; gap:10px; margin-bottom:1rem; }
 
     @media (max-width:768px) { main.visa-container{padding:2rem 1.5rem;} }
   </style>
@@ -110,11 +103,11 @@
     <h1>Visa Application</h1>
     <form id="visaForm">
 
-      <!-- Booking Reference -->
+      <!-- Personal Information -->
+      <h2>Personal Information</h2>
       <label for="booking_reference">Booking Reference</label>
       <input type="text" id="booking_reference" name="booking_reference" readonly />
 
-      <!-- Personal Info -->
       <label for="id_number">ID Number</label>
       <input type="text" id="id_number" name="id_number" readonly />
       <label for="forenames">Forenames</label>
@@ -122,7 +115,8 @@
       <label for="surname">Surname</label>
       <input type="text" id="surname" name="surname" readonly />
 
-      <!-- Contact -->
+      <!-- Contact Information -->
+      <h2>Contact Information</h2>
       <label for="contact">Contact Number</label>
       <div style="display:flex; gap:10px;">
         <select id="country_code" name="country_code">
@@ -137,8 +131,8 @@
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required />
 
-      <!-- Relocation & Accommodation -->
-      <h2>Relocation Country & Accommodation Details</h2>
+      <!-- Travel Information -->
+      <h2>Travel & Relocation Information</h2>
       <label for="address">Street Address</label>
       <input type="text" id="address" name="address" required />
 
@@ -153,8 +147,8 @@
       <label for="country">Country</label>
       <input type="text" id="country" name="country" required />
 
-      <!-- Passport -->
-      <h2>Passport Details</h2>
+      <!-- Passport Information -->
+      <h2>Passport Information</h2>
       <label>Do you have a passport?</label>
       <div>
         <input type="radio" name="passport_status" value="yes" /> Yes
@@ -168,16 +162,16 @@
         <input type="file" id="passport_proof" name="passport_proof" />
       </div>
 
-      <!-- Visa Type -->
-      <label for="visa_type">Visa Type</label>
-      <select id="visa_type" name="visa_type" required>
-        <option value="Relocation">Relocation</option>
-        <option value="Sponsorship">Sponsorship</option>
-        <option value="Work Visa">Work Visa</option>
-      </select>
+      <!-- Documents Download Section -->
+      <h2>Download Forms</h2>
+      <div class="download-section">
+        <a href="visa.pdf" download="Visa_Application_Form.pdf"><button type="button">Download Visa Form</button></a>
+        <a href="medical.pdf" download="Medical_Records_Form.pdf"><button type="button">Download Medical Form</button></a>
+        <a href="home-affairs-service-charter.pdf" download="Home_Affairs_Service_Charter.pdf"><button type="button">Download Home Affairs Service Charter</button></a>
+      </div>
 
-      <!-- Documents -->
-      <h2>Required Documents</h2>
+      <!-- Documents Upload Section -->
+      <h2>Medical & Other Documents</h2>
       <label>Proof of Booking</label><input type="file" name="booking_proof" />
       <label>Travel Insurance</label><input type="file" name="insurance" />
       <label>Police Clearance</label><input type="file" name="police" />
@@ -185,7 +179,7 @@
       <label>Language Test Results</label><input type="file" name="language" />
       <label>Psychological Evaluation</label><input type="file" name="psych" />
 
-      <!-- Spouse -->
+      <!-- Spouse Information -->
       <h2>Spouse</h2>
       <label>Include Spouse?</label>
       <div>
@@ -201,7 +195,7 @@
         <input type="file" id="spouse_docs" name="spouse_docs" />
       </div>
 
-      <!-- Children -->
+      <!-- Children Information -->
       <h2>Children</h2>
       <label>Include Children?</label>
       <div>
