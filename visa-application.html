@@ -58,7 +58,7 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
 }
 
 .field-row label {
-  width:150px;
+  width:200px;
   font-weight:600;
   margin-right:10px;
 }
@@ -110,67 +110,33 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
   <!-- Personal Details -->
   <div class="section-card">
     <h2>Personal Details</h2>
-    <div class="field-row">
-      <label>Booking Number</label><input id="booking_number" disabled>
-    </div>
-    <div class="field-row">
-      <label>ID Number</label><input id="id_number" disabled>
-    </div>
-    <div class="field-row">
-      <label>Full Forenames</label><input id="forenames" disabled>
-    </div>
-    <div class="field-row">
-      <label>Surname</label><input id="surname" disabled>
-    </div>
-    <div class="field-row">
-      <label>Email</label><input id="email" disabled>
-    </div>
-    <div class="field-row">
-      <label>Cellphone</label><input id="cellphone_full" disabled>
-    </div>
-    <div class="field-row">
-      <label>Country</label><input id="country" disabled>
-    </div>
-    <div class="field-row">
-      <label>Province/State</label><input id="location" disabled>
-    </div>
-    <div class="field-row">
-      <label>Office</label><input id="office" disabled>
-    </div>
-    <div class="field-row">
-      <label>Appointment Date</label><input id="appointment_date" disabled>
-    </div>
-    <div class="field-row">
-      <label>Appointment Time</label><input id="appointment_time" disabled>
-    </div>
+    <div class="field-row"><label>Booking Number</label><input id="booking_number" disabled></div>
+    <div class="field-row"><label>ID Number</label><input id="id_number" disabled></div>
+    <div class="field-row"><label>Full Forenames</label><input id="forenames" disabled></div>
+    <div class="field-row"><label>Surname</label><input id="surname" disabled></div>
+    <div class="field-row"><label>Email</label><input id="email" disabled></div>
+    <div class="field-row"><label>Cellphone</label><input id="cellphone_full" disabled></div>
+    <div class="field-row"><label>Country</label><input id="country" disabled></div>
+    <div class="field-row"><label>Province/State</label><input id="location" disabled></div>
+    <div class="field-row"><label>Office</label><input id="office" disabled></div>
+    <div class="field-row"><label>Appointment Date</label><input id="appointment_date" disabled></div>
+    <div class="field-row"><label>Appointment Time</label><input id="appointment_time" disabled></div>
   </div>
 
   <!-- Spouse Details -->
   <div class="section-card">
     <h2>Spouse Details</h2>
-    <div class="field-row">
-      <label>Full Name</label><input type="text" id="spouse_name" placeholder="Enter spouse name">
-    </div>
-    <div class="field-row">
-      <label>ID/Passport Number</label><input type="text" id="spouse_id" placeholder="Enter ID/Passport">
-    </div>
+    <div class="field-row"><label>Full Name</label><input type="text" id="spouse_name" placeholder="Enter spouse name"></div>
+    <div class="field-row"><label>ID/Passport Number</label><input type="text" id="spouse_id" placeholder="Enter ID/Passport"></div>
   </div>
 
   <!-- Children Details -->
   <div class="section-card">
     <h2>Children Details</h2>
-    <div class="field-row">
-      <label>Child 1 Name</label><input type="text" id="child1_name" placeholder="Enter child name">
-    </div>
-    <div class="field-row">
-      <label>Child 1 ID/Passport</label><input type="text" id="child1_id" placeholder="Enter ID/Passport">
-    </div>
-    <div class="field-row">
-      <label>Child 2 Name</label><input type="text" id="child2_name" placeholder="Enter child name">
-    </div>
-    <div class="field-row">
-      <label>Child 2 ID/Passport</label><input type="text" id="child2_id" placeholder="Enter ID/Passport">
-    </div>
+    <div class="field-row"><label>Child 1 Name</label><input type="text" id="child1_name" placeholder="Enter child name"></div>
+    <div class="field-row"><label>Child 1 ID/Passport</label><input type="text" id="child1_id" placeholder="Enter ID/Passport"></div>
+    <div class="field-row"><label>Child 2 Name</label><input type="text" id="child2_name" placeholder="Enter child name"></div>
+    <div class="field-row"><label>Child 2 ID/Passport</label><input type="text" id="child2_id" placeholder="Enter ID/Passport"></div>
   </div>
 
   <!-- Downloads Section -->
@@ -187,15 +153,16 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
   <!-- Uploads Section -->
   <div class="section-card">
     <h2>Upload Required Documents</h2>
-    <div class="field-row">
-      <label>Passport Copy</label><input type="file" id="passport_upload">
-    </div>
-    <div class="field-row">
-      <label>Visa Form</label><input type="file" id="visa_form_upload">
-    </div>
-    <div class="field-row">
-      <label>Other Supporting Documents</label><input type="file" id="other_docs_upload" multiple>
-    </div>
+    <div class="field-row"><label>Passport Copy</label><input type="file" id="passport_upload"></div>
+    <div class="field-row"><label>Visa Form</label><input type="file" id="visa_form_upload"></div>
+    <div class="field-row"><label>Other Supporting Documents</label><input type="file" id="other_docs_upload" multiple></div>
+
+    <!-- NEW REQUESTED FIELDS -->
+    <div class="field-row"><label>Proof of Booking - Flight Invoice/Receipt</label><input type="file" id="proof_booking_upload"></div>
+    <div class="field-row"><label>Travel Itinerary</label><input type="file" id="itinerary_upload"></div>
+    <div class="field-row"><label>Travel Insurance</label><input type="file" id="insurance_upload"></div>
+    <div class="field-row"><label>Fingerprint Clearance (Afiswitch)</label><input type="file" id="fingerprint_upload"></div>
+    <div class="field-row"><label>Medical Records</label><input type="file" id="medical_upload"></div>
   </div>
 
   <div class="buttons">
