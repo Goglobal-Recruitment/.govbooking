@@ -57,7 +57,7 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
 }
 
 .field-row label {
-  width:200px;
+  width:150px;
   font-weight:600;
   margin-right:10px;
 }
@@ -79,7 +79,6 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
   flex-wrap:wrap;
   margin-top:15px;
 }
-
 .buttons button {
   padding:14px;
   font-size:1rem;
@@ -92,7 +91,6 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
   background-color: var(--accent);
   color:white;
 }
-
 .buttons button:hover { background-color:var(--accent-2); }
 
 @media(max-width:768px){
@@ -103,7 +101,6 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
 }
 </style>
 </head>
-
 <body>
 <main class="container">
   <h1>Visa Application Form</h1>
@@ -124,19 +121,19 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
     <div class="field-row"><label>Appointment Time</label><input id="appointment_time" disabled></div>
   </div>
 
-  <!-- Downloads Section -->
+  <!-- Download Documentation -->
   <div class="section-card">
     <h2>Download Documents</h2>
     <div class="buttons">
-      <button type="button" onclick="downloadPDF('visa.pdf')">Download Main Visa PDF</button>
-      <button type="button" onclick="downloadPDF('medical.pdf')">Download Medical PDF</button>
-      <button type="button" onclick="downloadPDF('home-affairs-service-charter.pdf')">Download Service Charter</button>
+      <a href="visa.pdf" download><button type="button">Download Main Visa PDF</button></a>
+      <a href="medical.pdf" download><button type="button">Download Medical PDF</button></a>
+      <a href="home-affairs-service-charter.pdf" download><button type="button">Download Service Charter</button></a>
     </div>
   </div>
 
   <!-- Spouse Details -->
   <div class="section-card">
-    <h2>Spouse</h2>
+    <h2>Spouse Details</h2>
     <div class="field-row">
       <label>Include Spouse?</label>
       <select id="includeSpouse">
@@ -144,21 +141,150 @@ h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
         <option value="Yes">Yes</option>
       </select>
     </div>
-    <div id="spouseFields" class="hidden">
+    <div id="spouseFields" style="display:none;">
       <div class="field-row"><label>Full Name</label><input type="text" id="spouse_name"></div>
-      <div class="field-row"><label>Surname</label><input type="text" id="spouse_surname"></div>
       <div class="field-row"><label>ID/Passport Number</label><input type="text" id="spouse_id"></div>
-      <div class="field-row"><label>Upload Spouse ID</label><input type="file" id="spouse_file"></div>
       <div class="field-row"><label>Do you have a passport?</label>
-        <select id="spouse_passport_yesno">
+        <select id="spouse_has_passport">
           <option value="No">No</option>
           <option value="Yes">Yes</option>
         </select>
       </div>
-      <div id="spouse_passport_yes_fields" class="hidden">
-        <div class="field-row"><label>Passport Number</label><input type="text" id="spouse_passport_number"></div>
+      <div id="spouse_passport_yes" style="display:none;">
+        <div class="field-row"><label>Passport Number</label><input type="text" id="spouse_passport_no"></div>
         <div class="field-row"><label>Expiry Date</label><input type="date" id="spouse_passport_expiry"></div>
         <div class="field-row"><label>Upload Passport</label><input type="file" id="spouse_passport_file"></div>
       </div>
-      <div id="spouse_passport_no_fields" class="hidden">
-        <div class="field
+      <div id="spouse_passport_no" style="display:none;">
+        <div class="field-row"><label>Would you like to apply for a passport?</label>
+          <select id="spouse_apply_passport">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+        <div id="spouse_apply_fields" style="display:none;">
+          <div class="field-row"><label>Intended Issue Date</label><input type="date" id="spouse_passport_intended_date"></div>
+          <div class="field-row"><label>Upload Proof</label><input type="file" id="spouse_passport_proof"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Children Details -->
+  <div class="section-card">
+    <h2>Children Details</h2>
+    <div class="field-row">
+      <label>Include Children?</label>
+      <select id="includeChildren">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </div>
+    <div id="childrenFields" style="display:none;">
+      <p>You may add up to 5 children (under 18 years):</p>
+      <div id="childrenContainer"></div>
+      <button type="button" onclick="addChild()">Add Child</button>
+    </div>
+  </div>
+
+  <!-- Upload Documentation -->
+  <div class="section-card">
+    <h2>Upload Required Documents</h2>
+    <div class="field-row"><label>Proof of Booking - Flight Invoice/Receipt</label><input type="file" id="flight_invoice"></div>
+    <div class="field-row"><label>Travel Itinerary</label><input type="file" id="travel_itinerary"></div>
+    <div class="field-row"><label>Travel Insurance</label><input type="file" id="travel_insurance"></div>
+    <div class="field-row"><label>Fingerprint Clearance (Afiswitch)</label><input type="file" id="fingerprint_clearance"></div>
+    <div class="field-row"><label>Medical Records</label><input type="file" id="medical_records"></div>
+  </div>
+
+  <div class="buttons">
+    <button type="button" onclick="submitVisaApplication()">Submit Application</button>
+  </div>
+
+</main>
+
+<script>
+// Populate personal details from summary page
+window.onload = function(){
+  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+  if(bookingData){
+    document.getElementById("booking_number").value = bookingData.booking_number || "";
+    document.getElementById("id_number").value = bookingData.id_number || "";
+    document.getElementById("forenames").value = bookingData.forenames || "";
+    document.getElementById("surname").value = bookingData.surname || "";
+    document.getElementById("email").value = bookingData.email || "";
+    document.getElementById("cellphone_full").value = (bookingData.country_code||"") + " " + (bookingData.cellphone||"");
+    document.getElementById("country").value = bookingData.country || "";
+    document.getElementById("location").value = bookingData.location || "";
+    document.getElementById("office").value = bookingData.office || "";
+    document.getElementById("appointment_date").value = bookingData.appointment_date || "";
+    document.getElementById("appointment_time").value = bookingData.appointment_time || "";
+  }
+};
+
+// Spouse toggles
+document.getElementById('includeSpouse').addEventListener('change', function(){
+  document.getElementById('spouseFields').style.display = this.value==='Yes'?'block':'none';
+});
+document.getElementById('spouse_has_passport').addEventListener('change', function(){
+  document.getElementById('spouse_passport_yes').style.display = this.value==='Yes'?'block':'none';
+  document.getElementById('spouse_passport_no').style.display = this.value==='No'?'block':'none';
+});
+document.getElementById('spouse_apply_passport').addEventListener('change', function(){
+  document.getElementById('spouse_apply_fields').style.display = this.value==='Yes'?'block':'none';
+});
+
+// Children functions
+function addChild(){
+  const container = document.getElementById('childrenContainer');
+  if(container.children.length>=5){ alert('Maximum 5 children'); return; }
+  const idx = container.children.length+1;
+  const childDiv = document.createElement('div');
+  childDiv.classList.add('section-card');
+  childDiv.innerHTML=`
+    <h3>Child ${idx}</h3>
+    <div class="field-row"><label>Name</label><input type="text" name="child${idx}_name"></div>
+    <div class="field-row"><label>Surname</label><input type="text" name="child${idx}_surname"></div>
+    <div class="field-row"><label>Do you have a passport?</label>
+      <select id="child${idx}_has_passport">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </div>
+    <div id="child${idx}_passport_yes" style="display:none;">
+      <div class="field-row"><label>Passport Number</label><input type="text" name="child${idx}_passport_no"></div>
+      <div class="field-row"><label>Expiry Date</label><input type="date" name="child${idx}_passport_expiry"></div>
+      <div class="field-row"><label>Upload Passport</label><input type="file" name="child${idx}_passport_file"></div>
+    </div>
+    <div id="child${idx}_passport_no" style="display:none;">
+      <div class="field-row"><label>Would you like to apply for a passport?</label>
+        <select id="child${idx}_apply_passport">
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </div>
+      <div id="child${idx}_apply_fields" style="display:none;">
+        <div class="field-row"><label>Intended Issue Date</label><input type="date" name="child${idx}_passport_intended_date"></div>
+        <div class="field-row"><label>Upload Proof</label><input type="file" name="child${idx}_passport_proof"></div>
+      </div>
+    </div>
+  `;
+  container.appendChild(childDiv);
+
+  // Add event listeners for child passport toggles
+  document.getElementById(`child${idx}_has_passport`).addEventListener('change', function(){
+    document.getElementById(`child${idx}_passport_yes`).style.display=this.value==='Yes'?'block':'none';
+    document.getElementById(`child${idx}_passport_no`).style.display=this.value==='No'?'block':'none';
+  });
+  document.getElementById(`child${idx}_apply_passport`).addEventListener('change', function(){
+    document.getElementById(`child${idx}_apply_fields`).style.display=this.value==='Yes'?'block':'none';
+  });
+}
+
+// Submit function (store in localStorage or send to backend)
+function submitVisaApplication(){
+  alert("Visa Application submitted!");
+}
+</script>
+</body>
+</html>
