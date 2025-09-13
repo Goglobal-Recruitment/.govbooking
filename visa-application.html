@@ -1,59 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Visa Application</title>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-  :root {
-    --card: #ffffff;
-    --muted: #6b7a8a;
-    --accent: #0a6b3b;
-    --accent-2: #2a8a55;
-    --background: #e0f7fa;
-    --font-family: 'Poppins', sans-serif;
-    --border-light: #dce3ea;
-    --radius: 12px;
-    --shadow: rgba(0,0,0,0.1);
+:root {
+  --card: #ffffff;
+  --muted: #6b7a8a;
+  --accent: #0a6b3b;
+  --accent-2: #2a8a55;
+  --background: #e0f7fa;
+  --font-family: 'Poppins', sans-serif;
+  --border-light: #dce3ea;
+  --radius: 12px;
+  --shadow: rgba(0,0,0,0.1);
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background);
+  margin:0;
+  padding:20px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+
+.container {
+  width:100%;
+  max-width:950px;
+  padding:2.5rem 3rem;
+  background-color:var(--card);
+  box-shadow:0 8px 20px var(--shadow);
+  border-radius:var(--radius);
+}
+
+h1 { text-align:center; font-size:2rem; color:var(--accent); margin-bottom:1rem; }
+h2 { font-size:1.4rem; color:var(--accent-2); margin-bottom:0.75rem; }
+
+.section-card {
+  background-color:#f8fbff;
+  border:1px solid var(--border-light);
+  border-radius:var(--radius);
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.section-card .row {
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+}
+
+.section-card .row > div {
+  flex:1 1 45%;
+}
+
+label { display:block; margin-bottom:5px; font-weight:600; color:#333; }
+input, select, textarea { width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:15px; font-size:1rem; background:#fafafa; }
+input:disabled { background:#eee; color:#555; }
+
+.buttons {
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+.buttons button {
+  padding:14px;
+  font-size:1rem;
+  font-weight:600;
+  border:none;
+  border-radius:8px;
+  flex:1 1 48%;
+  cursor:pointer;
+  transition: background 0.3s ease;
+  background-color: var(--accent);
+  color:white;
+}
+.buttons button:hover { background-color:var(--accent-2); }
+
+@media(max-width:768px){
+  .section-card .row > div { flex:1 1 100%; }
+  .buttons { flex-direction:column; }
+  .buttons button{width:100%;}
+}
+</style>
+</head>
+
+<body>
+<main class="container">
+  <h1>Visa Application Form</h1>
+
+  <!-- Personal Details -->
+  <div class="section-card">
+    <h2>Personal Details</h2>
+    <div class="row">
+      <div>
+        <label>Booking Number</label>
+        <input id="booking_number" disabled>
+      </div>
+      <div>
+        <label>ID Number</label>
+        <input id="id_number" disabled>
+      </div>
+      <div>
+        <label>Full Forenames</label>
+        <input id="forenames" disabled>
+      </div>
+      <div>
+        <label>Surname</label>
+        <input id="surname" disabled>
+      </div>
+      <div>
+        <label>Email</label>
+        <input id="email" disabled>
+      </div>
+      <div>
+        <label>Cellphone</label>
+        <input id="cellphone_full" disabled>
+      </div>
+      <div>
+        <label>Country</label>
+        <input id="country" disabled>
+      </div>
+      <div>
+        <label>Province/State</label>
+        <input id="location" disabled>
+      </div>
+      <div>
+        <label>Office</label>
+        <input id="office" disabled>
+      </div>
+      <div>
+        <label>Appointment Date</label>
+        <input id="appointment_date" disabled>
+      </div>
+      <div>
+        <label>Appointment Time</label>
+        <input id="appointment_time" disabled>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spouse Details -->
+  <div class="section-card">
+    <h2>Spouse Details</h2>
+    <div class="row">
+      <div>
+        <label>Full Name</label>
+        <input type="text" id="spouse_name" placeholder="Enter spouse name">
+      </div>
+      <div>
+        <label>ID/Passport Number</label>
+        <input type="text" id="spouse_id" placeholder="Enter ID/Passport">
+      </div>
+    </div>
+  </div>
+
+  <!-- Children Details -->
+  <div class="section-card">
+    <h2>Children Details</h2>
+    <div class="row">
+      <div>
+        <label>Child 1 Name</label>
+        <input type="text" id="child1_name" placeholder="Enter child name">
+      </div>
+      <div>
+        <label>Child 1 ID/Passport</label>
+        <input type="text" id="child1_id" placeholder="Enter ID/Passport">
+      </div>
+      <div>
+        <label>Child 2 Name</label>
+        <input type="text" id="child2_name" placeholder="Enter child name">
+      </div>
+      <div>
+        <label>Child 2 ID/Passport</label>
+        <input type="text" id="child2_id" placeholder="Enter ID/Passport">
+      </div>
+    </div>
+  </div>
+
+  <!-- Downloads Section -->
+  <div class="section-card">
+    <h2>Download Documents</h2>
+    <div class="buttons">
+      <button type="button" onclick="downloadCSV()">Download Booking Data CSV</button>
+      <button type="button" onclick="downloadPDF('main-visa.pdf')">Download Main Visa PDF</button>
+      <button type="button" onclick="downloadPDF('medical.pdf')">Download Medical PDF</button>
+      <button type="button" onclick="downloadPDF('home-affairs-service-charter.pdf')">Download Service Charter</button>
+    </div>
+  </div>
+
+  <!-- Uploads Section -->
+  <div class="section-card">
+    <h2>Upload Required Documents</h2>
+    <div class="row">
+      <div>
+        <label>Passport Copy</label>
+        <input type="file" id="passport_upload">
+      </div>
+      <div>
+        <label>Visa Form</label>
+        <input type="file" id="visa_form_upload">
+      </div>
+      <div>
+        <label>Other Supporting Documents</label>
+        <input type="file" id="other_docs_upload" multiple>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button type="button" onclick="window.location.href='summary.html'">Back to Summary</button>
+    <button type="button" onclick="submitVisaApplication()">Submit Application</button>
+  </div>
+</main>
+
+<script>
+// Pull data from localStorage
+window.onload = function(){
+  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+  if(bookingData){
+    document.getElementById("booking_number").value = bookingData.booking_number || "";
+    document.getElementById("id_number").value = bookingData.id_number || "";
+    document.getElementById("forenames").value = bookingData.forenames || "";
+    document.getElementById("surname").value = bookingData.surname || "";
+    document.getElementById("email").value = bookingData.email || "";
+    document.getElementById("cellphone_full").value = (bookingData.country_code||"") + " " + (bookingData.cellphone||"");
+    document.getElementById("country").value = bookingData.country || "";
+    document.getElementById("location").value = bookingData.location || "";
+    document.getElementById("office").value = bookingData.office || "";
+    document.getElementById("appointment_date").value = bookingData.appointment_date || "";
+    document.getElementById("appointment_time").value = bookingData.appointment_time || "";
   }
+};
 
-  * { box-sizing: border-box; margin:0; padding:0; }
-
-  body {
-    font-family: var(--font-family);
-    background-color: var(--background);
-    min-height: 100vh;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    overflow-x: hidden;
-  }
-
-  main.visa-container {
-    max-width: 900px;
-    width: 100%;
-    background-color: var(--card);
-    padding: 2.5rem 3rem;
-    border-radius: var(--radius);
-    box-shadow: 0 8px 20px var(--shadow);
-    position: relative;
-    z-index: 1;
-  }
-
-  h1 { text-align:center; color:var(--accent); font-weight:700; margin-bottom:1rem; }
-
-  label { display:block; font-weight:600; margin-bottom:6px; }
-  input, select, textarea {
-    width:100%;
-    padding:10px 12px;
-    margin-bottom:15px;
-    border-radius:8px;
-    border:1.5px solid var(--border-light);
-    font-size:1rem;
-    font-family: var(--font-family);
-  }
-  input:focus, select:focus, textarea:focus { border-color:var(--accent); outline:none; box-shadow:0 0 5px var
+// Download CSV
+function downloadCSV(){
+  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+  if(!bookingData) { alert("No booking data found."); return; }
+  let csv = "Booking Number,ID,Forenames,Surname,Email,Cellphone,Country,Location,Office,Date,Time\n";
+  csv += `${booking
